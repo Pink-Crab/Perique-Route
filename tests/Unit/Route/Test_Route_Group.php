@@ -27,44 +27,44 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Tests\Unit\Route;
 
 use WP_UnitTestCase;
-use PinkCrab\Route\Route;
-use PinkCrab\Route\Route_Group;
-use PinkCrab\Route\Route_Factory;
 use PinkCrab\Route\Argument;
+use PinkCrab\Route\Route\Route;
+use PinkCrab\Route\Route_Factory;
 use Gin0115\WPUnit_Helpers\Objects;
+use PinkCrab\Route\Route\Route_Group;
 
 class Test_Route_Group extends WP_UnitTestCase {
 
-	// /** @testdox It should be possible to create a group with a single route and be able to access the route */
-	// public function test_get_route(): void {
-	// 	$group = new Route_Group( 'namespace', 'route' );
-	// 	$this->assertEquals( 'route', $group->get_route() );
-	// }
+	/** @testdox It should be possible to create a group with a single route and be able to access the route */
+	public function test_get_route(): void {
+		$group = new Route_Group( 'namespace', 'route' );
+		$this->assertEquals( 'route', $group->get_route() );
+	}
 
-	// /** @testdox It should be possible to set and get the namespace */
-	// public function test_can_set_get_namespace(): void {
-	// 	$group = new Route_Group( 'namespace', 'route' );
-	// 	$this->assertEquals( 'namespace', $group->get_namespace() );
-	// }
+	/** @testdox It should be possible to set and get the namespace */
+	public function test_can_set_get_namespace(): void {
+		$group = new Route_Group( 'namespace', 'route' );
+		$this->assertEquals( 'namespace', $group->get_namespace() );
+	}
 
-	// /** @testdox It should be possible to add multiple routes to the group, check if routes exist and recall them. */
-	// public function test_can_add_routes(): void {
-	// 	$route1 = new Route( 'GET', 'test' );
-	// 	$route2 = new Route( 'POST', 'test' );
+	/** @testdox It should be possible to add multiple routes to the group, check if routes exist and recall them. */
+	public function test_can_add_routes(): void {
+		$route1 = new Route( 'GET', 'test' );
+		$route2 = new Route( 'POST', 'test' );
 
-	// 	$group = new Route_Group( 'namespace', 'test' );
+		$group = new Route_Group( 'namespace', 'test' );
 
-	// 	$this->assertFalse( $group->has_routes() );
+		$this->assertFalse( $group->has_routes() );
 
-	// 	$group->add_rest_route( $route1 );
-	// 	$group->add_rest_route( $route2 );
+		$group->add_rest_route( $route1 );
+		$group->add_rest_route( $route2 );
 
-	// 	$this->assertTrue( $group->has_routes() );
+		$this->assertTrue( $group->has_routes() );
 
-	// 	$this->assertCount( 2, $group->get_rest_routes() );
-	// 	$this->assertContains( $route1, $group->get_rest_routes() );
-	// 	$this->assertContains( $route2, $group->get_rest_routes() );
-	// }
+		$this->assertCount( 2, $group->get_rest_routes() );
+		$this->assertContains( $route1, $group->get_rest_routes() );
+		$this->assertContains( $route2, $group->get_rest_routes() );
+	}
 
 	// public function test_group_builder(): void {
 	// 	$factory = new Route_Factory( 'namespace/v2', );

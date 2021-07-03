@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route;
 
+use PinkCrab\Route\Route\Route;
+
 class Route_Factory {
 
 	/**
@@ -31,13 +33,13 @@ class Route_Factory {
 	 * @param string $method
 	 * @param string $route
 	 * @param callable $callback
-	 * @return void
+	 * @return Route
 	 */
-	protected function request( string $method, string $route, callable $callback ) {
+	protected function request( string $method, string $route, callable $callback ): Route {
 		$route = new Route( $method, $route );
 		return $route
-			->set_callback( $callback )
-			->set_namespace( $this->namespace );
+			->callback( $callback )
+			->namespace( $this->namespace );
 	}
 
 	/**
@@ -48,7 +50,7 @@ class Route_Factory {
 	 * @return Route
 	 */
 	public function get( string $route, callable $callback ): Route {
-		return $this->request( 'GET', $route, $callback );
+		return $this->request( Route::GET, $route, $callback );
 	}
 
 	/**
@@ -59,7 +61,7 @@ class Route_Factory {
 	 * @return Route
 	 */
 	public function post( string $route, callable $callback ): Route {
-		return $this->request( 'POST', $route, $callback );
+		return $this->request( Route::POST, $route, $callback );
 	}
 
 	/**
@@ -70,7 +72,7 @@ class Route_Factory {
 	 * @return Route
 	 */
 	public function put( string $route, callable $callback ): Route {
-		return $this->request( 'PUT', $route, $callback );
+		return $this->request( Route::PUT, $route, $callback );
 	}
 
 	/**
@@ -81,7 +83,7 @@ class Route_Factory {
 	 * @return Route
 	 */
 	public function patch( string $route, callable $callback ): Route {
-		return $this->request( 'PATCH', $route, $callback );
+		return $this->request( Route::PATCH, $route, $callback );
 	}
 
 	/**
@@ -92,21 +94,23 @@ class Route_Factory {
 	 * @return Route
 	 */
 	public function delete( string $route, callable $callback ): Route {
-		return $this->request( 'DELETE', $route, $callback );
+		return $this->request( Route::DELETE, $route, $callback );
 	}
 
 	/**
 	 * Allows the building of a group.
 	 *
 	 * @param string $route
-	 * @param callable $config
+	 * @param callable|null $config
 	 * @return Route_Group
 	 */
-	public function group_builder( string $route, callable $config ): Route_Group {
+	public function group_builder( string $route, ?callable $config ): Route_Group {
 		$group = new Route_Group( $this->namespace, $route );
 
 		// Apply the callback.
-		$config( $group );
+		if( ! is_null( $config ) ) {
+			$config( $group );
+		}
 
 		return $group;
 	}
