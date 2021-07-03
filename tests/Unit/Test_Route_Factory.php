@@ -27,20 +27,97 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Tests\Unit;
 
 use WP_UnitTestCase;
-use PinkCrab\Route\Route_Group;
+use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
+use Gin0115\WPUnit_Helpers\Objects;
+use PinkCrab\Route\Route\Route_Group;
 
 class Test_Route_Factory extends WP_UnitTestCase {
 
-	// public function test_build_group(): void {
-	// 	$group = ( new Route_Factory( 'badger/v1' ) )->group_builder(
-	// 		'badger/v1',
-	// 		'newNS',
-	// 		function( Route_Group $group, Route_Factory $factory ) {
-	// 			$group->add_rest_route( $factory->get( 'newNS', 'is_string' ) );
-	// 			$group->add_rest_route( $factory->delete( 'newNS', 'is_string' ) );
-	// 		}
-	// 	);
-	// 	dump( $group );
-	// }
+	/** @testdox It should be possible to create the factory with a defined namespace. */
+	public function test_create_with_static(): void {
+		$factory        = new Route_Factory( 'constructor' );
+		$factory_static = Route_Factory::for( 'static' );
+
+		$this->assertEquals( 'constructor', Objects::get_property( $factory, 'namespace' ) );
+		$this->assertEquals( 'static', Objects::get_property( $factory_static, 'namespace' ) );
+	}
+
+	/** @testdox It should be possible to create a get request and have namespace and methd defined. */
+	public function test_create_get_route(): void {
+		$route = Route_Factory::for( 'static' )
+			->get( 'route', 'is_string' );
+
+		$this->assertInstanceOf( Route::class, $route );
+		$this->assertEquals( 'GET', $route->get_method() );
+		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( 'static', $route->get_namespace() );
+		$this->assertEquals( 'is_string', $route->get_callback() );
+	}
+
+	/** @testdox It should be possible to create a post request and have namespace and methd defined. */
+	public function test_create_post_route(): void {
+		$route = Route_Factory::for( 'static' )
+			->post( 'route', 'is_string' );
+
+		$this->assertInstanceOf( Route::class, $route );
+		$this->assertEquals( 'POST', $route->get_method() );
+		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( 'static', $route->get_namespace() );
+		$this->assertEquals( 'is_string', $route->get_callback() );
+	}
+
+	/** @testdox It should be possible to create a delete request and have namespace and methd defined. */
+	public function test_create_delete_route(): void {
+		$route = Route_Factory::for( 'static' )
+			->delete( 'route', 'is_string' );
+
+		$this->assertInstanceOf( Route::class, $route );
+		$this->assertEquals( 'DELETE', $route->get_method() );
+		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( 'static', $route->get_namespace() );
+		$this->assertEquals( 'is_string', $route->get_callback() );
+	}
+
+	/** @testdox It should be possible to create a patch request and have namespace and methd defined. */
+	public function test_create_patch_route(): void {
+		$route = Route_Factory::for( 'static' )
+			->patch( 'route', 'is_string' );
+
+		$this->assertInstanceOf( Route::class, $route );
+		$this->assertEquals( 'PATCH', $route->get_method() );
+		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( 'static', $route->get_namespace() );
+		$this->assertEquals( 'is_string', $route->get_callback() );
+	}
+
+	/** @testdox It should be possible to create a put request and have namespace and methd defined. */
+	public function test_create_put_route(): void {
+		$route = Route_Factory::for( 'static' )
+			->put( 'route', 'is_string' );
+
+		$this->assertInstanceOf( Route::class, $route );
+		$this->assertEquals( 'PUT', $route->get_method() );
+		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( 'static', $route->get_namespace() );
+		$this->assertEquals( 'is_string', $route->get_callback() );
+	}
+
+	/** @testdox It should be possible to create a group with the namespace passed to the factory. */
+	public function test_build_group(): void {
+		$group = Route_Factory::for( 'badger/v1' )->group_builder(
+			'newNS',
+			function( Route_Group $group ) {
+				$group->get( 'is_string' );
+				$group->delete( 'is_float' );
+			}
+		);
+
+		$this->assertInstanceOf( Route_Group::class, $group );
+		$this->assertTrue( $group->route_exists( 'GET' ) );
+		$this->assertTrue( $group->route_exists( 'DELETE' ) );
+		$this->assertFalse( $group->route_exists( 'PATCH' ) );
+		$this->assertEquals( 'badger/v1', $group->get_namespace() );
+		$this->assertEquals( 'newNS', $group->get_route() );
+	}
 }

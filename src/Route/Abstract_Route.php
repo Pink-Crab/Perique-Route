@@ -44,10 +44,9 @@ abstract class Abstract_Route {
 	 * Set the value of namespace
 	 *
 	 * @param string $namespace
-	 *
-	 * @return self
+	 * @return static
 	 */
-	public function namespace( string $namespace ): self {
+	public function namespace( string $namespace ) {
 		$this->namespace = $namespace;
 		return $this;
 	}
@@ -65,9 +64,9 @@ abstract class Abstract_Route {
 	 * Adds a single argument to the arguments list.
 	 *
 	 * @param Argument $argument
-	 * @return self
+	 * @return static
 	 */
-	public function argument( Argument $argument ): self {
+	public function argument( Argument $argument ) {
 		$this->arguments[] = $argument;
 		return $this;
 	}
@@ -76,10 +75,9 @@ abstract class Abstract_Route {
 	 * Add a single callback authentication stack
 	 *
 	 * @param callable(\WP_REST_Request): bool $auth_callback
-	 *
-	 * @return self
+	 * @return static
 	 */
-	public function authentication( callable $auth_callback ): self {
+	public function authentication( callable $auth_callback ) {
 		$this->authentication[] = $auth_callback;
 		return $this;
 	}

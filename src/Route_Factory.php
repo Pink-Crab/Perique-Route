@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace PinkCrab\Route;
 
 use PinkCrab\Route\Route\Route;
+use PinkCrab\Route\Route\Route_Group;
+
 
 class Route_Factory {
 
@@ -25,6 +27,16 @@ class Route_Factory {
 
 	public function __construct( string $namespace ) {
 		$this->namespace = $namespace;
+	}
+
+	/**
+	 * Static constructor.
+	 *
+	 * @param string $namespace
+	 * @return Route_Factory
+	 */
+	public static function for( string $namespace ): Route_Factory {
+		return new self( $namespace );
 	}
 
 	/**
@@ -108,7 +120,7 @@ class Route_Factory {
 		$group = new Route_Group( $this->namespace, $route );
 
 		// Apply the callback.
-		if( ! is_null( $config ) ) {
+		if ( ! is_null( $config ) ) {
 			$config( $group );
 		}
 
