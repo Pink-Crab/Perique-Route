@@ -42,9 +42,10 @@ class Route_Collection extends Collection {
 	 * Adds a route to the collection
 	 *
 	 * @param Route|Route_Group $route
-	 * @return void
+	 * @return static
 	 */
-	public function add_route( $route ): void {
-		# code...
+	public function add_route( $route ) {
+		$this->push( $route );
+		return $this;
 	}
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * The abstract route dispatcher used to create routes.
+ * The primary route controller and processor
  *
  * @package PinkCrab\Route\Route
  * @author Glynn Quelch glynn@pinkcrab.co.uk
@@ -14,7 +14,7 @@ namespace PinkCrab\Route;
 
 use PinkCrab\Loader\Hook_Loader;
 
-class Route_Dispatcher {
+class Route_Manager {
 
 	/** @var Hook_Loader */
 	protected $loader;
@@ -29,17 +29,25 @@ class Route_Dispatcher {
 	}
 
 	/**
-	 * Undocumented function
+	 * Adds a route to the collection.
 	 *
-	 * @param Route|Route_Group $route
+	 * @param Route|Route_Group $routes
 	 * @return void
 	 */
-	public function add_route( ...$route ): void {
-		# code...
+	public function add_route( $route ): void {
+		$this->routes->add_route( $route );
 	}
 
-	public function define_routes(): self {
-		# code...
+	/**
+	 * Pass an array of routes in.
+	 *
+	 * @param array $routes
+	 * @return void
+	 */
+	public function define_routes( array $routes ): void {
+		foreach ( $routes as $route ) {
+			$this->add_route( $route );
+		}
 	}
 
 	/**
