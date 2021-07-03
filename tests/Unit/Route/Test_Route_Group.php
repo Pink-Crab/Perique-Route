@@ -27,9 +27,9 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Tests\Unit\Route;
 
 use WP_UnitTestCase;
-use PinkCrab\Route\Argument;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
+use PinkCrab\Route\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Route\Route\Route_Group;
 
@@ -66,27 +66,66 @@ class Test_Route_Group extends WP_UnitTestCase {
 		$this->assertContains( $route2, $group->get_rest_routes() );
 	}
 
-	// public function test_group_builder(): void {
-	// 	$factory = new Route_Factory( 'namespace/v2', );
-	// 	$group   = $factory->group_builder(
-	// 		'example/(?P<id>[\d]+)',
-	// 		function( Route_Group $group ) {
+	/** @testdox It should be possible to set group wide authentication applied to all defined routes. */
+	public function test_group_authentication(): void {
+		$group = new Route_Group( 'namespace', 'route' );
+		$group->authentication( 'is_null' );
+		$group->authentication( 'is_float' );
 
-	// 			// The get route
-	// 			$group->get( 'is_int' );
+		$this->assertCount( 2, $group->get_authentication() );
+		$this->assertContains( 'is_null', $group->get_authentication() );
+		$this->assertContains( 'is_float', $group->get_authentication() );
+	}
 
-	// 			// The patch route.
-	// 			$group->patch( 'is_float' );
-	// 		}
-	// 	)
-	// 	->add_authentication( 'is_array' )
-	// 	->argument(
-	// 		Argument::on( 'id' )
-	// 			->validation( 'is_int' )
-	// 			->sanitization( 'absint' )
-	// 			->required()
-	// 	);
+	/** @testdox It should be possible to set group wide arguments applied to all defined routes. */
+	public function test_group_arguments(): void {
+		$group = new Route_Group( 'namespace', 'route' );
+		$arg1  = Argument::on( 'arg1' );
+		$arg2  = Argument::on( 'arg2' );
+		$group->argument( $arg1 );
+		$group->argument( $arg2 );
 
-	// 	dump( $group );
-	// }
+		$this->assertSame( $arg1, $group->get_arguments()[0] );
+		$this->assertSame( $arg2, $group->get_arguments()[1] );
+	}
+
+	/** @testdox It should be possible to use helper methods to create get, post, delete, put and patch routes for the group. */
+	public function test_method_helpers(): void {
+		$group = new Route_Group( 'namespace', 'route' );
+		$group->get( 'is_string' );
+		$group->post( 'is_null' );
+		$group->put( 'is_float' );
+		$group->patch( 'is_int' );
+		$group->delete( 'is_array' );
+
+		// Check all set.
+		$this->assertArrayHasKey( 'GET', $group->get_rest_routes() );
+		$this->assertArrayHasKey( 'POST', $group->get_rest_routes() );
+		$this->assertArrayHasKey( 'DELETE', $group->get_rest_routes() );
+		$this->assertArrayHasKey( 'PUT', $group->get_rest_routes() );
+		$this->assertArrayHasKey( 'PATCH', $group->get_rest_routes() );
+
+		// Check are valid routes.
+		$this->assertInstanceOf( Route::class, $group->get_rest_routes()['GET'] );
+		$this->assertInstanceOf( Route::class, $group->get_rest_routes()['POST'] );
+		$this->assertInstanceOf( Route::class, $group->get_rest_routes()['DELETE'] );
+		$this->assertInstanceOf( Route::class, $group->get_rest_routes()['PUT'] );
+		$this->assertInstanceOf( Route::class, $group->get_rest_routes()['PATCH'] );
+
+		// Check Values.
+		$this->assertEquals( 'is_string', $group->get_rest_routes()['GET']->get_callback() );
+		$this->assertEquals( 'is_null', $group->get_rest_routes()['POST']->get_callback() );
+		$this->assertEquals( 'is_array', $group->get_rest_routes()['DELETE']->get_callback() );
+		$this->assertEquals( 'is_float', $group->get_rest_routes()['PUT']->get_callback() );
+		$this->assertEquals( 'is_int', $group->get_rest_routes()['PATCH']->get_callback() );
+	}
+
+	/** @testdox It should be possible to check if a specified route is defined. */
+	public function test_route_exists(): void {
+		$group = new Route_Group( 'namespace', 'route' );
+		$group->post( 'is_string' );
+
+		$this->assertTrue( $group->route_exists( Route::POST ) );
+		$this->assertFalse( $group->route_exists( Route::PATCH ) );
+	}
 }

@@ -72,8 +72,7 @@ class Test_Route extends WP_UnitTestCase {
 	}
 
     /** @testdox It  should be possible to set and get all arguments to a route. */
-    public function test_can_set_get_arguemnts(): void
-    {
+    public function test_can_set_get_arguments(): void {
         $route = new Route( 'GET', '/route' );
         $arg1 = Argument::on('arg1');
         $arg2 = Argument::on('arg2');

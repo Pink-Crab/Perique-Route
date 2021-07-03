@@ -48,7 +48,7 @@ class Argument {
 	/**
 	 * Callback to validate value
 	 *
-	 * @var callable(param:string,request::WP_REST_Request,key:string):bool
+	 * @var callable(param:string,request::\WP_REST_Request,key:string):bool
 	 */
 	protected $validation;
 
@@ -62,7 +62,7 @@ class Argument {
 	/**
 	 * Is this argument required
 	 *
-	 * @var bool
+	 * @var bool|null
 	 */
 	protected $required;
 
@@ -90,7 +90,7 @@ class Argument {
 	/**
 	 * Enum of all accepted values
 	 *
-	 * @var array|null
+	 * @var array<string|float|int|bool>|null
 	 */
 	protected $expected;
 
@@ -125,7 +125,7 @@ class Argument {
 	/**
 	 * The default value
 	 *
-	 * @var string|int|float|bool
+	 * @var string|int|float|bool|null
 	 */
 	protected $default;
 
@@ -159,7 +159,7 @@ class Argument {
 	/**
 	 * Get callback to validate value
 	 *
-	 * @return callable(param:string,request::WP_REST_Request,key:string):bool
+	 * @return callable(string, \WP_REST_Request, string): bool
 	 */
 	public function get_validation(): callable {
 		return $this->validation;
@@ -168,7 +168,7 @@ class Argument {
 	/**
 	 * Set callback to validate value
 	 *
-	 * @param callable(param:string,request::WP_REST_Request,key:string):bool $validation  Callback to validate value
+	 * @param callable(string, \WP_REST_Request, string): bool $validation  Callback to validate value
 	 *
 	 * @return self
 	 */
@@ -180,7 +180,8 @@ class Argument {
 	/**
 	 * Get sanitizes the output
 	 *
-	 * @return callable(value:mixed):bool
+	 * @return callable(mixed):
+	 * bool
 	 */
 	public function get_sanitization(): callable {
 		return $this->sanitization;
@@ -189,7 +190,7 @@ class Argument {
 	/**
 	 * Set sanitizes the output
 	 *
-	 * @param callable(value:mixed):bool $sanitization  Sanitizes the output
+	 * @param callable(mixed): bool $sanitization  Sanitizes the output
 	 *
 	 * @return self
 	 */
@@ -300,7 +301,7 @@ class Argument {
 	/**
 	 * Set optional format to expect value.
 	 *
-	 * @param string|null $format  Optional format to expect value.
+	 * @param string $format  Optional format to expect value.
 	 * @return self
 	 */
 	public function format( string $format ): self {
@@ -311,7 +312,7 @@ class Argument {
 	/**
 	 * Get expected of all accepted values
 	 *
-	 * @return array|null
+	 * @return array<string|float|int|bool>|null
 	 */
 	public function get_expected(): ?array {
 		return $this->expected;

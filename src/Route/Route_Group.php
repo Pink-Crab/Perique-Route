@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Route;
 
 use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Abstract_Route;
 use PinkCrab\Route\Route_Factory;
+use PinkCrab\Route\Route\Abstract_Route;
 
 class Route_Group extends Abstract_Route {
 
@@ -146,6 +146,16 @@ class Route_Group extends Abstract_Route {
 	 */
 	public function get_rest_routes(): array {
 		return $this->routes;
+	}
+
+	/**
+	 * Checks if a specific route is defined.
+	 *
+	 * @param string $route
+	 * @return bool
+	 */
+	public function route_exists( string $route ): bool {
+		return array_key_exists( $route, $this->routes );
 	}
 
 	/**
