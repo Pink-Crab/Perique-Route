@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Route;
 
+use PinkCrab\Route\Route\Argument;
+
 abstract class Abstract_Route {
 
-    /**
+	/**
 	 * @var string
 	 */
 	protected $namespace = '';
@@ -27,9 +29,9 @@ abstract class Abstract_Route {
 	/**
 	 * @var callable[]
 	 */
-	protected $authentication;
-    
-    /**
+	protected $authentication = array();
+
+	/**
 	 * Get the value of namespace
 	 *
 	 * @return string
@@ -49,8 +51,8 @@ abstract class Abstract_Route {
 		$this->namespace = $namespace;
 		return $this;
 	}
-    
-    /**
+
+	/**
 	 * Get the value of arguments
 	 *
 	 * @return Argument[]
@@ -62,7 +64,7 @@ abstract class Abstract_Route {
 	/**
 	 * Adds a single argument to the arguments list.
 	 *
-	 * @param \PinkCrab\Route\Argument $argument
+	 * @param Argument $argument
 	 * @return self
 	 */
 	public function argument( Argument $argument ): self {
@@ -70,10 +72,10 @@ abstract class Abstract_Route {
 		return $this;
 	}
 
-    /**
+	/**
 	 * Add a single callback authentication stack
 	 *
-	 * @param callable(request:WP_REST_Request):bool $authentication
+	 * @param callable(\WP_REST_Request): bool $auth_callback
 	 *
 	 * @return self
 	 */
@@ -86,8 +88,8 @@ abstract class Abstract_Route {
 	 * Get the value of authentication
 	 *
 	 * @return  callable[]
-	 */ 
-	public function get_authentication(): array	{
+	 */
+	public function get_authentication(): array {
 		return $this->authentication;
 	}
-} 
+}

@@ -13,20 +13,13 @@ declare(strict_types=1);
  * @since 0.0.1
  */
 
-namespace PinkCrab\Route;
+namespace PinkCrab\Route\Route;
 
-use PinkCrab\Route\Route;
+use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
-use PinkCrab\Route\Route\Route_Authentication_Trait;
+use PinkCrab\Route\Route\Abstract_Route;
 
-class Route_Group {
-
-	/**
-	 * Seter and Compiler for Authentication.
-	 * @method add_authentication( callable $auth_callback ): self
-	 * @method compile_authentication(): callable
-	 */
-	use Route_Authentication_Trait;
+class Route_Group extends Abstract_Route {
 
 	/**
 	 * @var string
@@ -37,11 +30,6 @@ class Route_Group {
 	 * @var Route[]
 	 */
 	protected $routes = array();
-
-	/**
-	 * @var callable[]
-	 */
-	protected $authentication;
 
 	/** @var Route_Factory */
 	protected $route_factory;
@@ -67,18 +55,6 @@ class Route_Group {
 	}
 
 	/**
-	 * Set the value of namespace
-	 *
-	 * @param string $namespace
-	 *
-	 * @return self
-	 */
-	public function set_namespace( string $namespace ): self {
-		$this->namespace = $namespace;
-		return $this;
-	}
-
-	/**
 	 * Get the value of route
 	 *
 	 * @return string
@@ -91,11 +67,11 @@ class Route_Group {
 	 * Creates a get request.
 	 *
 	 * @param callable $callable
-	 * @return \PinkCrab\Route\Route
+	 * @return Route
 	 */
 	public function get( callable $callable ): Route {
 		$route = $this->route_factory->get( $this->route, $callable );
-		$route->set_namespace( $this->namespace );
+		$route->namespace( $this->namespace );
 		$this->routes[ Route::GET ] = $route;
 		return $route;
 	}
@@ -104,11 +80,11 @@ class Route_Group {
 	 * Creates a post request.
 	 *
 	 * @param callable $callable
-	 * @return \PinkCrab\Route\Route
+	 * @return Route
 	 */
 	public function post( callable $callable ): Route {
 		$route = $this->route_factory->post( $this->route, $callable );
-		$route->set_namespace( $this->namespace );
+		$route->namespace( $this->namespace );
 		$this->routes[ Route::POST ] = $route;
 		return $route;
 	}
@@ -117,11 +93,11 @@ class Route_Group {
 	 * Creates a put request.
 	 *
 	 * @param callable $callable
-	 * @return \PinkCrab\Route\Route
+	 * @return Route
 	 */
 	public function put( callable $callable ): Route {
 		$route = $this->route_factory->put( $this->route, $callable );
-		$route->set_namespace( $this->namespace );
+		$route->namespace( $this->namespace );
 		$this->routes[ Route::PUT ] = $route;
 		return $route;
 	}
@@ -130,11 +106,11 @@ class Route_Group {
 	 * Creates a patch  request.
 	 *
 	 * @param callable $callable
-	 * @return \PinkCrab\Route\Route
+	 * @return Route
 	 */
 	public function patch( callable $callable ): Route {
 		$route = $this->route_factory->patch( $this->route, $callable );
-		$route->set_namespace( $this->namespace );
+		$route->namespace( $this->namespace );
 		$this->routes[ Route::PATCH ] = $route;
 		return $route;
 	}
@@ -143,11 +119,11 @@ class Route_Group {
 	 * Creates a delete  request.
 	 *
 	 * @param callable $callable
-	 * @return \PinkCrab\Route\Route
+	 * @return Route
 	 */
 	public function delete( callable $callable ): Route {
 		$route = $this->route_factory->delete( $this->route, $callable );
-		$route->set_namespace( $this->namespace );
+		$route->namespace( $this->namespace );
 		$this->routes[ Route::DELETE ] = $route;
 		return $route;
 	}
@@ -155,7 +131,7 @@ class Route_Group {
 	/**
 	 * Adds a route ot the collection
 	 *
-	 * @param \PinkCrab\Route\Route $route
+	 * @param Route $route
 	 * @return self
 	 */
 	public function add_rest_route( Route $route ): self {
@@ -170,6 +146,16 @@ class Route_Group {
 	 */
 	public function get_rest_routes(): array {
 		return $this->routes;
+	}
+
+	/**
+	 * Checks if a specific route is defined.
+	 *
+	 * @param string $route
+	 * @return bool
+	 */
+	public function route_exists( string $route ): bool {
+		return array_key_exists( $route, $this->routes );
 	}
 
 	/**
