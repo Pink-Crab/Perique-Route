@@ -24,12 +24,11 @@ declare(strict_types=1);
  * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
  */
 
-namespace PinkCrab\Route\Tests\Unit;
+namespace PinkCrab\Route\Tests\Unit\Route;
 
 use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Route_Argument;
-use Gin0115\WPUnit_Helpers\Objects;
+use PinkCrab\Route\Route\Argument;
 
 class Test_Route extends WP_UnitTestCase {
 
@@ -76,8 +75,8 @@ class Test_Route extends WP_UnitTestCase {
     public function test_can_set_get_arguemnts(): void
     {
         $route = new Route( 'GET', '/route' );
-        $arg1 = Route_Argument::on('arg1');
-        $arg2 = Route_Argument::on('arg2');
+        $arg1 = Argument::on('arg1');
+        $arg2 = Argument::on('arg2');
         $route->argument($arg1);
         $route->argument($arg2);
         
@@ -91,8 +90,8 @@ class Test_Route extends WP_UnitTestCase {
 		$route = new Route('GET', 'test/');
 		$route->callback('is_string');
 		$route->namespace('NS');
-        $route->argument(Route_Argument::on('arg1'));
-        $route->argument( Route_Argument::on('arg2'));
+        $route->argument(Argument::on('arg1'));
+        $route->argument( Argument::on('arg2'));
 		$route->authentication('is_string');
 		$route->authentication('is_bool');
 

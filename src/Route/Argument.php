@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Route;
 
-class Route_Argument {
+class Argument {
 
 	/**
 	 * All valid format types.

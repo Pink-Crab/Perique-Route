@@ -20,7 +20,7 @@ abstract class Abstract_Route {
 	protected $namespace = '';
 
 	/**
-	 * @var Route_Argument[]
+	 * @var Argument[]
 	 */
 	protected $arguments = array();
 
@@ -53,7 +53,7 @@ abstract class Abstract_Route {
     /**
 	 * Get the value of arguments
 	 *
-	 * @return Route_Argument[]
+	 * @return Argument[]
 	 */
 	public function get_arguments(): array {
 		return $this->arguments;
@@ -62,10 +62,10 @@ abstract class Abstract_Route {
 	/**
 	 * Adds a single argument to the arguments list.
 	 *
-	 * @param \PinkCrab\Route\Route_Argument $argument
+	 * @param \PinkCrab\Route\Argument $argument
 	 * @return self
 	 */
-	public function argument( Route_Argument $argument ): self {
+	public function argument( Argument $argument ): self {
 		$this->arguments[] = $argument;
 		return $this;
 	}

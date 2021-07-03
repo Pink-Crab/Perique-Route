@@ -24,13 +24,13 @@ declare(strict_types=1);
  * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
  */
 
-namespace PinkCrab\Route\Tests\Unit;
+namespace PinkCrab\Route\Tests\Unit\Route;
 
 use WP_UnitTestCase;
 use PinkCrab\Route\Route;
 use PinkCrab\Route\Route_Group;
 use PinkCrab\Route\Route_Factory;
-use PinkCrab\Route\Route_Argument;
+use PinkCrab\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
 
 class Test_Route_Group extends WP_UnitTestCase {
@@ -81,7 +81,7 @@ class Test_Route_Group extends WP_UnitTestCase {
 	// 	)
 	// 	->add_authentication( 'is_array' )
 	// 	->argument(
-	// 		Route_Argument::on( 'id' )
+	// 		Argument::on( 'id' )
 	// 			->validation( 'is_int' )
 	// 			->sanitization( 'absint' )
 	// 			->required()
