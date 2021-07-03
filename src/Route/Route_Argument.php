@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @since 0.0.1
  */
 
-namespace PinkCrab\Route;
+namespace PinkCrab\Route\Route;
 
 class Route_Argument {
 
@@ -92,7 +92,7 @@ class Route_Argument {
 	 *
 	 * @var array|null
 	 */
-	protected $enum;
+	protected $expected;
 
 	/**
 	 * The minimum int|float value accepted
@@ -121,8 +121,6 @@ class Route_Argument {
 	 * @var bool
 	 */
 	protected $exclusive_maximum = false;
-
-
 
 	/**
 	 * The default value
@@ -203,7 +201,7 @@ class Route_Argument {
 	/**
 	 * Get the default value
 	 *
-	 * @return string|int|float|bool
+	 * @return string|int|float|bool|null
 	 */
 	public function get_default() {
 		return $this->default;
@@ -215,7 +213,7 @@ class Route_Argument {
 	 * @return bool
 	 */
 	public function has_default(): bool {
-		return is_null( $this->default );
+		return ! is_null( $this->default );
 	}
 
 	/**
@@ -235,7 +233,7 @@ class Route_Argument {
 	 * @return bool
 	 */
 	public function is_required(): bool {
-		return $this->required;
+		return $this->required ?? false;
 	}
 
 	/**
@@ -311,22 +309,22 @@ class Route_Argument {
 	}
 
 	/**
-	 * Get enum of all accepted values
+	 * Get expected of all accepted values
 	 *
 	 * @return array|null
 	 */
-	public function get_enum(): ?array {
-		return $this->enum;
+	public function get_expected(): ?array {
+		return $this->expected;
 	}
 
 	/**
-	 * Set enum of all accepted values
+	 * Set expected of all accepted values
 	 *
-	 * @param mixed ...$enum  Accept value for argument.
+	 * @param mixed ...$expected  Accept value for argument.
 	 * @return self
 	 */
-	public function enum( ...$enum ): self {
-		$this->enum = array_merge( $this->enum ?? array(), $enum );
+	public function expected( ...$expected ): self {
+		$this->expected = array_merge( $this->expected ?? array(), $expected );
 		return $this;
 	}
 
@@ -336,7 +334,7 @@ class Route_Argument {
 	 *
 	 * @return int|null
 	 */
-	public function get_minimum(): int {
+	public function get_minimum(): ?int {
 		return $this->minimum;
 	}
 

@@ -35,58 +35,58 @@ use Gin0115\WPUnit_Helpers\Objects;
 
 class Test_Route_Group extends WP_UnitTestCase {
 
-	/** @testdox It should be possible to create a group with a single route and be able to access the route */
-	public function test_get_route(): void {
-		$group = new Route_Group( 'namespace', 'route' );
-		$this->assertEquals( 'route', $group->get_route() );
-	}
+	// /** @testdox It should be possible to create a group with a single route and be able to access the route */
+	// public function test_get_route(): void {
+	// 	$group = new Route_Group( 'namespace', 'route' );
+	// 	$this->assertEquals( 'route', $group->get_route() );
+	// }
 
-	/** @testdox It should be possible to set and get the namespace */
-	public function test_can_set_get_namespace(): void {
-		$group = new Route_Group( 'namespace', 'route' );
-		$this->assertEquals( 'namespace', $group->get_namespace() );
-	}
+	// /** @testdox It should be possible to set and get the namespace */
+	// public function test_can_set_get_namespace(): void {
+	// 	$group = new Route_Group( 'namespace', 'route' );
+	// 	$this->assertEquals( 'namespace', $group->get_namespace() );
+	// }
 
-	/** @testdox It should be possible to add multiple routes to the group, check if routes exist and recall them. */
-	public function test_can_add_routes(): void {
-		$route1 = new Route( 'GET', 'test' );
-		$route2 = new Route( 'POST', 'test' );
+	// /** @testdox It should be possible to add multiple routes to the group, check if routes exist and recall them. */
+	// public function test_can_add_routes(): void {
+	// 	$route1 = new Route( 'GET', 'test' );
+	// 	$route2 = new Route( 'POST', 'test' );
 
-		$group = new Route_Group( 'namespace', 'test' );
+	// 	$group = new Route_Group( 'namespace', 'test' );
 
-		$this->assertFalse( $group->has_routes() );
+	// 	$this->assertFalse( $group->has_routes() );
 
-		$group->add_rest_route( $route1 );
-		$group->add_rest_route( $route2 );
+	// 	$group->add_rest_route( $route1 );
+	// 	$group->add_rest_route( $route2 );
 
-		$this->assertTrue( $group->has_routes() );
+	// 	$this->assertTrue( $group->has_routes() );
 
-		$this->assertCount( 2, $group->get_rest_routes() );
-		$this->assertContains( $route1, $group->get_rest_routes() );
-		$this->assertContains( $route2, $group->get_rest_routes() );
-	}
+	// 	$this->assertCount( 2, $group->get_rest_routes() );
+	// 	$this->assertContains( $route1, $group->get_rest_routes() );
+	// 	$this->assertContains( $route2, $group->get_rest_routes() );
+	// }
 
-	public function test_group_builder(): void {
-		$factory = new Route_Factory( 'namespace/v2', );
-		$group   = $factory->group_builder(
-			'example/(?P<id>[\d]+)',
-			function( Route_Group $group ) {
+	// public function test_group_builder(): void {
+	// 	$factory = new Route_Factory( 'namespace/v2', );
+	// 	$group   = $factory->group_builder(
+	// 		'example/(?P<id>[\d]+)',
+	// 		function( Route_Group $group ) {
 
-				// The get route
-				$group->get( 'some_callback' );
+	// 			// The get route
+	// 			$group->get( 'is_int' );
 
-				// The patch route.
-				$group->patch( 'some_other_callback' );
-			}
-		)
-		->add_authentication( 'some_header_key_check' )
-		->add_argument(
-			Route_Argument::on( 'id' )
-				->validation( 'is_int' )
-				->sanitization( 'absint' )
-				->required()
-		);
+	// 			// The patch route.
+	// 			$group->patch( 'is_float' );
+	// 		}
+	// 	)
+	// 	->add_authentication( 'is_array' )
+	// 	->argument(
+	// 		Route_Argument::on( 'id' )
+	// 			->validation( 'is_int' )
+	// 			->sanitization( 'absint' )
+	// 			->required()
+	// 	);
 
-		dump( $group );
-	}
+	// 	dump( $group );
+	// }
 }

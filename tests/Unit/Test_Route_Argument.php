@@ -27,17 +27,17 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Tests\Unit;
 
 use WP_UnitTestCase;
-use PinkCrab\Route\Route_Argument;
+use PinkCrab\Route\Route\Route_Argument;
 
 class Test_Route_Argument extends WP_UnitTestCase {
 
 	/** @testdox It should be possible to create an argument using the static constructor without the config callable passed*/
 	public function test_static_constructor_without_config(): void {
 		$argument = Route_Argument::on( 'id' )
-            ->validation( 'is_string' )
-            ->sanitization( 'esc_html' );
+				->validation( 'is_string' )
+				->sanitization( 'esc_html' );
 
-        $this->assertInstanceOf( Route_Argument::class, $argument );
+			$this->assertInstanceOf( Route_Argument::class, $argument );
 		$this->assertEquals( 'id', $argument->get_key() );
 		$this->assertEquals( 'is_string', $argument->get_validation() );
 		$this->assertEquals( 'esc_html', $argument->get_sanitization() );
@@ -76,8 +76,152 @@ class Test_Route_Argument extends WP_UnitTestCase {
 		$this->assertEquals( 'esc_attr', $argument->get_sanitization() );
 	}
 
-	public function test_required_is_set_false_by_default(Type $var = null)
-	{
-		# code...
+	/** @testdox By defalt an argument should have its required property set to false, but it should be possible to change that*/
+	public function test_required_is_set_false_by_default(): void	{
+		$argument = new Route_Argument( 'id' );
+		$this->assertFalse($argument->is_required());
+
+		// Set to true (without passing true)
+		$argument->required();
+		$this->assertTrue($argument->is_required());
+
+		// Set to false
+		$argument->required(false);
+		$this->assertFalse($argument->is_required());
+
+		// Set to true (with passing true)
+		$argument->required(true);
+		$this->assertTrue($argument->is_required());
+	}
+
+	/** @testdox It should be possible to set the type of an arguments value and have access to class constants for easy setting */
+	public function test_set_argument_type(): void {
+		$argument = new Route_Argument( 'id' );
+		// Default should be string
+		$this->assertEquals('string', $argument->get_type());
+
+		// Integer
+		$argument->type(Route_Argument::TYPE_INTEGER);
+		$this->assertEquals('integer', $argument->get_type());
+
+		// Number
+		$argument->type(Route_Argument::TYPE_NUMBER);
+		$this->assertEquals('number', $argument->get_type());
+
+		// Bool
+		$argument->type(Route_Argument::TYPE_BOOLEAN);
+		$this->assertEquals('boolean', $argument->get_type());
+
+		// String
+		$argument->type(Route_Argument::TYPE_STRING);
+		$this->assertEquals('string', $argument->get_type());
+	}
+
+	/** @testdox It should be possible to set, get and check if an argument has a default applied. */
+	public function test_argument_defaults(): void	{
+		$argument = new Route_Argument( 'id' );
+
+		// Should have no default
+		$this->assertFalse($argument->has_default());
+		$this->assertNull($argument->get_default());
+
+		// With a default.
+		$argument->default('DEF');
+		$this->assertTrue($argument->has_default());
+		$this->assertEquals('DEF', $argument->get_default());
+	}
+
+	/** @testdox It should be possible to set a description to an argument. */
+	public function test_argument_description(): void	{
+		$argument = new Route_Argument( 'id' );
+
+		$this->assertEquals('', $argument->get_description());
+
+		// With description.
+		$argument->description('DESC');
+		$this->assertEquals('DESC', $argument->get_description());
+	}
+
+	/** @testdox It should be possible to set the format for an argument and have access to constants for accepted formats. */
+	public function test_argument_format(): void {
+		$argument = new Route_Argument( 'id' );
+
+		$this->assertNull($argument->get_format());
+
+		// IP
+		$argument->format(Route_Argument::FORMAT_IP);
+		$this->assertEquals('ip', $argument->get_format());
+
+		// Datetime
+		$argument->format(Route_Argument::FORMAT_DATE_TIME);
+		$this->assertEquals('date-time', $argument->get_format());
+
+		// Email
+		$argument->format(Route_Argument::FORMAT_EMAIL);
+		$this->assertEquals('email', $argument->get_format());
+
+		// URL
+		$argument->format(Route_Argument::FORMAT_URL);
+		$this->assertEquals('url', $argument->get_format());
+	}
+
+	/** @testdox It should be possible to set the expected values by pushing them either singulr or in a group. */
+	public function test_expected_enum(): void {
+		$argument = new Route_Argument( 'id' );
+
+		$this->assertNull($argument->get_expected());
+
+		// It should be possible to push values.
+		$argument->expected('ONE');
+		$this->assertCount(1, $argument->get_expected());
+		$this->assertContains('ONE', $argument->get_expected());
+
+		$argument->expected('TWO');
+		$this->assertCount(2, $argument->get_expected());
+		$this->assertContains('ONE', $argument->get_expected());
+		$this->assertContains('TWO', $argument->get_expected());
+
+		$argument->expected('THREE', 'FOUR');
+		$this->assertCount(4, $argument->get_expected());
+		$this->assertContains('ONE', $argument->get_expected());
+		$this->assertContains('TWO', $argument->get_expected());
+		$this->assertContains('THREE', $argument->get_expected());
+		$this->assertContains('FOUR', $argument->get_expected());
+	}
+
+	/** @testdox It should be possible to set a min value for a numerical argument and denote if the min value passed is exlcuded */
+	public function test_minimum_with_exclusive(): void {
+		$argument = new Route_Argument( 'id' );
+
+		$this->assertNull($argument->get_minimum());
+		$this->assertFalse($argument->get_exclusive_minimum());
+
+		// Set just min, but not exclusive
+		$argument->minimum(12);
+		$this->assertEquals(12, $argument->get_minimum());
+		$this->assertFalse($argument->get_exclusive_minimum());
+
+		// Set exlusive.
+		$argument->exclusive_minimum();
+		$this->assertTrue($argument->get_exclusive_minimum());
+
+	}
+
+	/** @testdox It should be possible to set a min value for a numerical argument and denote if the maximum value passed is exlcuded */
+	public function test_maximum_with_exclusive(): void {
+		$argument = new Route_Argument( 'id' );
+
+		$this->assertNull($argument->get_maximum());
+		$this->assertFalse($argument->get_exclusive_maximum());
+
+		// Set just min, but not exclusive
+		$argument->maximum(24);
+		$this->assertEquals(24, $argument->get_maximum());
+		$this->assertFalse($argument->get_exclusive_maximum());
+
+		// Set exlusive.
+		$argument->exclusive_maximum();
+		$this->assertTrue($argument->get_exclusive_maximum());
+
 	}
 }
