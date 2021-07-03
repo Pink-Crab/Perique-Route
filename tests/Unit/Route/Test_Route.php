@@ -24,12 +24,11 @@ declare(strict_types=1);
  * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
  */
 
-namespace PinkCrab\Route\Tests\Unit;
+namespace PinkCrab\Route\Tests\Unit\Route;
 
 use WP_UnitTestCase;
-use PinkCrab\Route\Route;
-use PinkCrab\Route\Route_Argument;
-use Gin0115\WPUnit_Helpers\Objects;
+use PinkCrab\Route\Route\Route;
+use PinkCrab\Route\Route\Argument;
 
 class Test_Route extends WP_UnitTestCase {
 
@@ -40,45 +39,29 @@ class Test_Route extends WP_UnitTestCase {
 		$this->assertEquals( '/test/(?P<id>[\d]+)', $route->get_route() );
 	}
 
-	/** @testdox It should be possible to stackup multiple authentication calls and execute them as a group. */
+	/** @testdox It should be possible to stackup multiple authentication callbacks. */
 	public function test_add_authentication(): void {
 		$route = new Route( 'GET', '/route' );
-		$route->add_authentication(
-			function( $request ): bool {
-				return is_numeric( $request->get_body() );
-			}
-		);
-		$route->add_authentication(
-			function( $request ): bool {
-				return (int) $request->get_body() === 123;
-			}
-		);
 
-		$request = $this->createMock( \WP_REST_Request::class );
-		$request->method( 'get_body' )->willReturn( '123' );
+		$route->authentication('is_string');
+		$route->authentication('is_bool');
 
-		$this->assertTrue( $route->compile_authentication()( $request ) );
-
-		// Run again as a failure (partial)
-		unset( $request );
-
-		$request = $this->createMock( \WP_REST_Request::class );
-		$request->method( 'get_body' )->willReturn( '789' );
-
-		$this->assertFalse( $route->compile_authentication()( $request ) );
+		$this->AssertCount(2, $route->get_authentication());
+		$this->assertContains('is_string', $route->get_authentication());
+		$this->assertContains('is_bool', $route->get_authentication());
 	}
 
 	/** @testdox It should be possible to define and get the base namespace for a route. */
 	public function test_set_get_namespace(): void {
 		$route = new Route( 'GET', '/route' );
-		$route->set_namespace( 'namespace' );
+		$route->namespace( 'namespace' );
 		$this->assertEquals( 'namespace', $route->get_namespace() );
 	}
 
 	/** @testdox It should be possible to set and use the primary callback. */
 	public function test_set_get_callback(): void {
 		$route = new Route( 'GET', '/route' );
-		$route->set_callback(
+		$route->callback(
 			function( \WP_REST_Request $request ) {
 				return  array( 'success', 200 );
 			}
@@ -92,12 +75,34 @@ class Test_Route extends WP_UnitTestCase {
     public function test_can_set_get_arguemnts(): void
     {
         $route = new Route( 'GET', '/route' );
-        $arg1 = Route_Argument::on('arg1');
-        $arg2 = Route_Argument::on('arg2');
-        $route->add_argument($arg1);
-        $route->add_argument($arg2);
+        $arg1 = Argument::on('arg1');
+        $arg2 = Argument::on('arg2');
+        $route->argument($arg1);
+        $route->argument($arg2);
         
         $this->assertSame($arg1, $route->get_arguments()[0]);
         $this->assertSame($arg2, $route->get_arguments()[1]);
     }
+
+	/** @testdox It should be possible to create a copy of a route wth a different method type and have all other values retained. */
+	public function test_with_method(): void {
+		
+		$route = new Route('GET', 'test/');
+		$route->callback('is_string');
+		$route->namespace('NS');
+        $route->argument(Argument::on('arg1'));
+        $route->argument( Argument::on('arg2'));
+		$route->authentication('is_string');
+		$route->authentication('is_bool');
+
+		// Create clone.
+		$put_route = $route->with_method('PUT');
+
+		$this->assertEquals('PUT', $put_route->get_method());
+		$this->assertEquals('NS', $put_route->get_namespace());
+		$this->assertSame($put_route->get_callback(), $route->get_callback());
+		$this->assertSame($put_route->get_arguments(), $route->get_arguments());
+		$this->assertSame($put_route->get_authentication(), $route->get_authentication());
+
+	}
 }
