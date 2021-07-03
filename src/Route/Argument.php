@@ -48,14 +48,14 @@ class Argument {
 	/**
 	 * Callback to validate value
 	 *
-	 * @var callable(param:string,request::\WP_REST_Request,key:string):bool
+	 * @var callable(param:string,request::\WP_REST_Request,key:string):bool|null
 	 */
 	protected $validation;
 
 	/**
 	 * Sanitizes the output
 	 *
-	 * @var callable(value:mixed):bool
+	 * @var callable(value:mixed):bool|null
 	 */
 	protected $sanitization;
 
@@ -69,9 +69,9 @@ class Argument {
 	/**
 	 * The data type of the argument.
 	 *
-	 * @var string
+	 * @var string|null
 	 */
-	protected $type = self::TYPE_STRING;
+	protected $type;
 
 	/**
 	 * The argument description.
@@ -159,9 +159,9 @@ class Argument {
 	/**
 	 * Get callback to validate value
 	 *
-	 * @return callable(string, \WP_REST_Request, string): bool
+	 * @return callable(string, \WP_REST_Request, string): bool|null
 	 */
-	public function get_validation(): callable {
+	public function get_validation(): ?callable {
 		return $this->validation;
 	}
 
@@ -180,10 +180,10 @@ class Argument {
 	/**
 	 * Get sanitizes the output
 	 *
-	 * @return callable(mixed):
+	 * @return callable(mixed):mixed|null
 	 * bool
 	 */
-	public function get_sanitization(): callable {
+	public function get_sanitization(): ?callable {
 		return $this->sanitization;
 	}
 
@@ -238,6 +238,15 @@ class Argument {
 	}
 
 	/**
+	 * Get the data type of the argument.
+	 *
+	 * @return bool|null
+	 */
+	public function get_required(): ?bool {
+		return $this->required;
+	}
+
+	/**
 	 * Set is this argument required
 	 *
 	 * @param bool $required  Is this argument required
@@ -251,9 +260,9 @@ class Argument {
 	/**
 	 * Get the data type of the argument.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	public function get_type(): string {
+	public function get_type(): ?string {
 		return $this->type;
 	}
 
