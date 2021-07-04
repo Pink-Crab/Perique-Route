@@ -106,6 +106,12 @@ As per WP Api standards, all arguments in the route must be defined, this is all
 
 Sets the namespace for the defined route, this is required (unless creating the route via the `Route_Factory`). This should be done in the same fashion as core WP Rest Registration `my_thing/v1`
 
+*Example*
+```php
+    $route = new Route('GET', 'some_callback_func');
+    $route->namespace('my_thing/v1');
+```
+
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
