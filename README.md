@@ -60,7 +60,7 @@ class Some_Route extends Route_Controller {
                 // Define the GET method.
                 $group->get([$this->some_service, 'some_other_get_method'])
                     ->argument( // Define the argument proprties as per WP API
-                        Arguemnt::on('id')
+                        Argument::on('id')
                             ->type(Argument::TYPE_STRING)
                             ->validate('is_numeric')
                             ->sanitization('absint')
@@ -68,7 +68,13 @@ class Some_Route extends Route_Controller {
                     );
 
                 // Define the DELETE method.
-                $group->delete()
+                $group->delete([$this->some_service, 'some_other_get_method'])
+                    ->authentication('some_extra_check_for_delete');
+
+                // Define route wide authentication (applied to both routes).
+                $group->authentication([$this->some_service, 'check_api_key_in_header']);
+
+                return $group;
             })
         ];
     }
@@ -222,7 +228,120 @@ $group = new Route_Group('my_endpoints/v2','route/');
 ```
 > This would then create a group where all routes assigned are created with the above namespace and route.
 
+### Methods (Setters)
 
+**public function post( callable $callback )**
+> @param callable $callback  
+> @return \PinkCrab\Route\Route\Route
+
+Creates a POST endpoint on the groups route. This works the same as $factory->post(..) but without the need to pass the route parameter. Once this is called, you can easily fluently add any additional parameters.
+
+*Example*
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+$group->post('some_callback')->authentication('some_auth_callback');
+```
+
+> The above would create an endpoint on **https://www.url.com/wp-json/my_endpoints/v2/route** for **POST** requests.
+
+**public function get( callable $callback )**
+> @param callable $callback  
+> @return \PinkCrab\Route\Route\Route  
+
+*Same as post() above, but for GET requests.*
+
+**public function put( callable $callback )**
+> @param callable $callback  
+> @return \PinkCrab\Route\Route\Route  
+
+*Same as post() above, but for PUT requests.*
+
+**public function patch( callable $callback )**
+> @param callable $callback  
+> @return \PinkCrab\Route\Route\Route  
+
+*Same as post() above, but for PATCH requests.*
+
+**public function delete( callable $callback )**
+> @param callable $callback  
+> @return \PinkCrab\Route\Route\Route  
+
+*Same as post() above, but for DELETE requests.*
+
+**public function authentication( callable $callback )**
+> @param callable $callback  
+> @return \PinkCrab\Route\Route\Route_Group  
+
+Like when used for a single route, this will allow the stacking of authentication callbacks which all defined method, request will be passed through. Any other Authentication callback defined on a single method basis, will be added to those defined globally.
+
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+$group->authentication('check_api_key');
+
+// Define routes
+$group->post('some_callback')->authentication('some_extra_auth'); // Require extra check on post's
+$group->get('some_other_callback');
+```
+
+*On the above example any request coming in as GET, will be passed through `check_api_key()`, where as POST will be passed through `check_api_key()` and then `some_extra_auth()`*
+
+**public function argument( Argument $argument )**
+> @param PinkCrab\Route\Route\Argument $argument  
+> @return \PinkCrab\Route\Route\Route_Group
+
+Like with individual routes, you can apply arguments to entire group of endpoints. Applying them to the group, reduces the need to define then for each method. While also allowing you to overrule them on a per method basis.
+
+```php
+$group = new Route_Group('acme/v3', '/some_route/(?P<foo>\d+)');
+$group->argument( Argument::on('foo')
+    ->type('string')
+    ->required()
+);
+```
+*The above would add the `foo` argument to every route that is defined. Any argument added to the individual method, will overwrite what is supplied group (if the have the same key)*
+
+### Methods (Getters)
+
+Most of the Getter methods are primarily used internally, but you have access to them if you wish to create conditional logic around existing groups.
+
+**public function get_namespace()**
+> @return string  
+
+Returns the currently defined namespace.
+
+**public function get_route()**
+> @return string  
+
+Returns the currently defined route.
+
+**public function get_arguments()**
+> @return Argument[]  
+
+Returns an array of all defined arguments.
+
+**public function get_authentication()**
+> @return callable[]  
+
+Returns an array of all defined authentication callbacks.
+
+**public function get_rest_routes()**
+> @return PinkCrab\Route\Route\Route[]  
+
+Returns an array of each method defined, but has not yet been merged with group level authentication and arguments!
+
+**public function route_exists(string $route)**
+> @param string $route    
+> @return bool   
+
+Checks if a route/method has been defined.
+
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+$group->post('some_callback')->authentication('some_auth_callback');
+
+var_dump($group->route_exists('GET')); // false
+var_dump($group->route_exists('POST')); // true
+```
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.

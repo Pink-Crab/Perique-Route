@@ -17,8 +17,8 @@ namespace PinkCrab\Route\Route;
 
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
-use PinkCrab\Route\Route\Abstract_Route;
 use PinkCrab\Route\Route_Exception;
+use PinkCrab\Route\Route\Abstract_Route;
 
 class Route_Group extends Abstract_Route {
 
@@ -39,18 +39,6 @@ class Route_Group extends Abstract_Route {
 		$this->route         = $route;
 		$this->namespace     = $namespace;
 		$this->route_factory = new Route_Factory( $namespace );
-	}
-
-	/**
-	 * Overrides the namespace function in Abstract_Route
-	 * Throws exception as shoud not be called.
-	 *
-	 * @param string $namespace
-	 * @return self
-	 * @throws Route_Exception code 102
-	 */
-	public function namespace( string $namespace ): self {
-		throw Route_Exception::can_not_redecalre_namespace_in_group();
 	}
 
 	/**
@@ -151,11 +139,11 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Checks if a specific route is defined.
 	 *
-	 * @param string $route
+	 * @param string $method
 	 * @return bool
 	 */
-	public function route_exists( string $route ): bool {
-		return array_key_exists( $route, $this->routes );
+	public function route_exists( string $method ): bool {
+		return array_key_exists( $method, $this->routes );
 	}
 
 	/**

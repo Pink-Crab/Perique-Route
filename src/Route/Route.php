@@ -81,6 +81,17 @@ class Route extends Abstract_Route {
 	}
 
 	/**
+	 * Set the value of namespace
+	 *
+	 * @param string $namespace
+	 * @return static
+	 */
+	public function namespace( string $namespace ) {
+		$this->namespace = $namespace;
+		return $this;
+	}
+
+	/**
 	 * Returns the route with a different method.
 	 *
 	 * @param string $method
