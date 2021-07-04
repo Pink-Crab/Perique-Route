@@ -155,7 +155,15 @@ $route->callback( function( WP_REST_Request $request ) {
 > @param PinkCrab\Route\Route\Argument $argument  
 > @return \PinkCrab\Route\Route\Route
 
-As per the WordPress API for routes, you will need to define all arguments assigned to the route URL. 
+As per the WordPress API for routes, you will need to define all arguments used in the route URL. These should be passed to the route as a compiled Arguemnt object, but as this uses a fluent API, it can be done inline.
+
+```php
+$route = new Route('GET', '/some_route/(?P<foo>\d+)');
+$route->argument( Arguemnt::on('foo')
+    ->type('string')
+    ->required()
+);
+```
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
