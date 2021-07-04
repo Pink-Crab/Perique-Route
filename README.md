@@ -176,7 +176,7 @@ If you would like to create a copy of an existing route, but with a different me
 
 ```php
 $route_post = new Route('POST', '/some_route');
-// Your order setup.
+// Your other setup. $route->authentication(....);
 
 // Create a PUT route using the same setup, but with a different callback.
 $route_put = $route_post->with_method('put');
@@ -187,6 +187,26 @@ $route_put->callback('some_other_callback');
 ### Methods (Getters)
 
 Most of the Getter methods are primarily used internally, but you have access to them if you wish to create conditional logic around existing routes.
+
+**public function get_namespace()**
+> @return string  
+
+Returns the currently defined namespace.
+
+**public function get_route()**
+> @return string  
+
+Returns the currently defined route.
+
+**public function get_method()**
+> @return string  
+
+Returns the currently defined route method.
+
+**public function get_arguments()**
+> @return Argument[]  
+
+Returns an arrya of all defined arguments.
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
