@@ -108,9 +108,11 @@ Sets the namespace for the defined route, this is required (unless creating the 
 
 *Example*
 ```php
-$route = new Route('GET', 'some_callback_func');
+$route = new Route('GET', '/some_route');
 $route->namespace('my_thing/v1');
 ```
+
+> The above would create an endpoint on **https://www.url.com/wp-json/my_thing/v1/some_route** for **GET** requests.
 
 **public function authentication( callable $auth_callback )**
 > @param callable(WP_REST_Request $request):bool $auth_callback  
@@ -120,14 +122,14 @@ You can assign multiple `authentication` methods to a route, this allows you to 
 
 *Example*
 ```php
-$route = new Route('GET', 'some_callback_func');
+$route = new Route('GET', '/some_route');
 $route->authentication( function( WP_REST_Request $request ):bool {
     // Do some checks (api key in header etc)
     return true;
 });
 $route->authentication('some_other_auth_callback');
 ```
-> When passing more than 1 auth callback, they are compiled into an ALL callback. If any of them return false, the whole chain ends and returns false. All must return true.
+> When passing more than 1 auth callback, they are compiled into an ALL TRUE function. If any of them return false, the whole chain ends and returns false. All must return true.
 
 
 
