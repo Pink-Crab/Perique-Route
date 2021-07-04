@@ -52,12 +52,27 @@ class Some_Route extends Route_Controller {
     protected function define_routes( Route_Factory $factory): array {
         return [
             // Factory allows for get,post,delete,patch,put requests.
-            $factory->get('users/', [$this->some_service, 'some_callback_index' ]),
-            $factory->delete('users/', [$this->some_service, 'some_callback_delete' ]),
+            $factory->get('/users', [$this->some_service, 'some_callback_index' ]),
+            $factory->delete('/users', [$this->some_service, 'some_callback_delete' ]),
+            
+            // Create your groups using the group builder.
+            $factory->group_builder('/users/(?P<id>\d+)', function( Route_Group $group) : Route_Group {
+                $group->get([$this, 'some_other_get_method'])
+                    ->add_argument(
+                        Arguemnt::on('id')
+                            ->type(Argument::TYPE_STRING)
+                            ->validate('is_numeric')
+                            ->sanitization('absint')
+                            ->required()
+                    );
+            })
         ];
     }
 
 }
+```
+
+
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
