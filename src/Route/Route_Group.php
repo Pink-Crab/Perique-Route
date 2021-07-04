@@ -47,9 +47,9 @@ class Route_Group extends Abstract_Route {
 	 *
 	 * @param string $namespace
 	 * @return self
+	 * @throws Route_Exception code 102
 	 */
-	public function namespace(string $namespace): self
-	{
+	public function namespace( string $namespace ): self {
 		throw Route_Exception::can_not_redecalre_namespace_in_group();
 	}
 
@@ -131,10 +131,11 @@ class Route_Group extends Abstract_Route {
 	 * Adds a route ot the collection
 	 *
 	 * @param Route $route
+	 * @deprecated 0.0.2 This is not really used and should be removed in a future version.
 	 * @return self
 	 */
 	public function add_rest_route( Route $route ): self {
-		$this->routes[] = $route;
+		$this->routes[ $route->get_method() ] = $route;
 		return $this;
 	}
 
