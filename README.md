@@ -57,14 +57,18 @@ class Some_Route extends Route_Controller {
             
             // Create your groups using the group builder.
             $factory->group_builder('/users/(?P<id>\d+)', function( Route_Group $group) : Route_Group {
-                $group->get([$this, 'some_other_get_method'])
-                    ->add_argument(
+                // Define the GET method.
+                $group->get([$this->some_service, 'some_other_get_method'])
+                    ->add_argument( // Define the argument proprties as per WP API
                         Arguemnt::on('id')
                             ->type(Argument::TYPE_STRING)
                             ->validate('is_numeric')
                             ->sanitization('absint')
                             ->required()
                     );
+
+                // Define the DELETE method.
+                $group->delete()
             })
         ];
     }
@@ -72,6 +76,19 @@ class Some_Route extends Route_Controller {
 }
 ```
 
+Once you have your Route_Controller setup, its just a case of passing the class to the `reigstration` array and it will be loaded along with Perique.
+
+```php
+//file: config/registration.php
+return [
+    ...other classes
+    Some_Route::class,
+];
+```
+
+## Routes
+
+Each route must be defined as part of a `Route Model`, these can either be created by hand or using the supplied `Route_Factory` (which is how the `Route_Controller` operates.)
 
 
 ## Change Log ##
