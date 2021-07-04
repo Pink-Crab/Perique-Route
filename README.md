@@ -206,7 +206,12 @@ Returns the currently defined route method.
 **public function get_arguments()**
 > @return Argument[]  
 
-Returns an arrya of all defined arguments.
+Returns an array of all defined arguments.
+
+**public function get_authentication()**
+> @return callable[]  
+
+Returns an array of all defined authentication callbacks.
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
