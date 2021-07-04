@@ -164,6 +164,29 @@ $route->argument( Arguemnt::on('foo')
     ->required()
 );
 ```
+If you have more than one argument, you can pass as many as you need.
+
+> See below for more details on Arguemnts.
+
+**public function with_method( string $method )**
+> @param string $argument  
+> @return \PinkCrab\Route\Route\Route
+
+If you would like to create a copy of an existing route, but with a different method, you can call this useful method. It will just clone the initial route but with an alternative method.
+
+```php
+$route_post = new Route('POST', '/some_route');
+// Your order setup.
+
+// Create a PUT route using the same setup, but with a different callback.
+$route_put = $route_post->with_method('put');
+$route_put->callback('some_other_callback');
+```
+> If you are planning to create a route with multiple methods, please consider using the `Route_Group` (detailed below)
+
+### Methods (Getters)
+
+Most of the Getter methods are primarily used internally, but you have access to them if you wish to create conditional logic around existing routes.
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
