@@ -343,5 +343,16 @@ var_dump($group->route_exists('GET')); // false
 var_dump($group->route_exists('POST')); // true
 ```
 
+## Route_Factory
+
+As most of the time you will be creating endpoints with a fixed namespace, there is a factory that can be used to populate this for every route it creates, while giving a clean, fluent API that can be used to create routes inline as part of arrays and return values.
+
+```php
+$group = new Route_Factory('my_endpoints/v2');
+$get = $group->get('/endpoint', 'some_callable');
+$post = $group->get('/endpoint_2', 'some_other_callable');
+```
+Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
+
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
