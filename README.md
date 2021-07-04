@@ -59,7 +59,7 @@ class Some_Route extends Route_Controller {
             $factory->group_builder('/users/(?P<id>\d+)', function( Route_Group $group) : Route_Group {
                 // Define the GET method.
                 $group->get([$this->some_service, 'some_other_get_method'])
-                    ->add_argument( // Define the argument proprties as per WP API
+                    ->argument( // Define the argument proprties as per WP API
                         Arguemnt::on('id')
                             ->type(Argument::TYPE_STRING)
                             ->validate('is_numeric')
@@ -130,6 +130,25 @@ $route->authentication( function( WP_REST_Request $request ):bool {
 $route->authentication('some_other_auth_callback');
 ```
 > When passing more than 1 auth callback, they are compiled into an ALL TRUE function. If any of them return false, the whole chain ends and returns false. All must return true.
+
+**public function callback( callable $callback )**
+> @param callable(WP_REST_Request $request):bool $auth_callback  
+> @return WP_REST_Response|WP_Error
+
+You can either return a WP_REST_Response with the response code defined, or a WP_Error if you wish to denote an error (500 response). Your callback will receive the current WP_REST_Request object, which you can use to run your code, ready to return.
+
+```php
+$route = new Route('GET', '/some_route');
+$route->callback( function( WP_REST_Request $request ) {
+    // Do your logic here and then either return error or success.
+    if('something' === 'something'){
+        return new WP_REST_Response(['data' => 'Your data']);
+    } else {
+        return new WP_Error(500, 'Something went wrong', ['data' => 'Your data']);
+    }
+});
+```
+> You can always return using WP_REST_Response if you wish and just set the response code, but using WP_Error will ensure all call error handling takes place. Please see the WP_Codex for more information on populating either Response or WP_Error.
 
 
 
