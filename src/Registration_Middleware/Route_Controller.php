@@ -29,7 +29,7 @@ abstract class Route_Controller {
 	protected $namespace;
 
 	/**
-	 * Returns the controllers namspace
+	 * Returns the controllers namespace
 	 *
 	 * @return string
 	 * @throws Route_Exception (code 101)
