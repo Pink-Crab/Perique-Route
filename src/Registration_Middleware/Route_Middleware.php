@@ -13,16 +13,18 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Registration_Middleware;
 
-use PinkCrab\Route\Route_Dispatcher;
+use PinkCrab\Route\Route\Route;
+use PinkCrab\Route\Route\Route_Group;
+use PinkCrab\Route\Registration\Route_Manager;
 use PinkCrab\Perique\Interfaces\Registration_Middleware;
 
 class Route_Middleware implements Registration_Middleware {
 
-	/** @var Route_Dispatcher */
-	public $dispatcher;
+	/** @var Route_Manager */
+	public $route_manager;
 
-	public function __construct( Route_Dispatcher $dispatcher ) {
-		$this->dispatcher = $dispatcher;
+	public function __construct( Route_Manager $route_manager ) {
+		$this->route_manager = $route_manager;
 	}
 
 	/**
@@ -33,6 +35,22 @@ class Route_Middleware implements Registration_Middleware {
 	 */
 	public function process( $class ) {
 
+		if ( ! is_a( $class, Route_Controller::class ) ) {
+			$routes = $class->get_routes();
+			foreach ( $routes as $route ) {
+				if ( is_a( $route, Route::class ) ) {
+					$this->route_manager->from_route( $route );
+					continue;
+				}
+
+				if ( is_a( $route, Route_Group::class ) ) {
+					$this->route_manager->from_group( $route );
+					continue;
+				}
+			}
+		}
+
+		return $class;
 	}
 
 	public function setup(): void {
@@ -45,6 +63,6 @@ class Route_Middleware implements Registration_Middleware {
 	 * @return void
 	 */
 	public function tear_down(): void {
-		$this->dispatcher->execute();
+		$this->route_manager->execute();
 	}
 }

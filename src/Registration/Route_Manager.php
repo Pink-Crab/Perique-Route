@@ -14,6 +14,7 @@ namespace PinkCrab\Route\Registration;
 
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Loader\Hook_Loader;
+use PinkCrab\Route\Route\Route_Group;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
 
 class Route_Manager {
@@ -24,8 +25,8 @@ class Route_Manager {
 	/** @var WP_Rest_Registrar */
 	protected $registrar;
 
-	public function __construct(WP_Rest_Registrar $registrar, Hook_Loader $hook_loader) {
-		$this->loader = $hook_loader;
+	public function __construct( WP_Rest_Registrar $registrar, Hook_Loader $hook_loader ) {
+		$this->loader    = $hook_loader;
 		$this->registrar = $registrar;
 	}
 
@@ -35,19 +36,21 @@ class Route_Manager {
 	 * @param Route $route
 	 * @return self
 	 */
-	public function from_route(Route $route): self
-	{
-		$loader->admin_action(
-			'init', 
-			$this->registrar->create_callback($route)
+	public function from_route( Route $route ): self {
+		$this->loader->action(
+			'rest_api_init',
+			$this->registrar->create_callback( $route )
 		);
+
+		return $this;
 	}
 
-	public function from_group(Route_Group $group): self
-	{
-		foreach ($this->unpack_group($group) as $route ) {
-			$this->from_route($route);
+	public function from_group( Route_Group $group ): self {
+		foreach ( $this->unpack_group( $group ) as $route ) {
+			$this->from_route( $route );
 		}
+
+		return $this;
 	}
 
 	/**
@@ -55,9 +58,8 @@ class Route_Manager {
 	 *
 	 * @return void
 	 */
-	public function execute(): void
-	{
+	public function execute(): void {
 		$this->loader->register_hooks();
 	}
-	
+
 }

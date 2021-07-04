@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route;
 
-use PinkCrab\Route\Route_Group;
+use PinkCrab\Route\Route\Route;
 use PinkCrab\Collection\Collection;
+use PinkCrab\Route\Route\Route_Group;
 
 class Route_Collection extends Collection {
 

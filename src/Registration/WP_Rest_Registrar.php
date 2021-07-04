@@ -12,172 +12,136 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Registration;
 
+use PinkCrab\Route\Utils;
 use PinkCrab\Route\Route\Route;
 
 
 class WP_Rest_Registrar {
-    
-    public function create_callback(Route $route): callable
-    {
-        return function() use ( $route ): void {
 
-            $model = $this->map_to_wp_rest($route);
+	/**
+	 * The register wp rest callback.
+	 *
+	 * @param \PinkCrab\Route\Route\Route $route
+	 * @return callable
+	 */
+	public function create_callback( Route $route ): callable {
+		return function() use ( $route ): void {
+			$model = $this->map_to_wp_rest( $route );
+			register_rest_route( $model->namespace, $model->route, $model->args );
+		};
+	}
 
-            dump($model);
+	/**
+	 * Maps a wp rest model from Route.
+	 *
+	 * @param \PinkCrab\Route\Route\Route $route
+	 * @return WP_Rest_Route
+	 */
+	public function map_to_wp_rest( Route $route ): WP_Rest_Route {
+		$wp_rest            = new WP_Rest_Route();
+		$wp_rest->namespace = $route->get_namespace();
+		$wp_rest->route     = $route->get_route();
+		$wp_rest->args      = $this->parse_options( $route );
+		return $wp_rest;
+	}
 
-            echo 'TEST';
-        };
-    }
+	/**
+	 * Parsed the args array used to register.
+	 *
+	 * @param Route $route
+	 * @return array<mixed>
+	 */
+	protected function parse_options( Route $route ): array {
+		$options                        = array();
+		$options['methods']             = $route->get_method();
+		$options['callback']            = $route->get_callback();
+		$options['permission_callback'] = $this->compose_permission_callback( $route );
+		$options['args']                = $this->parse_args( $route );
 
-    public function map_to_wp_rest(Route $route): WP_Rest_Route
-    {
-        $wp_rest = new WP_Rest_Route();
-        $wp_rest->namespace = $route->get_namespace();
-        $wp_rest->route = $route->get_route();
-        $wp_rest->args = $this->parse_options($route);
-        return $wp_rest;
-    }
+		return $options;
+	}
 
-    /**
-     * Parsed the args array used to register.
-     *
-     * @param Route $route
-     * @return array
-     */
-    protected function parse_options(Route $route): array
-    {
-        $options = [];
-        $options['methods'] = $route->get_method();
-        $options['callback'] = $route->get_callback();
-        $options['permission_callback'] = $this->compose_permission_callback($route);
-        $options['args'] = $this->parse_args($route);
+	/**
+	 * Parsed the args array of options.
+	 *
+	 * @param Route $route
+	 * @return array<mixed>
+	 */
+	protected function parse_args( Route $route ): array {
+		$args = array();
+		foreach ( $route->get_arguments() as $argument ) {
 
-        return $options;
-    }
+			$arg = array();
 
-    /**
-     * Parsed the args array of options.
-     *
-     * @param Route $route
-     * @return array
-     */
-    public function parse_args(Route $route): array
-    {
-        $args = [];
-        foreach ($route->get_arguments() as $argument) {
-            $arg = [];
-            if($argument->get_validation()){
-                $arg['validation'] = $argument->get_validation();
-            }
+			if ( $argument->get_validation() ) {
+				$arg['validate_callback'] = $argument->get_validation();
+			}
 
-            if($argument->get_sanitization()){
-                $arg['sanitization'] = $argument->get_sanitization();
-            }
+			if ( $argument->get_sanitization() ) {
+				$arg['sanitize_callback'] = $argument->get_sanitization();
+			}
 
-            if(! is_null($argument->get_type())){
-                $arg['type'] = $argument->get_type();
-            }
+			if ( ! is_null( $argument->get_type() ) ) {
+				$arg['type'] = $argument->get_type();
+			}
 
-            if(! is_null($argument->get_required())){
-                $arg['required'] = $argument->get_required();
-            }
+			if ( ! is_null( $argument->get_required() ) ) {
+				$arg['required'] = $argument->get_required();
+			}
 
-            if('' !== $argument->get_description()){
-                $arg['description'] = $argument->get_description(); 
-            }
+			if ( '' !== $argument->get_description() ) {
+				$arg['description'] = $argument->get_description();
+			}
 
-            if(! is_null($argument->get_format())){
-                $arg['format'] = $argument->get_format();
-            }
+			if ( ! is_null( $argument->get_default() ) ) {
+				$arg['default'] = $argument->get_default();
+			}
 
-            if(! is_null($argument->get_expected())){
-                $arg['expected'] = $argument->get_expected();
-            }
+			if ( ! is_null( $argument->get_format() ) ) {
+				$arg['format'] = $argument->get_format();
+			}
 
-            $args[$argument->get_key()] = $arg;
-        }
-        dump($route->get_arguments(), $args);
-        return $args;
-    }
+			if ( is_array( $argument->get_expected() ) && ! empty( $argument->get_expected() ) ) {
+				$arg['enum'] = $argument->get_expected();
+			}
 
-    /**
-     * Compose the permission callback function for the route.
-     *
-     * @param Route $oute
-     * @return callable
-     */
-    public function compose_permission_callback(Route $route): callable
-    {
-        $callbacks = $route->get_authentication();
-        
-        // If we have no callback defined, use return true.
-        if(count($callbacks) === 0){
-            return '__return_true';
-        }
+			if ( ! is_null( $argument->get_minimum() ) ) {
+				$arg['minimum']          = $argument->get_minimum();
+				$arg['minimumExclusive'] = $argument->get_exclusive_minimum();
+			}
 
-        // If we only have 1, return as is.
-        if(count($callbacks) === 1){
-            return $callbacks[0];
-        }
+			if ( ! is_null( $argument->get_maximum() ) ) {
+				$arg['maximum']          = $argument->get_maximum();
+				$arg['maximumExclusive'] = $argument->get_exclusive_maximum();
+			}
 
-        return $this->compose_conditional_all_true(...$callbacks);
-    }
+			$args[ $argument->get_key() ] = $arg;
+		}
 
-    /**
-     * Creates a single conditional function from many.
-     * The passed value will be passed through each callbale,
-     * if any result is not truthy, will return false.
-     *
-     * @param callable(mixed):bool) ...$callables
-     * @return callable(mixed):bool
-     */
-    public function compose_conditional_all_true(callable ...$callables): callable
-    {
-        return function($value) use ($callables): bool {
-            foreach ($callables as $callable) {
-               $result = (bool) $callable($value);
-               if(true !== $result){
-                return false;
-               }
-            }
-            return true;
-        };
-    }
+		return $args;
+	}
 
-    /**
-     * Creates a single conditional function from many.
-     * The passed value will be passed through each callbale,
-     * if any result is truthy, will return true, only false as a all failed..
-     *
-     * @param callable(mixed):bool) ...$callables
-     * @return callable(mixed):bool
-     */
-    public function compose_conditional_any_true(callable ...$callable): callable
-    {
-        return function($value) use ($callables): bool {
-            foreach ($callables as $callable) {
-               $result = (bool) $callable($value);
-               if(true === $result){
-                return true;
-               }
-            }
-            return false;
-        };
-    }
+	/**
+	 * Compose the permission callback function for the route.
+	 *
+	 * @param Route $route
+	 * @return callable
+	 */
+	protected function compose_permission_callback( Route $route ): callable {
+		$callbacks = $route->get_authentication();
 
-    /**
-     * Creates a single function, which pipes trough each callable in the order passed.
-     *
-     * @param callable(mixed):mixed ...$callables
-     * @return callable(mixed):mixed
-     */
-    public function compose_piped_callable(callable ...$callables): callable
-    {
-        return function($value) use ($callables){
-            foreach ($callables as $callable ) {
-                $value = $callable($value);
-            }
-            return $value;
-        };
-    }
+		// If we have no callback defined, use return true.
+		if ( count( $callbacks ) === 0 ) {
+			return '__return_true';
+		}
+
+		// If we only have 1, return as is.
+		if ( count( $callbacks ) === 1 ) {
+			return $callbacks[0];
+		}
+
+		return Utils::compose_conditional_all_true( ...$callbacks );
+	}
+
+
 }

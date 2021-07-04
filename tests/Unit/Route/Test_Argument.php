@@ -97,8 +97,6 @@ class Test_Argument extends WP_UnitTestCase {
 	/** @testdox It should be possible to set the type of an arguments value and have access to class constants for easy setting */
 	public function test_set_argument_type(): void {
 		$argument = new Argument( 'id' );
-		// Default should be string
-		$this->assertEquals('string', $argument->get_type());
 
 		// Integer
 		$argument->type(Argument::TYPE_INTEGER);

@@ -14,31 +14,31 @@ namespace PinkCrab\Route\Registration;
 
 class WP_Rest_Route {
 
-    /**
-     * The rest namespace
-     *
-     * @var string
-     */
-    public $namespace;
+	/**
+	 * The rest namespace
+	 *
+	 * @var string
+	 */
+	public $namespace;
 
-    /**
-     * The rest route
-     *
-     * @var string
-     */
-    public $routes;
+	/**
+	 * The rest route
+	 *
+	 * @var string
+	 */
+	public $route;
 
-    /**
-     * The route args
-     *
-     * @var array<mixed>
-     */
-    public $args = [];
+	/**
+	 * The route args
+	 *
+	 * @var array<mixed>
+	 */
+	public $args = array();
 
-    /**
-     * Should this ovrride an existing namespace if set
-     *
-     * @var boolean
-     */
-    public $override = false;
+	/**
+	 * Should this overide an existing namespace if set
+	 *
+	 * @var boolean
+	 */
+	public $override = false;
 }
