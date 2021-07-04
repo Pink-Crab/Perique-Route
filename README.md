@@ -116,7 +116,7 @@ $route->namespace('my_thing/v1');
 
 **public function authentication( callable $auth_callback )**
 > @param callable(WP_REST_Request $request):bool $auth_callback  
-> @return bool
+> @return \PinkCrab\Route\Route\Route
 
 You can assign multiple `authentication` methods to a route, this allows you to have a global set of rules you apply to every route, and then some additional   checks on a route by route basis.
 
@@ -132,8 +132,8 @@ $route->authentication('some_other_auth_callback');
 > When passing more than 1 auth callback, they are compiled into an ALL TRUE function. If any of them return false, the whole chain ends and returns false. All must return true.
 
 **public function callback( callable $callback )**
-> @param callable(WP_REST_Request $request):bool $auth_callback  
-> @return WP_REST_Response|WP_Error
+> @param callable(WP_REST_Request $request):WP_REST_Response|WP_Error $auth_callback  
+> @return \PinkCrab\Route\Route\Route
 
 You can either return a WP_REST_Response with the response code defined, or a WP_Error if you wish to denote an error (500 response). Your callback will receive the current WP_REST_Request object, which you can use to run your code, ready to return.
 
@@ -142,7 +142,7 @@ $route = new Route('GET', '/some_route');
 $route->callback( function( WP_REST_Request $request ) {
     // Do your logic here and then either return error or success.
     if('something' === 'something'){
-        return new WP_REST_Response(['data' => 'Your data']);
+        return new WP_REST_Response(['data' => 'Your data'], 200, ['optional' => 'headers']);
     } else {
         return new WP_Error(500, 'Something went wrong', ['data' => 'Your data']);
     }
@@ -151,6 +151,11 @@ $route->callback( function( WP_REST_Request $request ) {
 > You can always return using WP_REST_Response if you wish and just set the response code, but using WP_Error will ensure all call error handling takes place. Please see the WP_Codex for more information on populating either Response or WP_Error.
 
 
+**public function argument( Argument $argument )**
+> @param PinkCrab\Route\Route\Argument $argument  
+> @return \PinkCrab\Route\Route\Route
+
+As per the WordPress API for routes, you will need to define all arguments assigned to the route URL. 
 
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
