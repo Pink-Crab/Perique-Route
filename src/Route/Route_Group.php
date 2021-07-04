@@ -18,13 +18,9 @@ namespace PinkCrab\Route\Route;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
 use PinkCrab\Route\Route\Abstract_Route;
+use PinkCrab\Route\Route_Exception;
 
 class Route_Group extends Abstract_Route {
-
-	/**
-	 * @var string
-	 */
-	protected $namespace = '';
 
 	/**
 	 * @var Route[]
@@ -46,12 +42,15 @@ class Route_Group extends Abstract_Route {
 	}
 
 	/**
-	 * Get the value of namespace
+	 * Overrides the namespace function in Abstract_Route
+	 * Throws exception as shoud not be called.
 	 *
-	 * @return string
+	 * @param string $namespace
+	 * @return self
 	 */
-	public function get_namespace(): string {
-		return $this->namespace;
+	public function namespace(string $namespace): self
+	{
+		throw Route_Exception::can_not_redecalre_namespace_in_group();
 	}
 
 	/**

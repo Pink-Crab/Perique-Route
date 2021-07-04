@@ -213,5 +213,16 @@ Returns an array of all defined arguments.
 
 Returns an array of all defined authentication callbacks.
 
+## Route_Group
+
+Like single Route Models, the Route_Group allows for a similar process of creating releated routes that share a common endpoint route and also some functionality. Also like Routes, its better to use the supplied Route_Factory, but the details here will express how to create a `Route_Group` manually (the core methods are used the same regardless).
+
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+```
+> This would then create a group where all routes assigned are created with the above namespace and route.
+
+
+
 ## Change Log ##
 * 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
