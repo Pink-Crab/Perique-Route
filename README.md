@@ -86,9 +86,25 @@ return [
 ];
 ```
 
-## Routes
+# Routes
 
 Each route must be defined as part of a `Route Model`, these can either be created by hand or using the supplied `Route_Factory` (which is how the `Route_Controller` operates.)
+
+## Route Model
+
+A route model has 3 properties which must be defined, `$route`, `$callback` & `$namespace`. Route and Method are passed via the constructor, but namespace must be set manually. 
+
+As per WP Api standards, all arguments in the route must be defined, this is all handled via the `Arguments` object and is explained in more detail below.
+
+> All properties are defined as `protected` and should be handled via the supplied methods
+
+### Methods (Setters)
+
+**public function namespace( string $namespace )**
+> @param string $namespace
+> @return \PinkCrab\Route\Route\Route
+
+Sets the namespace for the defined route, this is required (unless creating the route via the `Route_Factory`). This should be done in the same fashion as core WP Rest Registration `my_thing/v1`
 
 
 ## Change Log ##
