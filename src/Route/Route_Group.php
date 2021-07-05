@@ -137,12 +137,12 @@ class Route_Group extends Abstract_Route {
 	}
 
 	/**
-	 * Checks if a specific route is defined.
+	 * Checks if a specific method is defined.
 	 *
 	 * @param string $method
 	 * @return bool
 	 */
-	public function route_exists( string $method ): bool {
+	public function method_exists( string $method ): bool {
 		return array_key_exists( $method, $this->routes );
 	}
 

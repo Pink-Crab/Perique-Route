@@ -329,7 +329,7 @@ Returns an array of all defined authentication callbacks.
 
 Returns an array of each method defined, but has not yet been merged with group level authentication and arguments!
 
-**public function route_exists(string $route)**
+**public function method_exists(string $route)**
 > @param string $route    
 > @return bool   
 
@@ -339,8 +339,8 @@ Checks if a route/method has been defined.
 $group = new Route_Group('my_endpoints/v2','route/');
 $group->post('some_callback')->authentication('some_auth_callback');
 
-var_dump($group->route_exists('GET')); // false
-var_dump($group->route_exists('POST')); // true
+var_dump($group->method_exists('GET')); // false
+var_dump($group->method_exists('POST')); // true
 ```
 
 ## Route_Factory
