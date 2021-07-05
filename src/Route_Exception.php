@@ -29,4 +29,19 @@ class Route_Exception  extends Exception {
 			101
 		);
 	}
+
+	/**
+	 * Returns an exception for attempting to redeclare the namespace for a group
+	 * This exists as they share the same abstract base class.
+	 *
+	 * @return self
+	 * @code 102
+	 */
+	public static function can_not_redecalre_namespace_in_group(): self
+	{
+		return new self(
+			"You can not redeclare the namespace for a group",
+			102
+		);
+	}
 }

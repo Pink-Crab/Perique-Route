@@ -114,9 +114,9 @@ class Test_Route_Factory extends WP_UnitTestCase {
 		);
 
 		$this->assertInstanceOf( Route_Group::class, $group );
-		$this->assertTrue( $group->route_exists( 'GET' ) );
-		$this->assertTrue( $group->route_exists( 'DELETE' ) );
-		$this->assertFalse( $group->route_exists( 'PATCH' ) );
+		$this->assertTrue( $group->method_exists( 'GET' ) );
+		$this->assertTrue( $group->method_exists( 'DELETE' ) );
+		$this->assertFalse( $group->method_exists( 'PATCH' ) );
 		$this->assertEquals( 'badger/v1', $group->get_namespace() );
 		$this->assertEquals( 'newNS', $group->get_route() );
 	}

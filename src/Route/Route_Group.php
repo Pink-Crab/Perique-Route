@@ -17,14 +17,10 @@ namespace PinkCrab\Route\Route;
 
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
+use PinkCrab\Route\Route_Exception;
 use PinkCrab\Route\Route\Abstract_Route;
 
 class Route_Group extends Abstract_Route {
-
-	/**
-	 * @var string
-	 */
-	protected $namespace = '';
 
 	/**
 	 * @var Route[]
@@ -43,15 +39,6 @@ class Route_Group extends Abstract_Route {
 		$this->route         = $route;
 		$this->namespace     = $namespace;
 		$this->route_factory = new Route_Factory( $namespace );
-	}
-
-	/**
-	 * Get the value of namespace
-	 *
-	 * @return string
-	 */
-	public function get_namespace(): string {
-		return $this->namespace;
 	}
 
 	/**
@@ -132,10 +119,11 @@ class Route_Group extends Abstract_Route {
 	 * Adds a route ot the collection
 	 *
 	 * @param Route $route
+	 * @deprecated 0.0.2 This is not really used and should be removed in a future version.
 	 * @return self
 	 */
 	public function add_rest_route( Route $route ): self {
-		$this->routes[] = $route;
+		$this->routes[ $route->get_method() ] = $route;
 		return $this;
 	}
 
@@ -149,13 +137,13 @@ class Route_Group extends Abstract_Route {
 	}
 
 	/**
-	 * Checks if a specific route is defined.
+	 * Checks if a specific method is defined.
 	 *
-	 * @param string $route
+	 * @param string $method
 	 * @return bool
 	 */
-	public function route_exists( string $route ): bool {
-		return array_key_exists( $route, $this->routes );
+	public function method_exists( string $method ): bool {
+		return array_key_exists( \strtoupper( $method ), $this->routes );
 	}
 
 	/**

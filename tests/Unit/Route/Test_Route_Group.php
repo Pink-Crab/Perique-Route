@@ -121,11 +121,17 @@ class Test_Route_Group extends WP_UnitTestCase {
 	}
 
 	/** @testdox It should be possible to check if a specified route is defined. */
-	public function test_route_exists(): void {
+	public function test_method_exists(): void {
 		$group = new Route_Group( 'namespace', 'route' );
 		$group->post( 'is_string' );
 
-		$this->assertTrue( $group->route_exists( Route::POST ) );
-		$this->assertFalse( $group->route_exists( Route::PATCH ) );
+		$this->assertTrue( $group->method_exists( Route::POST ) );
+		$this->assertFalse( $group->method_exists( Route::PATCH ) );
+
+		// Test with mixed case.
+		$this->assertTrue( $group->method_exists( 'post' ) );
+		$this->assertFalse( $group->method_exists( 'patch' ) );
+		$this->assertTrue( $group->method_exists( 'PoSt' ) );
+		$this->assertFalse( $group->method_exists( 'pAtCh' ) );
 	}
 }

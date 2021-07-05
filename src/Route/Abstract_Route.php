@@ -41,17 +41,6 @@ abstract class Abstract_Route {
 	}
 
 	/**
-	 * Set the value of namespace
-	 *
-	 * @param string $namespace
-	 * @return static
-	 */
-	public function namespace( string $namespace ) {
-		$this->namespace = $namespace;
-		return $this;
-	}
-
-	/**
 	 * Get the value of arguments
 	 *
 	 * @return Argument[]

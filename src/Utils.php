@@ -12,6 +12,11 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route;
 
+use PinkCrab\Loader\Hook_Loader;
+use PinkCrab\Route\Registration\Route_Manager;
+use PinkCrab\Route\Registration\WP_Rest_Registrar;
+use PinkCrab\Route\Registration_Middleware\Route_Middleware;
+
 class Utils {
 
 	/**
@@ -67,5 +72,19 @@ class Utils {
 			}
 			return $value;
 		};
+	}
+
+	/**
+	 * Provides a dependency populated instance of the Route Middleware.
+	 *
+	 * @return \PinkCrab\Route\Registration_Middleware\Route_Middleware
+	 */
+	public static function middleware_provider(): Route_Middleware {
+		return new Route_Middleware(
+			new Route_Manager(
+				new WP_Rest_Registrar(),
+				new Hook_Loader()
+			)
+		);
 	}
 }
