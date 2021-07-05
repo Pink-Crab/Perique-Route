@@ -127,5 +127,11 @@ class Test_Route_Group extends WP_UnitTestCase {
 
 		$this->assertTrue( $group->method_exists( Route::POST ) );
 		$this->assertFalse( $group->method_exists( Route::PATCH ) );
+
+		// Test with mixed case.
+		$this->assertTrue( $group->method_exists( 'post' ) );
+		$this->assertFalse( $group->method_exists( 'patch' ) );
+		$this->assertTrue( $group->method_exists( 'PoSt' ) );
+		$this->assertFalse( $group->method_exists( 'pAtCh' ) );
 	}
 }

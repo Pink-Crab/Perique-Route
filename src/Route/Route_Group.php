@@ -143,7 +143,7 @@ class Route_Group extends Abstract_Route {
 	 * @return bool
 	 */
 	public function method_exists( string $method ): bool {
-		return array_key_exists( $method, $this->routes );
+		return array_key_exists( \strtoupper( $method ), $this->routes );
 	}
 
 	/**
