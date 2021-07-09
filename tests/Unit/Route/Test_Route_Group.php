@@ -85,8 +85,8 @@ class Test_Route_Group extends WP_UnitTestCase {
 		$group->argument( $arg1 );
 		$group->argument( $arg2 );
 
-		$this->assertSame( $arg1, $group->get_arguments()[0] );
-		$this->assertSame( $arg2, $group->get_arguments()[1] );
+		$this->assertSame( $arg1, $group->get_arguments()['arg1'] );
+		$this->assertSame( $arg2, $group->get_arguments()['arg2'] );
 	}
 
 	/** @testdox It should be possible to use helper methods to create get, post, delete, put and patch routes for the group. */

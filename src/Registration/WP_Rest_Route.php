@@ -36,7 +36,7 @@ class WP_Rest_Route {
 	public $args = array();
 
 	/**
-	 * Should this overide an existing namespace if set
+	 * Should this override an existing namespace if set
 	 *
 	 * @var boolean
 	 */

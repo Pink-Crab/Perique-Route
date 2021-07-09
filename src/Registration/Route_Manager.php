@@ -45,12 +45,60 @@ class Route_Manager {
 		return $this;
 	}
 
+	/**
+	 * Registers all routes from a group.
+	 *
+	 * @param \PinkCrab\Route\Route\Route_Group $group
+	 * @return self
+	 */
 	public function from_group( Route_Group $group ): self {
 		foreach ( $this->unpack_group( $group ) as $route ) {
 			$this->from_route( $route );
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Unpacks a group into its routes with all shared (Auth & Argument) properties from the group
+	 *
+	 * @param \PinkCrab\Route\Route\Route_Group $group
+	 * @return Route[]
+	 */
+	protected function unpack_group( Route_Group $group ): array {
+
+		$routes = array();
+		// Loop through each group
+		foreach ( $group->get_rest_routes() as $method => $route ) {
+			$populated_route = $this->create_base_route_from_group( $method, $group );
+
+			// Replace args if set.
+			foreach ( $route->get_arguments() as $key => $argument ) {
+				$populated_route->argument( $argument );
+			}
+
+			foreach ( $route->get_authentication() as $key => $auth_callback ) {
+				$populated_route->authentication( $auth_callback );
+			}
+
+			$routes[ $method ] = $populated_route;
+		}
+		return $routes;
+	}
+
+	protected function create_base_route_from_group( string $method, Route_Group $group ): Route {
+		$route = new Route( \strtoupper( $method ), $group->get_route() );
+		$route->namespace( $group->get_namespace() );
+
+		foreach ( $group->get_authentication() as $auth_callback ) {
+			$route->authentication( $auth_callback );
+		}
+
+		foreach ( $group->get_arguments() as $argument ) {
+			$route->argument( $argument );
+		}
+
+		return $route;
 	}
 
 	/**

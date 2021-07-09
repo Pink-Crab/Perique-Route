@@ -79,8 +79,8 @@ class Test_Route extends WP_UnitTestCase {
         $route->argument($arg1);
         $route->argument($arg2);
         
-        $this->assertSame($arg1, $route->get_arguments()[0]);
-        $this->assertSame($arg2, $route->get_arguments()[1]);
+        $this->assertSame($arg1, $route->get_arguments()['arg1']);
+        $this->assertSame($arg2, $route->get_arguments()['arg2']);
     }
 
 	/** @testdox It should be possible to create a copy of a route wth a different method type and have all other values retained. */

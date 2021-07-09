@@ -152,6 +152,5 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 		$this->assertEquals( 'test', $wp_route->route );
         $this->assertIsArray($wp_route->args );
         $this->assertCount(4,$wp_route->args );
-		$this->assertInstanceOf( WP_Rest_Route::class, $wp_route );;
 	}
 }

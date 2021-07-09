@@ -56,8 +56,18 @@ abstract class Abstract_Route {
 	 * @return static
 	 */
 	public function argument( Argument $argument ) {
-		$this->arguments[] = $argument;
+		$this->arguments[ $argument->get_key() ] = $argument;
 		return $this;
+	}
+
+	/**
+	 * If an argument exists.
+	 *
+	 * @param string $key
+	 * @return bool
+	 */
+	public function has_argument( string $key ): bool {
+		return \array_key_exists( $key, $this->arguments );
 	}
 
 	/**
