@@ -81,6 +81,9 @@ class Route_Manager {
 				$populated_route->authentication( $auth_callback );
 			}
 
+			// ADD CHECK FOR CALLBACK HERE!!!!!
+			$populated_route->callback( $route->get_callback() );
+
 			$routes[ $method ] = $populated_route;
 		}
 		return $routes;
