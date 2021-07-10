@@ -155,7 +155,7 @@ class Test_Route_Registration extends HTTP_TestCase {
 		$this->assertTrue( $response->is_error() );
 
         // Should return 12 if 4 is passed
-        $response = $this->dispatch_request( 'POST', '/pinkcrab/v1/post-test/4', );
+        $response = $this->dispatch_request( 'POST', '/pinkcrab/v1/post-test/4');
 		$this->assertEquals( 200, $response->get_status() );
 		$this->assertEquals( '12', $response->get_data()['id'] );
 	}
