@@ -25,7 +25,7 @@ use PinkCrab\Route\Registration_Middleware\Route_Controller;
 class Route_Middleware implements Registration_Middleware {
 
 	/** @var Route_Manager */
-	public $route_manager;
+	protected $route_manager;
 
 	public function __construct( Route_Manager $route_manager ) {
 		$this->route_manager = $route_manager;
