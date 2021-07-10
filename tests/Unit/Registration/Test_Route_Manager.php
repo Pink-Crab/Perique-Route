@@ -119,10 +119,10 @@ class Test_Route_Manager extends WP_UnitTestCase {
 		$this->assertEquals( '/route', $post->get_route() );
 		$this->assertEquals( 'acme', $post->get_namespace() );
 		$this->assertEquals( 'POST', $post->get_method() );
-
+dump($post);
 		$this->assertCount( 2, $post->get_authentication() );
 		$this->assertContains( 'is_bool', $post->get_authentication() );
-		$this->assertContains( 'is_string', $post->get_authentication() );
+		$this->assertContains( 'is_array', $post->get_authentication() );
 
         $this->assertTrue( $post->has_argument( 'id' ) );
         $argument = $post->get_arguments();

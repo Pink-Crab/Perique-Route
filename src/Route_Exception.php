@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Route Execptions
+ * Route Exceptions
  *
  * @package PinkCrab\Route\Route
  * @author Glynn Quelch glynn@pinkcrab.co.uk
@@ -37,10 +37,9 @@ class Route_Exception  extends Exception {
 	 * @return self
 	 * @code 102
 	 */
-	public static function can_not_redecalre_namespace_in_group(): self
-	{
+	public static function can_not_redecalre_namespace_in_group(): self {
 		return new self(
-			"You can not redeclare the namespace for a group",
+			'You can not redeclare the namespace for a group',
 			102
 		);
 	}
