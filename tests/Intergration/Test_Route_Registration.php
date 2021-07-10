@@ -114,7 +114,7 @@ class Test_Route_Registration extends HTTP_TestCase {
 		$this->assertEquals( 401, $response->get_status() );
 	}
 
-    /** @testdox description */
+    /** @testdox A route with arguments should allow arguments to validated and sanitized. */
 	public function test_post_with_arguments(): void {
 		$route = new Route( 'POST', '/post-test/(?P<id>[\d]+)' );
 		$route->namespace( 'pinkcrab/v1' );
@@ -144,13 +144,13 @@ class Test_Route_Registration extends HTTP_TestCase {
 		$this->register_routes();
 
 		// Check the call is made and id is passed
-		$response = $this->dispatch_request( 'POST', '/pinkcrab/v1/post-test/2', );
+		$response = $this->dispatch_request( 'POST', '/pinkcrab/v1/post-test/2' );
 		$this->assertEquals( 200, $response->get_status() );
 		$this->assertArrayHasKey( 'id', $response->get_data() );
 		$this->assertEquals( '2', $response->get_data()['id'] );
 
 		// Should fail if 9 is passed (validation)
-        $response = $this->dispatch_request( 'POST', '/pinkcrab/v1/post-test/9', );
+        $response = $this->dispatch_request( 'POST', '/pinkcrab/v1/post-test/9' );
 		$this->assertEquals( 400, $response->get_status() );
 		$this->assertTrue( $response->is_error() );
 
