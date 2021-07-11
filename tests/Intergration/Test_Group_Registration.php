@@ -85,7 +85,7 @@ class Test_Group_Registration extends HTTP_TestCase {
         // Check GET auth error.
         $response = $this->dispatch_request(
 			'GET',
-			'/pinkcrab/v1/group-route',
+			'/pinkcrab/v1/group-route'
 		);
         $this->assertEquals( 401, $response->get_status() );
 
