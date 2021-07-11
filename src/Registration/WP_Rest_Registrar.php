@@ -14,6 +14,7 @@ namespace PinkCrab\Route\Registration;
 
 use PinkCrab\Route\Utils;
 use PinkCrab\Route\Route\Route;
+use PinkCrab\Route\Route_Exception;
 
 
 class WP_Rest_Registrar {
@@ -50,8 +51,20 @@ class WP_Rest_Registrar {
 	 *
 	 * @param Route $route
 	 * @return array<mixed>
+	 * @throws Route_Exception
 	 */
 	protected function parse_options( Route $route ): array {
+
+		// If we have no callback defined for route, throw.
+		if ( is_null( $route->get_callback() ) ) {
+			throw Route_Exception::callback_not_defined( $route );
+		}
+
+		// If we have an invlaid method, throw
+		if ( ! $this->is_valid_method( $route->get_method() ) ) {
+			throw Route_Exception::invalid_http_method( $route );
+		}
+
 		$options                        = array();
 		$options['methods']             = $route->get_method();
 		$options['callback']            = $route->get_callback();
@@ -119,6 +132,23 @@ class WP_Rest_Registrar {
 		}
 
 		return $args;
+	}
+
+	/**
+	 * Checks if a defined HTTP method is valid.
+	 *
+	 * @param string $method
+	 * @return boolean
+	 */
+	protected function is_valid_method( string $method ): bool {
+		return in_array(
+			$method,
+			apply_filters(
+				'pinkcrab/route/accepted_http_methods', // phpcs:ignore WordPress.NamingConventions.ValidHookName
+				array( Route::DELETE, Route::POST, Route::PUT, Route::PATCH, Route::GET )
+			),
+			true
+		);
 	}
 
 	/**

@@ -16,6 +16,7 @@ use PinkCrab\Route\Route\Route;
 use PinkCrab\Loader\Hook_Loader;
 use PinkCrab\Route\Route\Route_Group;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
+use PinkCrab\Route\Route_Exception;
 
 class Route_Manager {
 
@@ -64,6 +65,7 @@ class Route_Manager {
 	 *
 	 * @param \PinkCrab\Route\Route\Route_Group $group
 	 * @return Route[]
+	 * @throws Route_Exception code 102
 	 */
 	protected function unpack_group( Route_Group $group ): array {
 
@@ -77,11 +79,16 @@ class Route_Manager {
 				$populated_route->argument( $argument );
 			}
 
+			// Extends any group based authentication with a route based.
 			foreach ( $route->get_authentication() as $key => $auth_callback ) {
 				$populated_route->authentication( $auth_callback );
 			}
 
-			// ADD CHECK FOR CALLBACK HERE!!!!!
+			// If we have no callback defined for route, throw.
+			if ( is_null( $route->get_callback() ) ) {
+				throw Route_Exception::callback_not_defined( $route );
+			}
+
 			$populated_route->callback( $route->get_callback() );
 
 			$routes[ $method ] = $populated_route;
@@ -89,6 +96,15 @@ class Route_Manager {
 		return $routes;
 	}
 
+	/**
+	 * Generates a base route from a group for a defined method.
+	 * Populates the groups namespace, authentication and arguemnts
+	 * as inital values on the route.
+	 *
+	 * @param string $method
+	 * @param Route_Group $group
+	 * @return Route
+	 */
 	protected function create_base_route_from_group( string $method, Route_Group $group ): Route {
 		$route = new Route( \strtoupper( $method ), $group->get_route() );
 		$route->namespace( $group->get_namespace() );

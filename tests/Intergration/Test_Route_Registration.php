@@ -21,7 +21,7 @@ declare(strict_types=1);
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Route
  *
- * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
+
  */
 
 namespace PinkCrab\Route\Tests\Unit\Registration;
@@ -159,6 +159,4 @@ class Test_Route_Registration extends HTTP_TestCase {
 		$this->assertEquals( 200, $response->get_status() );
 		$this->assertEquals( '12', $response->get_data()['id'] );
 	}
-
-
 }

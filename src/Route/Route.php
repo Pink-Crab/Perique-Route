@@ -31,9 +31,9 @@ class Route extends Abstract_Route {
 	protected $method;
 
 	/**
-	 * @var callable
+	 * @var callable|null
 	 */
-	protected $callback;
+	protected $callback = null;
 
 
 	public function __construct( string $method, string $route ) {
@@ -44,9 +44,9 @@ class Route extends Abstract_Route {
 	/**
 	 * Get the value of callback
 	 *
-	 * @return callable
+	 * @return null|callable
 	 */
-	public function get_callback(): callable {
+	public function get_callback(): ?callable {
 		return $this->callback;
 	}
 

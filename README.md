@@ -355,4 +355,4 @@ $post = $group->get('/endpoint_2', 'some_other_callable');
 Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
 
 ## Change Log ##
-* 0.1.0 Extracted from the Registerables module. Now makes use of a custom Registration_Middleware service for dispatching all Ajax calls.
+* 0.1.0 Inital version

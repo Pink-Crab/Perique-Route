@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace PinkCrab\Route;
 
 use Exception;
+use PinkCrab\Route\Route\Route;
 
 class Route_Exception  extends Exception {
 
@@ -31,16 +32,42 @@ class Route_Exception  extends Exception {
 	}
 
 	/**
-	 * Returns an exception for attempting to redeclare the namespace for a group
-	 * This exists as they share the same abstract base class.
+	 * Returns an exception for a route with no callback defined.
 	 *
+	 * @param Route $route
 	 * @return self
 	 * @code 102
 	 */
-	public static function can_not_redecalre_namespace_in_group(): self {
+	public static function callback_not_defined( Route $route ): self {
+		// Set the namespace if exists.
+		$namespace = '' !== $route->get_namespace()
+				? $route->get_namespace()
+				: '_MISSING_NAMESPACE_';
+
 		return new self(
-			'You can not redeclare the namespace for a group',
+			sprintf(
+				'Callback not defined for [%s] %s/%s',
+				strtoupper( $route->get_method() ),
+				strtoupper( $namespace ),
+				strtoupper( $route->get_route() )
+			),
 			102
+		);
+	}
+
+	/**
+	 * Returns an exception for a route with an invlaid/unsupported HTTP method.
+	 *
+	 * @param Route $route
+	 * @return self
+	 */
+	public static function invalid_http_method( Route $route ): self {
+		return new self(
+			sprintf(
+				'%s is a none supported HTTP Mehtod.',
+				strtoupper( $route->get_method() )
+			),
+			103
 		);
 	}
 }

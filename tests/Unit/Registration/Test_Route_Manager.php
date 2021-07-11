@@ -21,7 +21,6 @@ declare(strict_types=1);
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Route
  *
- * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
  */
 
 namespace PinkCrab\Route\Tests\Unit\Registration;
@@ -33,8 +32,8 @@ use PinkCrab\Route\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Route\Route\Route_Group;
 use PinkCrab\Route\Registration\Route_Manager;
-use PinkCrab\Route\Registration\WP_Rest_Route;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
+use PinkCrab\Route\Route_Exception;
 
 class Test_Route_Manager extends WP_UnitTestCase {
 
@@ -119,7 +118,7 @@ class Test_Route_Manager extends WP_UnitTestCase {
 		$this->assertEquals( '/route', $post->get_route() );
 		$this->assertEquals( 'acme', $post->get_namespace() );
 		$this->assertEquals( 'POST', $post->get_method() );
-dump($post);
+
 		$this->assertCount( 2, $post->get_authentication() );
 		$this->assertContains( 'is_bool', $post->get_authentication() );
 		$this->assertContains( 'is_array', $post->get_authentication() );
@@ -128,5 +127,28 @@ dump($post);
         $argument = $post->get_arguments();
         $this->assertEquals('id', $argument['id']->get_key());
         $this->assertEquals('boolean', $argument['id']->get_type()); // As per group definition
+	}
+
+	/** @testdox If a group is created that has a route/method with no callback defined, an eror should be thrown and the registration process ended. */
+	public function test_throws_exception_if_route_has_no_callback(): void {
+		
+		$this->expectException(Route_Exception::class);
+		$this->expectExceptionCode(102);
+		
+		// Create a group with a route that has no callback.
+		$group = new Route_Group('namespace', 'no-callback');
+		Objects::set_property(
+			$group, 
+			'routes', 
+			['GET' => new Route('GET', 'ignore')]
+		);
+
+		// Attempt to unpack
+		Objects::invoke_method(
+			$this->route_manager,
+			'unpack_group',
+			array( $group )
+		);
+
 	}
 }

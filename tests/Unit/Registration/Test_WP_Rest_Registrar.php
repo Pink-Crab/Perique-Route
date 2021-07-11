@@ -21,7 +21,7 @@ declare(strict_types=1);
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Route
  *
- * @docs https://www.advancedcustomfields.com/resources/acf_add_options_page/
+
  */
 
 namespace PinkCrab\Route\Tests\Unit\Registration;
@@ -32,6 +32,7 @@ use PinkCrab\Route\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Route\Registration\WP_Rest_Route;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
+use PinkCrab\Route\Route_Exception;
 
 class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 
@@ -152,5 +153,27 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 		$this->assertEquals( 'test', $wp_route->route );
         $this->assertIsArray($wp_route->args );
         $this->assertCount(4,$wp_route->args );
+	}
+
+	/** @testdox Attempting to register a route with no callback defined should result in an error. */
+	public function test_throws_exception_if_no_callback_defined(): void {
+		$this->expectException(Route_Exception::class);
+		$this->expectExceptionCode(102);
+
+		$registrar = new WP_Rest_Registrar();
+		$route = new Route( 'PUT', 'test' );
+		Objects::invoke_method( $registrar, 'parse_options', array( $route ) );
+	}
+
+	/** @testdox Attempting to register a route with an invalid method defined should result in an error. */
+	public function test_throws_exception_for_invalid_method(): void
+	{
+		$this->expectException(Route_Exception::class);
+		$this->expectExceptionCode(103);
+
+		$registrar = new WP_Rest_Registrar();
+		$route = new Route( 'INVALID', 'test' );
+		$route->callback('is_string');
+		Objects::invoke_method( $registrar, 'parse_options', array( $route ) );
 	}
 }
