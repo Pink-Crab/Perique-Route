@@ -1,7 +1,7 @@
 {
     "name": "pinkcrab/perique-route",
     "type": "library",
-    "description": "Ajax creation library for the Perique Framework.",
+    "description": "WP REST Endpoint creation library for the Perique Framework.",
     "keywords": [],
     "homepage": "https://pinkcrab.co.uk",
     "license": "MIT",
@@ -39,9 +39,6 @@
     "require": {
         "php": ">=7.1.0",
         "pinkcrab/perique-framework-core": "^1.0",
-        "pinkcrab/http": "0.2.*",
-        "pinkcrab/enqueue": "1.*",
-        "pinkcrab/wp-nonce": "*",
         "pinkcrab/collection": "^0.1.0"
     },
     "scripts": {
