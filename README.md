@@ -7,7 +7,7 @@
 ![](https://github.com/Pink-Crab/Perique-Route/workflows/GitHub_CI/badge.svg " ")
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique-Route/branch/master/graph/badge.svg?token=4yEceIaSFP)](https://codecov.io/gh/Pink-Crab/Perique-Route)
 
-## Version 0.1.0-beta ##
+## Version 0.1.0 ##
 
 ****
 
