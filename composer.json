@@ -39,9 +39,6 @@
     "require": {
         "php": ">=7.1.0",
         "pinkcrab/perique-framework-core": "^1.0",
-        "pinkcrab/http": "0.2.*",
-        "pinkcrab/enqueue": "1.*",
-        "pinkcrab/wp-nonce": "*",
         "pinkcrab/collection": "^0.1.0"
     },
     "scripts": {
