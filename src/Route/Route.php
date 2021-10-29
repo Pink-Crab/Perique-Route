@@ -38,7 +38,19 @@ class Route extends Abstract_Route {
 
 	public function __construct( string $method, string $route ) {
 		$this->method = $method;
-		$this->route  = $route;
+		$this->route  = $this->format_route( $route );
+	}
+
+	/**
+	 * Formats a route with a trailing slash.
+	 *
+	 * @param string $route
+	 * @return string
+	 */
+	protected function format_route( string $route ): string {
+		return substr_compare( $route, '/', -mb_strlen( '/' ) ) === 0
+			? $route
+			: "{$route}/";
 	}
 
 	/**
