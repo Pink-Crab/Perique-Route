@@ -38,7 +38,17 @@ class Route extends Abstract_Route {
 
 	public function __construct( string $method, string $route ) {
 		$this->method = $method;
-		$this->route  = $route;
+		$this->route  = $this->format_route( $route );
+	}
+
+	/**
+	 * Formats a route with a leading slash.
+	 *
+	 * @param string $route
+	 * @return string
+	 */
+	protected function format_route( string $route ): string {
+		return '/' . ltrim( $route, '/\\' );
 	}
 
 	/**

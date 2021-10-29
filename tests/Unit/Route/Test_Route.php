@@ -29,6 +29,7 @@ namespace PinkCrab\Route\Tests\Unit\Route;
 use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route\Argument;
+use PinkCrab\Route\Registration\Route_Manager;
 
 class Test_Route extends WP_UnitTestCase {
 
@@ -43,12 +44,12 @@ class Test_Route extends WP_UnitTestCase {
 	public function test_add_authentication(): void {
 		$route = new Route( 'GET', '/route' );
 
-		$route->authentication('is_string');
-		$route->authentication('is_bool');
+		$route->authentication( 'is_string' );
+		$route->authentication( 'is_bool' );
 
-		$this->AssertCount(2, $route->get_authentication());
-		$this->assertContains('is_string', $route->get_authentication());
-		$this->assertContains('is_bool', $route->get_authentication());
+		$this->AssertCount( 2, $route->get_authentication() );
+		$this->assertContains( 'is_string', $route->get_authentication() );
+		$this->assertContains( 'is_bool', $route->get_authentication() );
 	}
 
 	/** @testdox It should be possible to define and get the base namespace for a route. */
@@ -71,37 +72,46 @@ class Test_Route extends WP_UnitTestCase {
 		$this->assertContains( 'success', $route->get_callback()( $this->createMock( \WP_REST_Request::class ) ) );
 	}
 
-    /** @testdox It  should be possible to set and get all arguments to a route. */
-    public function test_can_set_get_arguments(): void {
-        $route = new Route( 'GET', '/route' );
-        $arg1 = Argument::on('arg1');
-        $arg2 = Argument::on('arg2');
-        $route->argument($arg1);
-        $route->argument($arg2);
-        
-        $this->assertSame($arg1, $route->get_arguments()['arg1']);
-        $this->assertSame($arg2, $route->get_arguments()['arg2']);
-    }
+	/** @testdox It  should be possible to set and get all arguments to a route. */
+	public function test_can_set_get_arguments(): void {
+		$route = new Route( 'GET', '/route' );
+		$arg1  = Argument::on( 'arg1' );
+		$arg2  = Argument::on( 'arg2' );
+		$route->argument( $arg1 );
+		$route->argument( $arg2 );
+
+		$this->assertSame( $arg1, $route->get_arguments()['arg1'] );
+		$this->assertSame( $arg2, $route->get_arguments()['arg2'] );
+	}
 
 	/** @testdox It should be possible to create a copy of a route wth a different method type and have all other values retained. */
 	public function test_with_method(): void {
-		
-		$route = new Route('GET', 'test/');
-		$route->callback('is_string');
-		$route->namespace('NS');
-        $route->argument(Argument::on('arg1'));
-        $route->argument( Argument::on('arg2'));
-		$route->authentication('is_string');
-		$route->authentication('is_bool');
+
+		$route = new Route( 'GET', 'test/' );
+		$route->callback( 'is_string' );
+		$route->namespace( 'NS' );
+		$route->argument( Argument::on( 'arg1' ) );
+		$route->argument( Argument::on( 'arg2' ) );
+		$route->authentication( 'is_string' );
+		$route->authentication( 'is_bool' );
 
 		// Create clone.
-		$put_route = $route->with_method('PUT');
+		$put_route = $route->with_method( 'PUT' );
 
-		$this->assertEquals('PUT', $put_route->get_method());
-		$this->assertEquals('NS', $put_route->get_namespace());
-		$this->assertSame($put_route->get_callback(), $route->get_callback());
-		$this->assertSame($put_route->get_arguments(), $route->get_arguments());
-		$this->assertSame($put_route->get_authentication(), $route->get_authentication());
+		$this->assertEquals( 'PUT', $put_route->get_method() );
+		$this->assertEquals( 'NS', $put_route->get_namespace() );
+		$this->assertSame( $put_route->get_callback(), $route->get_callback() );
+		$this->assertSame( $put_route->get_arguments(), $route->get_arguments() );
+		$this->assertSame( $put_route->get_authentication(), $route->get_authentication() );
 
+	}
+
+	/** @testdox When registering a route, a leading slash should always be set, even if not entered. */
+	public function test_always_have_leading_slash(): void {
+		$route_without = new Route( 'get', 'without' );
+		$this->assertEquals( '/without', $route_without->get_route() );
+
+		$route_with = new Route( 'get', '/with' );
+		$this->assertEquals( '/with', $route_with->get_route() );
 	}
 }
