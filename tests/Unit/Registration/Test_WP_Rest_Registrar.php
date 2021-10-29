@@ -30,9 +30,9 @@ use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
+use PinkCrab\Route\Route_Exception;
 use PinkCrab\Route\Registration\WP_Rest_Route;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
-use PinkCrab\Route\Route_Exception;
 
 class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 
@@ -150,7 +150,7 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( WP_Rest_Route::class, $wp_route );
 		$this->assertEquals( 'NS', $wp_route->namespace );
-		$this->assertEquals( 'test', $wp_route->route );
+		$this->assertEquals( '/test', $wp_route->route );
         $this->assertIsArray($wp_route->args );
         $this->assertCount(4,$wp_route->args );
 	}

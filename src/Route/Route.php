@@ -42,15 +42,13 @@ class Route extends Abstract_Route {
 	}
 
 	/**
-	 * Formats a route with a trailing slash.
+	 * Formats a route with a leading slash.
 	 *
 	 * @param string $route
 	 * @return string
 	 */
 	protected function format_route( string $route ): string {
-		return substr_compare( $route, '/', -mb_strlen( '/' ) ) === 0
-			? $route
-			: "{$route}/";
+		return '/' . ltrim( $route, '/\\' );
 	}
 
 	/**

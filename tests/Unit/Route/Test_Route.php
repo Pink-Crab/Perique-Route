@@ -106,12 +106,12 @@ class Test_Route extends WP_UnitTestCase {
 
 	}
 
-	/** @testdox When registering a route, a trailing slash should always be set, even if not entered. */
-	public function test_always_have_trailing_slash(): void {
+	/** @testdox When registering a route, a leading slash should always be set, even if not entered. */
+	public function test_always_have_leading_slash(): void {
 		$route_without = new Route( 'get', 'without' );
-		$this->assertEquals( 'without/', $route_without->get_route() );
+		$this->assertEquals( '/without', $route_without->get_route() );
 
-		$route_with = new Route( 'get', 'with/' );
-		$this->assertEquals( 'with/', $route_with->get_route() );
+		$route_with = new Route( 'get', '/with' );
+		$this->assertEquals( '/with', $route_with->get_route() );
 	}
 }

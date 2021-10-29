@@ -159,4 +159,5 @@ class Test_Route_Registration extends HTTP_TestCase {
 		$this->assertEquals( 200, $response->get_status() );
 		$this->assertEquals( '12', $response->get_data()['id'] );
 	}
+
 }
