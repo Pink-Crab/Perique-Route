@@ -241,4 +241,14 @@ class Test_Argument extends WP_UnitTestCase {
 		$argument->name( 'name it' );
 		$this->assertEquals( 'name it', $argument->get_name() );
 	}
+
+	/** @testdox It should be possible to set and get the arguments, attributes as arrays. */
+	public function test_set_get_attributes(): void {
+		$argument = new Argument( 'id' );
+
+		$argument->set_attributes( array( 'key' => 'value' ) );
+		$this->assertNotEmpty( $argument->get_attributes() );
+		$this->assertArrayHasKey( 'key', $argument->get_attributes() );
+		$this->assertContains( 'value', $argument->get_attributes() );
+	}
 }
