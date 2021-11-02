@@ -56,7 +56,7 @@ abstract class Abstract_Parser_Testcase extends WP_UnitTestCase {
 	public function test_setting_type_with_array(): void {
 
 		// Avoid unions of same type.
-        $union_type = $this->type_name() === 'null'
+		$union_type = $this->type_name() === 'null'
 			? 'boolean' : 'null';
 
 		$expected = array(
@@ -78,7 +78,7 @@ abstract class Abstract_Parser_Testcase extends WP_UnitTestCase {
 	public function test_setting_union_type(): void {
 
 		// Avoid unions of same type.
-        $union_type = $this->type_name() === 'boolean'
+		$union_type = $this->type_name() === 'boolean'
 			? 'null' : 'boolean';
 
 		$expected = array(
@@ -245,6 +245,17 @@ abstract class Abstract_Parser_Testcase extends WP_UnitTestCase {
 		$this->assertSame(
 			$expected,
 			( new Argument_Parser( $model ) )->to_array()
+		);
+	}
+
+    /** @testdox It should be possible to use a simple static method to construct and export as an array in WP Rest Schema format. */
+	public function test_static_to_array_shortcut(): void {
+		$model = $this->type_class()::on( 'arg-name' )
+			->expected( 'one', 'two' );
+
+		$this->assertSame(
+			( new Argument_Parser( $model ) )->to_array(),
+			Argument_Parser::as_array( $model )
 		);
 	}
 
