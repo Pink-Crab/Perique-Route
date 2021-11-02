@@ -231,4 +231,14 @@ class Test_Argument extends WP_UnitTestCase {
 		$this->assertCount( 5, $caught );
 		$this->assertSame( $types, $caught );
 	}
+
+	/** @testdox It should be possible to give an argument a name and get the name. */
+	public function test_name(): void {
+		$argument = new Argument( 'id' );
+
+		$this->assertNull( $argument->get_name() );
+
+		$argument->name( 'name it' );
+		$this->assertEquals( 'name it', $argument->get_name() );
+	}
 }

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Argument;
 
+use PinkCrab\Route\Argument\Argument;
+
 class String_Type extends Argument {
 
 	public function __construct( string $key ) {
@@ -26,8 +28,7 @@ class String_Type extends Argument {
 	 * @return static
 	 */
 	public function min_length( int $min ): self {
-		$this->attributes['minLength'] = $min;
-		return $this;
+		return $this->add_attribute( 'minLength', $min );
 	}
 
 	/**
@@ -36,9 +37,7 @@ class String_Type extends Argument {
 	 * @return int|null
 	 */
 	public function get_min_length(): ?int {
-		return \array_key_exists( 'minLength', $this->attributes )
-			? $this->attributes['minLength']
-			: null;
+		return $this->get_attribute( 'minLength' );
 	}
 
 	/**
@@ -48,8 +47,7 @@ class String_Type extends Argument {
 	 * @return static
 	 */
 	public function max_length( int $max ): self {
-		$this->attributes['maxLength'] = $max;
-		return $this;
+		return $this->add_attribute( 'maxLength', $max );
 	}
 
 	/**
@@ -58,9 +56,7 @@ class String_Type extends Argument {
 	 * @return int|null
 	 */
 	public function get_max_length(): ?int {
-		return \array_key_exists( 'maxLength', $this->attributes )
-			? $this->attributes['maxLength']
-			: null;
+		return $this->get_attribute( 'maxLength' );
 	}
 
 	/**
@@ -70,8 +66,7 @@ class String_Type extends Argument {
 	 * @return static
 	 */
 	public function pattern( string $pattern ): self {
-		$this->attributes['pattern'] = $pattern;
-		return $this;
+		return $this->add_attribute( 'pattern', $pattern );
 	}
 
 	/**
@@ -80,9 +75,7 @@ class String_Type extends Argument {
 	 * @return string|null
 	 */
 	public function get_pattern(): ?string {
-		return \array_key_exists( 'pattern', $this->attributes )
-			? $this->attributes['pattern']
-			: null;
+		return $this->get_attribute( 'pattern' );
 	}
 
 }

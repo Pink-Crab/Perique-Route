@@ -32,6 +32,8 @@ class Argument {
 	public const TYPE_ARRAY = 'array';
 	/** @var string */
 	public const TYPE_OBJECT = 'object';
+	/** @var string */
+	public const TYPE_NULL = 'null';
 
 	/**
 	 * All valid format types.
@@ -81,7 +83,7 @@ class Argument {
 	/**
 	 * The data type of the argument.
 	 *
-	 * @var string|string[]|null
+	 * @var string|array<int, string>|null
 	 */
 	protected $type;
 
@@ -132,8 +134,9 @@ class Argument {
 	 * @param callable $config
 	 * @return static
 	 */
-	public static function on( string $key, ?callable $config = null ): self {
-		$argument = new static( $key );
+	final public static function on( string $key, ?callable $config = null ): self {
+		$class    = get_called_class();
+		$argument = new $class( $key );
 		return $config
 			? $config( $argument )
 			: $argument;
@@ -261,7 +264,7 @@ class Argument {
 	/**
 	 * Set the data type of the argument.
 	 *
-	 * @param string|string[] $type  The data type of the argument.
+	 * @param string|string[]|mixed $type  The data type of the argument.
 	 *
 	 * @return static
 	 */
@@ -284,7 +287,8 @@ class Argument {
 	public function union_with_type( string $type ): self {
 		// Cast the current types to array, if not already.
 		if ( ! is_array( $this->type ) ) {
-			$this->type = array( $this->type );
+			// If the current type value is null, set an empty array, else create as an array with the value.
+			$this->type = is_null( $this->type ) ? array() : array( $this->type );
 		}
 		$this->type[] = $type;
 		$this->type   = \array_unique( $this->type );
@@ -364,6 +368,18 @@ class Argument {
 		return $this;
 	}
 
+	/**
+	 * Gets an attribute based on its key, allows for a fallback
+	 *
+	 * @param string $key
+	 * @param mixed $fallback
+	 * @return mixed
+	 */
+	public function get_attribute( string $key, $fallback = null ) {
+		return \array_key_exists( $key, $this->attributes )
+			? $this->attributes[ $key ]
+			: $fallback;
+	}
 
 	/**
 	 * Get expected of all accepted values
@@ -381,8 +397,29 @@ class Argument {
 	 * @return static
 	 */
 	public function expected( ...$expected ): self {
-		$this->expected = array_merge( $this->expected ?? array(), $expected );
+		$this->expected = is_array( $this->expected )
+			? array_merge( $this->expected, $expected )
+			: $expected;
 		return $this;
+	}
+
+	/**
+	 * Gets the set min length, returns null if not set.
+	 *
+	 * @return string|null
+	 */
+	public function get_name(): ?string {
+		return $this->get_attribute( 'name' );
+	}
+
+	/**
+	 * Sets the max length of the value
+	 *
+	 * @param string $name
+	 * @return static
+	 */
+	public function name( string $name ): self {
+		return $this->add_attribute( 'name', $name );
 	}
 
 }

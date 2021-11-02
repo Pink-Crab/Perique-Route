@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Number Argument type.
+ * Integer Argument type.
  *
  * @package PinkCrab\Route\Route
  * @author Glynn Quelch glynn@pinkcrab.co.uk
@@ -15,7 +15,7 @@ namespace PinkCrab\Route\Argument;
 use PinkCrab\Route\Argument\Argument;
 use PinkCrab\Route\Argument\Attribute\Number_Attributes;
 
-class Number_Type extends Argument {
+class Integer_Type extends Argument {
 
 	/**
 	 * @method static exclusive_minimum( bool $min ): self
@@ -29,44 +29,51 @@ class Number_Type extends Argument {
 
 	public function __construct( string $key ) {
 		parent::__construct( $key );
-		$this->type( Argument::TYPE_NUMBER );
+		$this->type( Argument::TYPE_INTEGER );
 	}
 
 	/**
 	 * Sets the min length of the value
 	 *
-	 * @param float $min
+	 * @param int $min
 	 * @return static
 	 */
-	public function minimum( float $min ): self {
-		return $this->add_attribute( 'minimum', $min );
+	public function minimum( int $min ): self {
+		$this->attributes['minimum'] = $min;
+		return $this;
 	}
 
 	/**
 	 * Gets the set min length, returns null if not set.
 	 *
-	 * @return float|null
+	 * @return int|null
 	 */
-	public function get_minimum(): ?float {
-		return $this->get_attribute( 'minimum' );
+	public function get_minimum(): ?int {
+		return \array_key_exists( 'minimum', $this->attributes )
+			? $this->attributes['minimum']
+			: null;
 	}
 
 	/**
 	 * Sets the max length of the value
 	 *
-	 * @param float $max
+	 * @param int $max
 	 * @return static
 	 */
-	public function maximum( float $max ): self {
-		return $this->add_attribute( 'maximum', $max );
+	public function maximum( int $max ): self {
+		$this->attributes['maximum'] = $max;
+		return $this;
 	}
 
 	/**
 	 * Gets the set max length, returns null if not set.
 	 *
-	 * @return float|null
+	 * @return int|null
 	 */
-	public function get_maximum(): ?float {
-		return $this->get_attribute( 'maximum' );
+	public function get_maximum(): ?int {
+		return \array_key_exists( 'maximum', $this->attributes )
+			? $this->attributes['maximum']
+			: null;
 	}
+
 }
