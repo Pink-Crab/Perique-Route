@@ -145,7 +145,7 @@ class Test_Array_Type extends WP_UnitTestCase {
 		$arg = Array_Type::on( 'test' );
 		$arg->boolean_item(
 			function( $e ) {
-				dump($e);
+				dump( $e );
 				$this->assertInstanceOf( Boolean_Type::class, $e );
 				return $e;
 			}
@@ -223,13 +223,31 @@ class Test_Array_Type extends WP_UnitTestCase {
 	}
 
 	/** @testdox It should be possible to check if an array type has items defined. */
-	public function test_has_items(): void
-	{
+	public function test_has_items(): void {
 		$arg = Array_Type::on( 'some_key' );
-		$this->assertFalse($arg->has_items());
+		$this->assertFalse( $arg->has_items() );
 
 		$arg->string_item();
-		$this->assertTrue($arg->has_items());
+		$this->assertTrue( $arg->has_items() );
+	}
+
+	/** @testdox The items attribute should only be set when an item is added, the property should not exist before hand. */
+	public function test_items_set_in_attributes(): void {
+		$arg = Array_Type::on( 'some_key' );
+		$this->assertArrayNotHasKey( 'items', $arg->get_attributes() );
+
+		$arg->string_item();
+		$this->assertArrayHasKey( 'items', $arg->get_attributes() );
+	}
+
+	/** @testdox It should be possible to get a count of how many items are defined with an array argument */
+	public function test_can_count_items(): void
+	{
+		$arg = Array_Type::on( 'some_key' );
+		$this->assertEquals(0, $arg->item_count());
+		
+		$arg->string_item();
+		$this->assertEquals(1, $arg->item_count());
 	}
 
 
