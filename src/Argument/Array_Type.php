@@ -31,10 +31,6 @@ class Array_Type extends Argument {
 	 * @return self
 	 */
 	public function item( Argument $item ): self {
-		// Set the array if it doesnt already exist.
-		if ( ! \array_key_exists( 'items', $this->attributes ) ) {
-			$this->attributes['items'] = array();
-		}
 		$this->attributes['items'][] = $item;
 		return $this;
 	}
