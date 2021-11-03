@@ -2,7 +2,7 @@ coverage:
     status:
         project:
             default:
-                target: 97.5% #overall project/ repo coverage
+                target: 97.5%
         patch:
             default:
-                target: 80%
+                target: 97.5%
