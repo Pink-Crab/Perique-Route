@@ -145,7 +145,6 @@ class Test_Array_Type extends WP_UnitTestCase {
 		$arg = Array_Type::on( 'test' );
 		$arg->boolean_item(
 			function( $e ) {
-				dump( $e );
 				$this->assertInstanceOf( Boolean_Type::class, $e );
 				return $e;
 			}
