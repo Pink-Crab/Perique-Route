@@ -34,7 +34,8 @@
         "wp-coding-standards/wpcs": "*",
         "object-calisthenics/phpcs-calisthenics-rules": "*",
         "yoast/phpunit-polyfills": "^0.2.0 || ^1.0.0",
-        "gin0115/wpunit-helpers": "~1.0.0"
+        "gin0115/wpunit-helpers": "~1.0.0",
+        "pcov/clobber": "^2.0"
     },
     "require": {
         "php": ">=7.1.0",
