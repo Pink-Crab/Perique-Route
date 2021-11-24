@@ -26,11 +26,11 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Tests\Unit;
 
-use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Route_Group;
-use PinkCrab\Route\Route_Collection;
 use stdClass;
 use WP_UnitTestCase;
+use PinkCrab\Route\Route\Route;
+use PinkCrab\Route\Route_Collection;
+use PinkCrab\Route\Route\Route_Group;
 
 class Test_Route_Collection extends WP_UnitTestCase {
 

@@ -28,7 +28,7 @@ namespace PinkCrab\Route\Tests\Unit\Registration;
 
 use WP_REST_Response;
 use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Argument;
+
 use PinkCrab\Route\Tests\Fixtures\HTTP_TestCase;
 use PinkCrab\WP_Rest_Schema\Argument\Number_Type;
 use PinkCrab\WP_Rest_Schema\Argument\Integer_Type;

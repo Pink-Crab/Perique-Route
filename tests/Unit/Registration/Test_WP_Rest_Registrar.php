@@ -28,10 +28,10 @@ namespace PinkCrab\Route\Tests\Unit\Registration;
 
 use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Route\Route_Exception;
 use PinkCrab\Route\Registration\WP_Rest_Route;
+use PinkCrab\WP_Rest_Schema\Argument\Argument;
 use PinkCrab\WP_Rest_Schema\Argument\String_Type;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
 use PinkCrab\WP_Rest_Schema\Argument\Integer_Type;

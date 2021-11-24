@@ -28,7 +28,7 @@ namespace PinkCrab\Route\Tests\Unit\Route;
 
 use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Argument;
+
 use PinkCrab\Route\Registration\Route_Manager;
 use PinkCrab\WP_Rest_Schema\Argument\String_Type;
 
