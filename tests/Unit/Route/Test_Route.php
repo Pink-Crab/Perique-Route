@@ -64,7 +64,7 @@ class Test_Route extends WP_UnitTestCase {
 		$route = new Route( 'GET', '/route' );
 		$route->callback(
 			function( \WP_REST_Request $request ) {
-				return  array( 'success', 200 );
+				return array( 'success', 200 );
 			}
 		);
 
@@ -113,5 +113,14 @@ class Test_Route extends WP_UnitTestCase {
 
 		$route_with = new Route( 'get', '/with' );
 		$this->assertEquals( '/with', $route_with->get_route() );
+	}
+
+	/** @testdox It should be possible to use shortcut argument deifnitions. */
+	public function test_shortcut_arg_definition() {
+		$curlies = new Route( 'get', 'curlies/{param1}/{param2}' );
+		$this->assertEquals( '/curlies/(?<param1>[\@a-zA-Z0-9&.?:-_=#]*)/(?<param2>[\@a-zA-Z0-9&.?:-_=#]*)', $curlies->get_route() );
+
+		$curlies = new Route( 'get', 'named/:param1' );
+		$this->assertEquals( '/named/(?<param1>[\@a-zA-Z0-9&.?:-_=#]*)', $curlies->get_route() );
 	}
 }

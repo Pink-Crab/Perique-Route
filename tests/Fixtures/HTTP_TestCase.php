@@ -100,4 +100,9 @@ abstract class HTTP_TestCase extends \WP_UnitTestCase {
 		}
 		return $this->server->dispatch( $request );
 	}
+
+	public function get_server(): \WP_REST_Server
+	{
+		return $this->server;
+	}
 }
