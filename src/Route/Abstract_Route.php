@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Route;
 
-use PinkCrab\Route\Route\Argument;
+use PinkCrab\WP_Rest_Schema\Argument\Argument;
 
 abstract class Abstract_Route {
 

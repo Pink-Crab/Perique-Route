@@ -30,10 +30,12 @@ use PinkCrab\Route\Route\Route;
 use PinkCrab\Loader\Hook_Loader;
 use PinkCrab\Route\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
+use PinkCrab\Route\Route_Exception;
 use PinkCrab\Route\Route\Route_Group;
 use PinkCrab\Route\Registration\Route_Manager;
+use PinkCrab\WP_Rest_Schema\Argument\String_Type;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
-use PinkCrab\Route\Route_Exception;
+use PinkCrab\WP_Rest_Schema\Argument\Boolean_Type;
 
 class Test_Route_Manager extends WP_UnitTestCase {
 
@@ -43,7 +45,7 @@ class Test_Route_Manager extends WP_UnitTestCase {
 	function setUp(): void {
 		parent::setUp();
 
-		$this->route_manager = new Route_Manager( new WP_Rest_Registrar(), new Hook_Loader );
+		$this->route_manager = new Route_Manager( new WP_Rest_Registrar(), new Hook_Loader() );
 	}
 
 	/**
@@ -54,14 +56,14 @@ class Test_Route_Manager extends WP_UnitTestCase {
 	public static function basic_group_provider(): Route_Group {
 		$group = new Route_Group( 'acme', '/route' );
 		$group->get( 'is_string' )
-			->argument( Argument::on( 'id' )->type( 'string' ) )
+			->argument( String_Type::on( 'id' ) )
 			->authentication( 'is_string' );
 
 		$group->post( 'is_array' )
 			->authentication( 'is_array' );
 
 		$group->authentication( 'is_bool' );
-		$group->argument( Argument::on( 'id' )->type( 'boolean' ) );
+		$group->argument( Boolean_Type::on( 'id' ) );
 		return $group;
 	}
 
@@ -107,13 +109,12 @@ class Test_Route_Manager extends WP_UnitTestCase {
 		$this->assertContains( 'is_string', $get->get_authentication() );
 
 		$this->assertTrue( $get->has_argument( 'id' ) );
-        $argument = $get->get_arguments();
-        $this->assertEquals('id', $argument['id']->get_key());
-        $this->assertEquals('string', $argument['id']->get_type()); // As per route definition.
+		$argument = $get->get_arguments();
+		$this->assertEquals( 'id', $argument['id']->get_key() );
+		$this->assertEquals( 'string', $argument['id']->get_type() ); // As per route definition.
 
-
-        // Check the post, should have NOT replaced the argument for ID and stacked auth callbacks
-        $post = $routes['POST'];
+		// Check the post, should have NOT replaced the argument for ID and stacked auth callbacks
+		$post = $routes['POST'];
 
 		$this->assertEquals( '/route', $post->get_route() );
 		$this->assertEquals( 'acme', $post->get_namespace() );
@@ -123,24 +124,24 @@ class Test_Route_Manager extends WP_UnitTestCase {
 		$this->assertContains( 'is_bool', $post->get_authentication() );
 		$this->assertContains( 'is_array', $post->get_authentication() );
 
-        $this->assertTrue( $post->has_argument( 'id' ) );
-        $argument = $post->get_arguments();
-        $this->assertEquals('id', $argument['id']->get_key());
-        $this->assertEquals('boolean', $argument['id']->get_type()); // As per group definition
+		$this->assertTrue( $post->has_argument( 'id' ) );
+		$argument = $post->get_arguments();
+		$this->assertEquals( 'id', $argument['id']->get_key() );
+		$this->assertEquals( 'boolean', $argument['id']->get_type() ); // As per group definition
 	}
 
 	/** @testdox If a group is created that has a route/method with no callback defined, an eror should be thrown and the registration process ended. */
 	public function test_throws_exception_if_route_has_no_callback(): void {
-		
-		$this->expectException(Route_Exception::class);
-		$this->expectExceptionCode(102);
-		
+
+		$this->expectException( Route_Exception::class );
+		$this->expectExceptionCode( 102 );
+
 		// Create a group with a route that has no callback.
-		$group = new Route_Group('namespace', 'no-callback');
+		$group = new Route_Group( 'namespace', 'no-callback' );
 		Objects::set_property(
-			$group, 
-			'routes', 
-			['GET' => new Route('GET', 'ignore')]
+			$group,
+			'routes',
+			array( 'GET' => new Route( 'GET', 'ignore' ) )
 		);
 
 		// Attempt to unpack

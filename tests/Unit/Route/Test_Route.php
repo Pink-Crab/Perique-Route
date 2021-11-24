@@ -30,6 +30,7 @@ use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route\Argument;
 use PinkCrab\Route\Registration\Route_Manager;
+use PinkCrab\WP_Rest_Schema\Argument\String_Type;
 
 class Test_Route extends WP_UnitTestCase {
 
@@ -75,8 +76,8 @@ class Test_Route extends WP_UnitTestCase {
 	/** @testdox It  should be possible to set and get all arguments to a route. */
 	public function test_can_set_get_arguments(): void {
 		$route = new Route( 'GET', '/route' );
-		$arg1  = Argument::on( 'arg1' );
-		$arg2  = Argument::on( 'arg2' );
+		$arg1  = String_Type::on( 'arg1' );
+		$arg2  = String_Type::on( 'arg2' );
 		$route->argument( $arg1 );
 		$route->argument( $arg2 );
 
@@ -90,8 +91,8 @@ class Test_Route extends WP_UnitTestCase {
 		$route = new Route( 'GET', 'test/' );
 		$route->callback( 'is_string' );
 		$route->namespace( 'NS' );
-		$route->argument( Argument::on( 'arg1' ) );
-		$route->argument( Argument::on( 'arg2' ) );
+		$route->argument( String_Type::on( 'arg1' ) );
+		$route->argument( String_Type::on( 'arg2' ) );
 		$route->authentication( 'is_string' );
 		$route->authentication( 'is_bool' );
 
