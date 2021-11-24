@@ -67,15 +67,15 @@ class Route extends Abstract_Route {
 		// Create capture group for ":parameter"
 		$allowed_chars = '[\@a-zA-Z0-9&.?:-_=#]*';
 		$route         = preg_replace(
-			'/:(' . $allowed_chars . ')/',   # Replace ":parameter"
-			'(?<$1>' . $allowed_chars . ')', # with "(?<parameter>[a-zA-Z0-9\_\-]+)"
+			'/:(' . $allowed_chars . ')/',
+			'(?<$1>' . $allowed_chars . ')',
 			$route
 		);
 
 		// Create capture group for '{parameter}'
 		$route = preg_replace(
-			'/{(' . $allowed_chars . ')}/',    # Replace "{parameter}"
-			'(?<$1>' . $allowed_chars . ')', # with "(?<parameter>[a-zA-Z0-9\_\-]+)"
+			'/{(' . $allowed_chars . ')}/',
+			'(?<$1>' . $allowed_chars . ')',
 			is_string( $route ) ? $route : ''
 		);
 
