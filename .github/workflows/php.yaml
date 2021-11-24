@@ -34,10 +34,11 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, intl
+          extensions: mbstring, intl, pcov
           ini-values: post_max_size=256M, log_errors=1
           tools: pecl
-
+          coverage: pcov
+      
       - name: Check PHP Version
         run: php -v
 
@@ -50,6 +51,11 @@ jobs:
       - name: Install dependencies
         run: composer clearcache && rm -rf composer.lock && composer install --prefer-dist --no-suggest
 
+      - name: Setup PCOV
+        run: |
+          composer require pcov/clobber
+          vendor/bin/pcov clobber
+        
       - name: Run Tests
         env:
           environment_github: true
