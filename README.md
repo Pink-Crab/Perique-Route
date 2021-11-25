@@ -6,6 +6,7 @@
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)]()
 ![](https://github.com/Pink-Crab/Perique-Route/workflows/GitHub_CI/badge.svg " ")
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique-Route/branch/master/graph/badge.svg?token=4yEceIaSFP)](https://codecov.io/gh/Pink-Crab/Perique-Route)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/?branch=master)
 
 ## Version 0.1.0 ##
 
@@ -60,8 +61,7 @@ class Some_Route extends Route_Controller {
                 // Define the GET method.
                 $group->get([$this->some_service, 'some_other_get_method'])
                     ->argument( // Define the argument proprties as per WP API
-                        Argument::on('id')
-                            ->type(Argument::TYPE_STRING)
+                        Integer_Type::on('id')
                             ->validate('is_numeric')
                             ->sanitization('absint')
                             ->required()
@@ -158,17 +158,14 @@ $route->callback( function( WP_REST_Request $request ) {
 
 
 **public function argument( Argument $argument )**
-> @param PinkCrab\Route\Route\Argument $argument  
+> @param PinkCrab\WP_Rest_Schema\Argument\Argument $argument  
 > @return \PinkCrab\Route\Route\Route
 
-As per the WordPress API for routes, you will need to define all arguments used in the route URL. These should be passed to the route as a compiled Arguemnt object, but as this uses a fluent API, it can be done inline.
+As per the WordPress API for routes, you will need to define all arguments used in the route URL. These should be passed to the route as a compiled Argument object, but as this uses a fluent API, it can be done inline.
 
 ```php
-$route = new Route('GET', '/some_route/(?P<foo>\d+)');
-$route->argument( Arguemnt::on('foo')
-    ->type('string')
-    ->required()
-);
+$route = new Route('GET', '/some_route/{foo}');
+$route->argument( String_Type::on('foo')->required() );
 ```
 If you have more than one argument, you can pass as many as you need.
 
@@ -355,4 +352,4 @@ $post = $group->get('/endpoint_2', 'some_other_callable');
 Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
 
 ## Change Log ##
-* 0.1.0 Inital version
+* 0.1.0 Initial version
