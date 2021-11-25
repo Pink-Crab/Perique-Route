@@ -15,7 +15,8 @@ namespace PinkCrab\Route\Registration;
 use PinkCrab\Route\Utils;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Exception;
-
+use PinkCrab\WP_Rest_Schema\Argument\Argument;
+use PinkCrab\WP_Rest_Schema\Parser\Argument_Parser;
 
 class WP_Rest_Registrar {
 
@@ -81,57 +82,14 @@ class WP_Rest_Registrar {
 	 * @return array<mixed>
 	 */
 	protected function parse_args( Route $route ): array {
-		$args = array();
-		foreach ( $route->get_arguments() as $argument ) {
-
-			$arg = array();
-
-			if ( $argument->get_validation() ) {
-				$arg['validate_callback'] = $argument->get_validation();
-			}
-
-			if ( $argument->get_sanitization() ) {
-				$arg['sanitize_callback'] = $argument->get_sanitization();
-			}
-
-			if ( ! is_null( $argument->get_type() ) ) {
-				$arg['type'] = $argument->get_type();
-			}
-
-			if ( ! is_null( $argument->get_required() ) ) {
-				$arg['required'] = $argument->get_required();
-			}
-
-			if ( '' !== $argument->get_description() ) {
-				$arg['description'] = $argument->get_description();
-			}
-
-			if ( ! is_null( $argument->get_default() ) ) {
-				$arg['default'] = $argument->get_default();
-			}
-
-			if ( ! is_null( $argument->get_format() ) ) {
-				$arg['format'] = $argument->get_format();
-			}
-
-			if ( is_array( $argument->get_expected() ) && ! empty( $argument->get_expected() ) ) {
-				$arg['enum'] = $argument->get_expected();
-			}
-
-			if ( ! is_null( $argument->get_minimum() ) ) {
-				$arg['minimum']          = $argument->get_minimum();
-				$arg['minimumExclusive'] = $argument->get_exclusive_minimum();
-			}
-
-			if ( ! is_null( $argument->get_maximum() ) ) {
-				$arg['maximum']          = $argument->get_maximum();
-				$arg['maximumExclusive'] = $argument->get_exclusive_maximum();
-			}
-
-			$args[ $argument->get_key() ] = $arg;
-		}
-
-		return $args;
+		return array_reduce(
+			$route->get_arguments(),
+			function( array $args, Argument $argument ) {
+				$args[ $argument->get_key() ] = Argument_Parser::as_single( $argument );
+				return $args;
+			},
+			array()
+		);
 	}
 
 	/**
