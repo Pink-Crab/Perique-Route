@@ -57,7 +57,7 @@ class Some_Route extends Route_Controller {
             $factory->delete('/users', [$this->some_service, 'some_callback_delete' ]),
             
             // Create your groups using the group builder.
-            $factory->group_builder('/users/(?P<id>\d+)', function( Route_Group $group) : Route_Group {
+            $factory->group_builder('/users/{id}', function( Route_Group $group) : Route_Group {
                 // Define the GET method.
                 $group->get([$this->some_service, 'some_other_get_method'])
                     ->argument( // Define the argument proprties as per WP API
