@@ -29,9 +29,10 @@ namespace PinkCrab\Route\Tests\Unit\Route;
 use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
-use PinkCrab\Route\Route\Argument;
+
 use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Route\Route\Route_Group;
+use PinkCrab\WP_Rest_Schema\Argument\String_Type;
 
 class Test_Route_Group extends WP_UnitTestCase {
 
@@ -80,8 +81,8 @@ class Test_Route_Group extends WP_UnitTestCase {
 	/** @testdox It should be possible to set group wide arguments applied to all defined routes. */
 	public function test_group_arguments(): void {
 		$group = new Route_Group( 'namespace', 'route' );
-		$arg1  = Argument::on( 'arg1' );
-		$arg2  = Argument::on( 'arg2' );
+		$arg1  = String_Type::on( 'arg1' );
+		$arg2  = String_Type::on( 'arg2' );
 		$group->argument( $arg1 );
 		$group->argument( $arg2 );
 

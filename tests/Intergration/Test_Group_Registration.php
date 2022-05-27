@@ -32,42 +32,41 @@ use PinkCrab\Route\Tests\Fixtures\HTTP_TestCase;
 
 class Test_Group_Registration extends HTTP_TestCase {
 
-    /** Returns a callable for returnnig a 200 response with the passed data.*/
-    protected function callback_provider(array $response_data): callable
-    {
-        return function($request) use ($response_data){
-            return new \WP_REST_Response( $response_data );
-        };
-    }
+	/** Returns a callable for returning a 200 response with the passed data.*/
+	protected function callback_provider( array $response_data ): callable {
+		return function( $request ) use ( $response_data ) {
+			return new \WP_REST_Response( $response_data );
+		};
+	}
 
-    /** Returns a callable for checing api-key is foo */
-    protected function auth_callback_api_key(): callable
-    {
-        return function( $request ): bool {
-            return $request->get_header( 'api-key' ) === 'foo';
-        };
-    }
+	/** Returns a callable for checking api-key is foo */
+	protected function auth_callback_api_key(): callable {
+		return function( $request ): bool {
+			return $request->get_header( 'api-key' ) === 'foo';
+		};
+	}
 
-    /** @testdox It should be possible to register a group and have all the routes registered with WP for use. */
-    public function test_can_register_route_group(): void
-    {
-        // Mocked route.
+	/** @testdox It should be possible to register a group and have all the routes registered with WP for use. */
+	public function test_can_register_route_group(): void {
+		// Mocked route.
 		$group = new Route_Group( 'pinkcrab/v1', '/group-route' );
-		$group->get( $this->callback_provider(['method' => 'get']));
+		$group->get( $this->callback_provider( array( 'method' => 'get' ) ) );
 
-		$group->post( $this->callback_provider(['method' => 'post']) )
-			->authentication( function( $request ): bool {
-            return $request->get_header( 'extra-key' ) === 'bar';
-        } );
-        
-        $group->authentication( $this->auth_callback_api_key() );		
-        
-        // Register the rout with WP.
+		$group->post( $this->callback_provider( array( 'method' => 'post' ) ) )
+			->authentication(
+				function( $request ): bool {
+					return $request->get_header( 'extra-key' ) === 'bar';
+				}
+			);
+
+		$group->authentication( $this->auth_callback_api_key() );
+
+		// Register the rout with WP.
 		$this->route_manager->from_group( $group );
 		$this->route_manager->execute();
 		$this->register_routes();
 
-        // Check get route exists with auth check (single api key)
+		// Check get route exists with auth check (single api key)
 		$response = $this->dispatch_request(
 			'GET',
 			'/pinkcrab/v1/group-route',
@@ -82,15 +81,15 @@ class Test_Group_Registration extends HTTP_TestCase {
 		$this->assertArrayHasKey( 'method', $response->get_data() );
 		$this->assertEquals( 'get', $response->get_data()['method'] );
 
-        // Check GET auth error.
-        $response = $this->dispatch_request(
+		// Check GET auth error.
+		$response = $this->dispatch_request(
 			'GET',
 			'/pinkcrab/v1/group-route'
 		);
-        $this->assertEquals( 401, $response->get_status() );
+		$this->assertEquals( 401, $response->get_status() );
 
-        // Check post requires both headers.
-        $response = $this->dispatch_request(
+		// Check post requires both headers.
+		$response = $this->dispatch_request(
 			'POST',
 			'/pinkcrab/v1/group-route',
 			array(),
@@ -101,12 +100,12 @@ class Test_Group_Registration extends HTTP_TestCase {
 			}
 		);
 
-        $this->assertEquals( 200, $response->get_status() );
+		$this->assertEquals( 200, $response->get_status() );
 		$this->assertArrayHasKey( 'method', $response->get_data() );
 		$this->assertEquals( 'post', $response->get_data()['method'] );
 
-        // Check post fails with only single header.
-        $response = $this->dispatch_request(
+		// Check post fails with only single header.
+		$response = $this->dispatch_request(
 			'POST',
 			'/pinkcrab/v1/group-route',
 			array(),
@@ -116,7 +115,7 @@ class Test_Group_Registration extends HTTP_TestCase {
 			}
 		);
 
-        $this->assertEquals( 401, $response->get_status() );
-    }
+		$this->assertEquals( 401, $response->get_status() );
+	}
 
 }

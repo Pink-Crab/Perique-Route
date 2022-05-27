@@ -50,7 +50,7 @@ class Test_Route_Factory extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( Route::class, $route );
 		$this->assertEquals( 'GET', $route->get_method() );
-		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( '/route', $route->get_route() );
 		$this->assertEquals( 'static', $route->get_namespace() );
 		$this->assertEquals( 'is_string', $route->get_callback() );
 	}
@@ -62,7 +62,7 @@ class Test_Route_Factory extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( Route::class, $route );
 		$this->assertEquals( 'POST', $route->get_method() );
-		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( '/route', $route->get_route() );
 		$this->assertEquals( 'static', $route->get_namespace() );
 		$this->assertEquals( 'is_string', $route->get_callback() );
 	}
@@ -74,7 +74,7 @@ class Test_Route_Factory extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( Route::class, $route );
 		$this->assertEquals( 'DELETE', $route->get_method() );
-		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( '/route', $route->get_route() );
 		$this->assertEquals( 'static', $route->get_namespace() );
 		$this->assertEquals( 'is_string', $route->get_callback() );
 	}
@@ -86,7 +86,7 @@ class Test_Route_Factory extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( Route::class, $route );
 		$this->assertEquals( 'PATCH', $route->get_method() );
-		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( '/route', $route->get_route() );
 		$this->assertEquals( 'static', $route->get_namespace() );
 		$this->assertEquals( 'is_string', $route->get_callback() );
 	}
@@ -98,7 +98,7 @@ class Test_Route_Factory extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( Route::class, $route );
 		$this->assertEquals( 'PUT', $route->get_method() );
-		$this->assertEquals( 'route', $route->get_route() );
+		$this->assertEquals( '/route', $route->get_route() );
 		$this->assertEquals( 'static', $route->get_namespace() );
 		$this->assertEquals( 'is_string', $route->get_callback() );
 	}

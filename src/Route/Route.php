@@ -38,7 +38,48 @@ class Route extends Abstract_Route {
 
 	public function __construct( string $method, string $route ) {
 		$this->method = $method;
-		$this->route  = $route;
+		$this->route  = $this->format_route( $route );
+	}
+
+	/**
+	 * Formats a route with a leading slash.
+	 *
+	 * @param string $route
+	 * @return string
+	 */
+	protected function format_route( string $route ): string {
+		$route = $this->translate_arguments( $route );
+		return '/' . ltrim( $route, '/\\' );
+	}
+
+	/**
+	 * Translates shortcut route arguments.
+	 *
+	 * @see https://stackoverflow.com/questions/30130913/how-to-do-url-matching-regex-for-routing-framework
+	 * @param string $route
+	 * @return string
+	 */
+	protected function translate_arguments( string $route ): string {
+		if ( preg_match( '/[^-:\/_{}()a-zA-Z\d]/', $route ) ) {
+			return $route;
+		}
+
+		// Create capture group for ":parameter"
+		$allowed_chars = '[\@a-zA-Z0-9&.?:-_=#]*';
+		$route         = preg_replace(
+			'/:(' . $allowed_chars . ')/',
+			'(?<$1>' . $allowed_chars . ')',
+			$route
+		);
+
+		// Create capture group for '{parameter}'
+		$route = preg_replace(
+			'/{(' . $allowed_chars . ')}/',
+			'(?<$1>' . $allowed_chars . ')',
+			is_string( $route ) ? $route : ''
+		);
+
+		return is_string( $route ) ? $route : '';
 	}
 
 	/**

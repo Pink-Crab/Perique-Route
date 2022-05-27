@@ -28,11 +28,13 @@ namespace PinkCrab\Route\Tests\Unit\Registration;
 
 use WP_UnitTestCase;
 use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Argument;
 use Gin0115\WPUnit_Helpers\Objects;
-use PinkCrab\Route\Registration\WP_Rest_Route;
-use PinkCrab\Route\Registration\WP_Rest_Registrar;
 use PinkCrab\Route\Route_Exception;
+use PinkCrab\Route\Registration\WP_Rest_Route;
+use PinkCrab\WP_Rest_Schema\Argument\Argument;
+use PinkCrab\WP_Rest_Schema\Argument\String_Type;
+use PinkCrab\Route\Registration\WP_Rest_Registrar;
+use PinkCrab\WP_Rest_Schema\Argument\Integer_Type;
 
 class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 
@@ -43,16 +45,14 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 		$route->authentication( 'is_array' );
 		$route->callback( 'is_string' );
 		$route->argument(
-			Argument::on( 'id' )
-				->type( Argument::TYPE_STRING )
+			String_Type::on( 'id' )
 				->sanitization( 'is_null' )
 				->validation( 'is_object' )
 				->required()
 				->default( 'bacon' )
 		);
 		$route->argument(
-			Argument::on( 'all' )
-				->type( Argument::TYPE_NUMBER )
+			Integer_Type::on( 'all' )
 				->sanitization( 'is_bool' )
 				->validation( 'is_array' )
 				->required( false )
@@ -91,7 +91,7 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 		$this->assertCount( 12, $all_args );
 		$this->assertEquals( 'is_array', $all_args['validate_callback'] );
 		$this->assertEquals( 'is_bool', $all_args['sanitize_callback'] );
-		$this->assertEquals( 'number', $all_args['type'] );
+		$this->assertEquals( 'integer', $all_args['type'] );
 		$this->assertEquals( 'url', $all_args['format'] );
 		$this->assertEquals( 'Description All', $all_args['description'] );
 		$this->assertFalse( $all_args['required'] );
@@ -100,9 +100,9 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 		$this->assertContains( 'tree', $all_args['enum'] );
 		$this->assertContains( 'car', $all_args['enum'] );
 		$this->assertEquals( 1, $all_args['minimum'] );
-		$this->assertTrue( $all_args['minimumExclusive'] );
+		$this->assertTrue( $all_args['exclusiveMinimum'] );
 		$this->assertEquals( 45, $all_args['maximum'] );
-		$this->assertTrue( $all_args['maximumExclusive'] );
+		$this->assertTrue( $all_args['exclusiveMaximum'] );
 	}
 
 	/** @testdox It should be possible to set multiple permission/auth callbacks and have the requirement to have all the need to pass (true) */
@@ -130,15 +130,14 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 		$this->assertFalse( $callback( false ) );
 	}
 
-    /** @testdox It should be possible to map a Route object to a format for using with wordpress */
+	/** @testdox It should be possible to map a Route object to a format for using with WordPress */
 	public function test_can_map_from_route_wp_rest(): void {
 		$route = new Route( 'PUT', 'test' );
 		$route->namespace( 'NS' );
 		$route->authentication( 'is_array' );
 		$route->callback( 'is_string' );
 		$route->argument(
-			Argument::on( 'key' )
-				->type( Argument::TYPE_STRING )
+			String_Type::on( 'key' )
 				->sanitization( 'is_int' )
 				->validation( 'esc_html' )
 				->required()
@@ -150,30 +149,29 @@ class Test_WP_Rest_Registrar extends WP_UnitTestCase {
 
 		$this->assertInstanceOf( WP_Rest_Route::class, $wp_route );
 		$this->assertEquals( 'NS', $wp_route->namespace );
-		$this->assertEquals( 'test', $wp_route->route );
-        $this->assertIsArray($wp_route->args );
-        $this->assertCount(4,$wp_route->args );
+		$this->assertEquals( '/test', $wp_route->route );
+		$this->assertIsArray( $wp_route->args );
+		$this->assertCount( 4, $wp_route->args );
 	}
 
 	/** @testdox Attempting to register a route with no callback defined should result in an error. */
 	public function test_throws_exception_if_no_callback_defined(): void {
-		$this->expectException(Route_Exception::class);
-		$this->expectExceptionCode(102);
+		$this->expectException( Route_Exception::class );
+		$this->expectExceptionCode( 102 );
 
 		$registrar = new WP_Rest_Registrar();
-		$route = new Route( 'PUT', 'test' );
+		$route     = new Route( 'PUT', 'test' );
 		Objects::invoke_method( $registrar, 'parse_options', array( $route ) );
 	}
 
 	/** @testdox Attempting to register a route with an invalid method defined should result in an error. */
-	public function test_throws_exception_for_invalid_method(): void
-	{
-		$this->expectException(Route_Exception::class);
-		$this->expectExceptionCode(103);
+	public function test_throws_exception_for_invalid_method(): void {
+		$this->expectException( Route_Exception::class );
+		$this->expectExceptionCode( 103 );
 
 		$registrar = new WP_Rest_Registrar();
-		$route = new Route( 'INVALID', 'test' );
-		$route->callback('is_string');
+		$route     = new Route( 'INVALID', 'test' );
+		$route->callback( 'is_string' );
 		Objects::invoke_method( $registrar, 'parse_options', array( $route ) );
 	}
 }

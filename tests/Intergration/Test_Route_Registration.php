@@ -28,9 +28,10 @@ namespace PinkCrab\Route\Tests\Unit\Registration;
 
 use WP_REST_Response;
 use PinkCrab\Route\Route\Route;
-use PinkCrab\Route\Route\Argument;
-use PinkCrab\Route\Tests\Fixtures\HTTP_TestCase;
 
+use PinkCrab\Route\Tests\Fixtures\HTTP_TestCase;
+use PinkCrab\WP_Rest_Schema\Argument\Number_Type;
+use PinkCrab\WP_Rest_Schema\Argument\Integer_Type;
 
 class Test_Route_Registration extends HTTP_TestCase {
 
@@ -124,8 +125,7 @@ class Test_Route_Registration extends HTTP_TestCase {
 			}
 		);
 		$route->argument(
-			Argument::on( 'id' )
-				->type( 'number' )
+			Integer_Type::on( 'id' )
 				->validation(
 					function( $value, $request, $key ) {
 						return $value !== '9';
@@ -159,4 +159,5 @@ class Test_Route_Registration extends HTTP_TestCase {
 		$this->assertEquals( 200, $response->get_status() );
 		$this->assertEquals( '12', $response->get_data()['id'] );
 	}
+
 }

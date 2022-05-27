@@ -46,7 +46,7 @@ class Route_Exception  extends Exception {
 
 		return new self(
 			sprintf(
-				'Callback not defined for [%s] %s/%s',
+				'Callback not defined for [%s] %s%s',
 				strtoupper( $route->get_method() ),
 				strtoupper( $namespace ),
 				strtoupper( $route->get_route() )
