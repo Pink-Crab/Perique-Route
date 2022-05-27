@@ -38,6 +38,7 @@ use PinkCrab\WP_Rest_Schema\Argument\Boolean_Type;
 
 class Test_Route_Manager extends WP_UnitTestCase {
 
+
 	/** @var Route_Manager */
 	protected $route_manager;
 
@@ -84,7 +85,7 @@ class Test_Route_Manager extends WP_UnitTestCase {
 	}
 
 	/** @testdox When a group is registered, each route within the group should be populate each route using the base values from the group.  */
-	public function test_can_unpack_group() :void {
+	public function test_can_unpack_group(): void {
 		$group  = self::basic_group_provider();
 		$routes = Objects::invoke_method(
 			$this->route_manager,
@@ -149,6 +150,5 @@ class Test_Route_Manager extends WP_UnitTestCase {
 			'unpack_group',
 			array( $group )
 		);
-
 	}
 }
