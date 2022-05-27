@@ -2,13 +2,13 @@
 
 ....
 
-![alt text](https://img.shields.io/badge/Current_Version-0.1.0-yellow.svg?style=flat " ") 
+![alt text](https://img.shields.io/badge/Current_Version-0.1.1-yellow.svg?style=flat " ") 
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)]()
 ![](https://github.com/Pink-Crab/Perique-Route/workflows/GitHub_CI/badge.svg " ")
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique-Route/branch/master/graph/badge.svg?token=4yEceIaSFP)](https://codecov.io/gh/Pink-Crab/Perique-Route)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/?branch=master)
 
-## Version 0.1.0 ##
+## Version 0.1.1 ##
 
 ****
 
@@ -352,4 +352,5 @@ $post = $group->get('/endpoint_2', 'some_other_callable');
 Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
 
 ## Change Log ##
-* 0.1.0 Initial version
+* 0.1.1 Bumped to version 0.2.0 of PinkCrab Collection Dependency
+* 0.1.0 Inital version
