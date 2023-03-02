@@ -26,7 +26,7 @@ Registering WP Rest Routes can either be extremely simple or a frustrating wit t
 
 To install, you can use composer
 ```bash
-$ composer install pinkcrab/perique-route
+$ composer require pinkcrab/perique-route
 ```
 
 You will need to include the Registration_Middleware to the App at boot. We have provided a static method that will handle the dependency injection.
