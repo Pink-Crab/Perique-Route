@@ -24,7 +24,7 @@ abstract class Route_Controller {
 	 * The namespace for this controllers routes
 	 *
 	 * @required
-	 * @var string
+	 * @var string|null
 	 */
 	protected $namespace;
 

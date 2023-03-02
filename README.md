@@ -1,12 +1,15 @@
 # Perique - Route
 
+Library for registering WP Rest Routes in a more simple way.
+
 ....
 
-![alt text](https://img.shields.io/badge/Current_Version-0.1.2-yellow.svg?style=flat " ") 
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)]()
-![](https://github.com/Pink-Crab/Perique-Route/workflows/GitHub_CI/badge.svg " ")
+[![Latest Stable Version](http://poser.pugx.org/pinkcrab/perique-route/v)](https://packagist.org/packages/pinkcrab/perique-route) [![Total Downloads](http://poser.pugx.org/pinkcrab/perique-route/downloads)](https://packagist.org/packages/pinkcrab/perique-route) [![Latest Unstable Version](http://poser.pugx.org/pinkcrab/perique-route/v/unstable)](https://packagist.org/packages/pinkcrab/perique-route) [![License](http://poser.pugx.org/pinkcrab/perique-route/license)](https://packagist.org/packages/pinkcrab/perique-route) [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-route/require/php)](https://packagist.org/packages/pinkcrab/perique-route)
+
+
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique-Route/branch/master/graph/badge.svg?token=4yEceIaSFP)](https://codecov.io/gh/Pink-Crab/Perique-Route)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/28597827c2a7905e11c7/maintainability)](https://codeclimate.com/github/Pink-Crab/Perique-Route/maintainability)
 
 ## Version 0.1.2 ##
 
@@ -25,14 +28,14 @@ To install, you can use composer
 $ composer install pinkcrab/perique-route
 ```
 
-You will need to include the Registartion_Middleware to the App at boot. We have provided a static method that will handle the dependency injection.
+You will need to include the Registration_Middleware to the App at boot. We have provided a static method that will handle the dependency injection.
 
 ```php
 // @file: plugin.php
 
 $app_factory->registration_middleware( PinkCrab\Route\Utils::middleware_provider() );
 ```
-One you have the Route Middleware added to the registartion process, all classes which extend `Route_Controller` will now be processed and all routes defined will be registered.
+One you have the Route Middleware added to the registration process, all classes which extend `Route_Controller` will now be processed and all routes defined will be registered.
 
 To create a route controller, just extend `Route_Controller` and return an array of all routes and groups. The controllers are constructed with the DI Container, so all dependencies can be passed. 
 
@@ -82,7 +85,7 @@ class Some_Route extends Route_Controller {
 }
 ```
 
-Once you have your Route_Controller setup, its just a case of passing the class to the `reigstration` array and it will be loaded along with Perique.
+Once you have your Route_Controller setup, its just a case of passing the class to the `registration` array and it will be loaded along with Perique.
 
 ```php
 //file: config/registration.php
@@ -352,6 +355,7 @@ $post = $group->get('/endpoint_2', 'some_other_callable');
 Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
 
 ## Change Log ##
+* 0.1.3 Update dev testing dependencies for WP6.1
 * 0.1.2 Update dev testing dependencies for WP6.0
 * 0.1.1 Bumped to version 0.2.0 of PinkCrab Collection Dependency
 * 0.1.0 Inital version
