@@ -1,5 +1,13 @@
 <?xml version="1.0"?>
-<phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true">
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    executionOrder="random"
+    >
     <testsuites>
         <testsuite name="settings_pages">
             <directory prefix="Test_" suffix=".php">./tests/Unit</directory>

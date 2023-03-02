@@ -26,6 +26,10 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Tests\Fixtures;
 
 use PinkCrab\Route\Registration\Route_Manager;
+use Gin0115\WPUnit_Helpers\Objects;
+
+use PinkCrab\Perique\Application\App;
+
 use PinkCrab\Loader\Hook_Loader;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
 use WP_REST_Response;
@@ -61,10 +65,21 @@ abstract class HTTP_TestCase extends \WP_UnitTestCase {
 		/** @var WP_REST_Server $wp_rest_server */
 		global $wp_rest_server;
 		$wp_rest_server = null;
+
+		// Unset any active instance of Perique App.
+		$app = new App();
+		Objects::set_property( $app, 'app_config', null );
+		Objects::set_property( $app, 'container', null );
+		Objects::set_property( $app, 'registration', null );
+		Objects::set_property( $app, 'loader', null );
+		Objects::set_property( $app, 'booted', false );
+		$app = null;
+
+
 	}
 
 	public function register_routes(): void {
-		do_action( 'rest_api_init', $this->wp_rest_server );
+		do_action( 'rest_api_init', $this->server );
 	}
 
 	public function filter_rest_url_for_leading_slash( $url, $path ) {
