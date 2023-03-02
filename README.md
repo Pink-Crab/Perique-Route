@@ -356,7 +356,7 @@ $post = $group->get('/endpoint_2', 'some_other_callable');
 Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
 
 ## Change Log ##
-* 0.1.3 Update dev testing dependencies for WP6.1
+* 1.0.0 Update dev testing dependencies for WP6.1, Remove Utils and replace all with FunctionConstructors and updated docs to use `construct_registration_middleware()` rather than being given a constructed instance of the Middleware.
 * 0.1.2 Update dev testing dependencies for WP6.0
 * 0.1.1 Bumped to version 0.2.0 of PinkCrab Collection Dependency
 * 0.1.0 Inital version
