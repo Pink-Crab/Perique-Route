@@ -2,8 +2,6 @@
 
 Library for registering WP Rest Routes in a more simple way.
 
-....
-
 [![Latest Stable Version](http://poser.pugx.org/pinkcrab/perique-route/v)](https://packagist.org/packages/pinkcrab/perique-route) [![Total Downloads](http://poser.pugx.org/pinkcrab/perique-route/downloads)](https://packagist.org/packages/pinkcrab/perique-route) [![Latest Unstable Version](http://poser.pugx.org/pinkcrab/perique-route/v/unstable)](https://packagist.org/packages/pinkcrab/perique-route) [![License](http://poser.pugx.org/pinkcrab/perique-route/license)](https://packagist.org/packages/pinkcrab/perique-route) [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-route/require/php)](https://packagist.org/packages/pinkcrab/perique-route)
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique-Route?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique-Route)
@@ -15,7 +13,6 @@ Library for registering WP Rest Routes in a more simple way.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/28597827c2a7905e11c7/maintainability)](https://codeclimate.com/github/Pink-Crab/Perique-Route/maintainability)
 
-## Version 0.1.2 ##
 
 ****
 
