@@ -36,7 +36,9 @@ use PinkCrab\Route\Tests\Fixtures\Fixture_Route_Shortcut_Args;
 
 class Test_Shortcut_Args_Registration extends HTTP_TestCase {
 
-	public function setUp() {
+
+
+	public function setUp(): void {
 		parent::setUp();
 		$app = new App();
 		Objects::set_property( $app, 'app_config', null );
@@ -52,14 +54,14 @@ class Test_Shortcut_Args_Registration extends HTTP_TestCase {
 		$middleware = Utils::middleware_provider();
 
 		$app = ( new App_Factory() )->with_wp_dice( true )
-		->app_config( array() )
-		->registration_middleware( $middleware )
-		->registration_classes(
-			array(
-				Fixture_Route_Shortcut_Args::class,
+			->app_config( array() )
+			->registration_middleware( $middleware )
+			->registration_classes(
+				array(
+					Fixture_Route_Shortcut_Args::class,
+				)
 			)
-		)
-		->boot();
+			->boot();
 
 		// Run wp setup for routing and app intialisation.
 		do_action( 'init' );
@@ -83,5 +85,4 @@ class Test_Shortcut_Args_Registration extends HTTP_TestCase {
 		// Mixed
 		$this->assertEquals( 200, $this->dispatch_request( 'GET', $namespace . 'shortcut/mixed/allow12345/allow&.:_=#@?' )->get_status() );
 	}
-
 }
