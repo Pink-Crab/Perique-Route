@@ -24,7 +24,7 @@ abstract class Route_Controller {
 	 * The namespace for this controllers routes
 	 *
 	 * @required
-	 * @var string
+	 * @var string|null
 	 */
 	protected $namespace;
 
@@ -34,7 +34,7 @@ abstract class Route_Controller {
 	 * @return string
 	 * @throws Route_Exception (code 101)
 	 */
-	final private function get_namespace(): string {
+	private function get_namespace(): string {
 		if ( ! is_string( $this->namespace ) || mb_strlen( $this->namespace ) === 0 ) {
 			throw Route_Exception::namespace_not_defined( get_class( $this ) );
 		}
@@ -48,7 +48,7 @@ abstract class Route_Controller {
 	 * @return Route_Factory
 	 * @throws Route_Exception (code 101)
 	 */
-	final private function get_factory(): Route_Factory {
+	private function get_factory(): Route_Factory {
 		return Route_Factory::for( $this->get_namespace() );
 	}
 

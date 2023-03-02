@@ -64,7 +64,7 @@ abstract class HTTP_TestCase extends \WP_UnitTestCase {
 	}
 
 	public function register_routes(): void {
-		do_action( 'rest_api_init', $this->wp_rest_server );
+		do_action( 'rest_api_init', $this->server );
 	}
 
 	public function filter_rest_url_for_leading_slash( $url, $path ) {
