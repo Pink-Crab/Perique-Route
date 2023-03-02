@@ -37,7 +37,7 @@
         "vlucas/phpdotenv": "^5.4"
     },
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.2.0",
         "pinkcrab/perique-framework-core": "^1.0",
         "pinkcrab/collection": "^0.1.0",
         "pinkcrab/wp-rest-schema": "0.0.1-beta3"

@@ -5,6 +5,8 @@ Library for registering WP Rest Routes in a more simple way.
 ....
 
 [![Latest Stable Version](http://poser.pugx.org/pinkcrab/perique-route/v)](https://packagist.org/packages/pinkcrab/perique-route) [![Total Downloads](http://poser.pugx.org/pinkcrab/perique-route/downloads)](https://packagist.org/packages/pinkcrab/perique-route) [![Latest Unstable Version](http://poser.pugx.org/pinkcrab/perique-route/v/unstable)](https://packagist.org/packages/pinkcrab/perique-route) [![License](http://poser.pugx.org/pinkcrab/perique-route/license)](https://packagist.org/packages/pinkcrab/perique-route) [![PHP Version Require](http://poser.pugx.org/pinkcrab/perique-route/require/php)](https://packagist.org/packages/pinkcrab/perique-route)
+![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique-Route?label=Contributors)
+![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique-Route)
 
 
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique-Route/branch/master/graph/badge.svg?token=4yEceIaSFP)](https://codecov.io/gh/Pink-Crab/Perique-Route)
