@@ -31,6 +31,7 @@ use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Perique\Application\App;
 use PinkCrab\Perique\Application\App_Factory;
 use PinkCrab\Route\Tests\Fixtures\HTTP_TestCase;
+use PinkCrab\Route\Registration_Middleware\Route_Middleware;
 use PinkCrab\Route\Tests\Fixtures\Fixture_Route_Shortcut_Args;
 
 
@@ -51,11 +52,10 @@ class Test_Shortcut_Args_Registration extends HTTP_TestCase {
 
 	/** @testdox It should be possible to define a route using shortcut (dynamic and named) arguments and have a general rule for allowed symbols. */
 	public function test_as_app_middleware(): void {
-		$middleware = Utils::middleware_provider();
 
 		$app = ( new App_Factory() )->with_wp_dice( true )
 			->app_config( array() )
-			->registration_middleware( $middleware )
+			->construct_registration_middleware( Route_Middleware::class )
 			->registration_classes(
 				array(
 					Fixture_Route_Shortcut_Args::class,
