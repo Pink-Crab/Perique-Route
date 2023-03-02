@@ -40,7 +40,8 @@
         "php": ">=7.2.0",
         "pinkcrab/perique-framework-core": "^1.0",
         "pinkcrab/collection": "^0.1.0",
-        "pinkcrab/wp-rest-schema": "0.0.1-beta3"
+        "pinkcrab/wp-rest-schema": "0.0.1-beta3",
+        "pinkcrab/function-constructors": "^0.2.0"
     },
     "scripts": {
         "test": "./vendor/bin/phpunit --coverage-clover clover.xml --testdox --colors=always",

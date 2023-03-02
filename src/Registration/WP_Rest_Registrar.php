@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Registration;
 
-use PinkCrab\Route\Utils;
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Exception;
 use PinkCrab\WP_Rest_Schema\Argument\Argument;
 use PinkCrab\WP_Rest_Schema\Parser\Argument_Parser;
+use function PinkCrab\FunctionConstructors\Comparisons\all;
 
 class WP_Rest_Registrar {
 
@@ -125,10 +125,10 @@ class WP_Rest_Registrar {
 
 		// If we only have 1, return as is.
 		if ( count( $callbacks ) === 1 ) {
-			return $callbacks[0];
+			return reset( $callbacks );
 		}
 
-		return Utils::compose_conditional_all_true( ...$callbacks );
+		return all( ...$callbacks );
 	}
 
 
