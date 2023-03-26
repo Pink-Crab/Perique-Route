@@ -127,13 +127,13 @@ $group->post('some_other_callable');
 [Read Group Docs](docs/group.md)
 
 *Setters*
-* [$group->post()](docs/group.md#post-http-method)
-* [$group->get()](docs/group.md#get-http-method)
-* [$group->patch()](docs/group.md#patch-http-method)
-* [$group->put()](docs/group.md#put-http-method)
-* [$group->delete()](docs/group.md#delete-http-method)
-* [$group->authentication()](docs/group.md#authentication)
-* [$group->argument()](docs/group.md#argument)
+* [Route_Group::post()](docs/group.md#post-http-method)
+* [Route_Group::get()](docs/group.md#get-http-method)
+* [Route_Group::patch()](docs/group.md#patch-http-method)
+* [Route_Group::put()](docs/group.md#put-http-method)
+* [Route_Group::delete()](docs/group.md#delete-http-method)
+* [Route_Group::authentication()](docs/group.md#authentication)
+* [Route_Group::argument()](docs/group.md#argument)
 
 ## Route_Factory
 
