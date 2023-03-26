@@ -125,11 +125,11 @@ $group->post('some_other_callable');
 > This would then create a group where all routes assigned are created with the above namespace and route.
 
 [Read Group Docs](docs/group.md)
-* [$group->post()](docs/group.md#post)
-* [$group->get()](docs/group.md#get)
-* [$group->patch()](docs/group.md#patch)
-* [$group->put()](docs/group.md#put)
-* [$group->delete()](docs/group.md#delete)
+* [$group->post()](docs/group.md#post-http-method)
+* [$group->get()](docs/group.md#get-http-method)
+* [$group->patch()](docs/group.md#patch-http-method)
+* [$group->put()](docs/group.md#put-http-method)
+* [$group->delete()](docs/group.md#delete-http-method)
 * [$group->authentication()](docs/group.md#authentication)
 * [$group->argument()](docs/group.md#argument)
 * d
