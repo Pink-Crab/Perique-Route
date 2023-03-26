@@ -108,117 +108,8 @@ As per WP Api standards, all arguments in the route must be defined, this is all
 
 > All properties are defined as `protected` and should be handled via the supplied methods
 
-### Methods (Setters)
+[Route Docs](docs/route.md)
 
-**public function namespace( string $namespace )**
-> @param string $namespace  
-> @return \PinkCrab\Route\Route\Route
-
-Sets the namespace for the defined route, this is required (unless creating the route via the `Route_Factory`). This should be done in the same fashion as core WP Rest Registration `my_thing/v1`
-
-*Example*
-```php
-$route = new Route('GET', '/some_route');
-$route->namespace('my_thing/v1');
-```
-
-> The above would create an endpoint on **https://www.url.com/wp-json/my_thing/v1/some_route** for **GET** requests.
-
-**public function authentication( callable $auth_callback )**
-> @param callable(WP_REST_Request $request):bool $auth_callback  
-> @return \PinkCrab\Route\Route\Route
-
-You can assign multiple `authentication` methods to a route, this allows you to have a global set of rules you apply to every route, and then some additional   checks on a route by route basis.
-
-*Example*
-```php
-$route = new Route('GET', '/some_route');
-$route->authentication( function( WP_REST_Request $request ):bool {
-    // Do some checks (api key in header etc)
-    return true;
-});
-$route->authentication('some_other_auth_callback');
-```
-> When passing more than 1 auth callback, they are compiled into an ALL TRUE function. If any of them return false, the whole chain ends and returns false. All must return true.
-
-**public function callback( callable $callback )**
-> @param callable(WP_REST_Request $request):WP_REST_Response|WP_Error $auth_callback  
-> @return \PinkCrab\Route\Route\Route
-
-You can either return a WP_REST_Response with the response code defined, or a WP_Error if you wish to denote an error (500 response). Your callback will receive the current WP_REST_Request object, which you can use to run your code, ready to return.
-
-```php
-$route = new Route('GET', '/some_route');
-$route->callback( function( WP_REST_Request $request ) {
-    // Do your logic here and then either return error or success.
-    if('something' === 'something'){
-        return new WP_REST_Response(['data' => 'Your data'], 200, ['optional' => 'headers']);
-    } else {
-        return new WP_Error(500, 'Something went wrong', ['data' => 'Your data']);
-    }
-});
-```
-> You can always return using WP_REST_Response if you wish and just set the response code, but using WP_Error will ensure all call error handling takes place. Please see the WP_Codex for more information on populating either Response or WP_Error.
-
-
-**public function argument( Argument $argument )**
-> @param PinkCrab\WP_Rest_Schema\Argument\Argument $argument  
-> @return \PinkCrab\Route\Route\Route
-
-As per the WordPress API for routes, you will need to define all arguments used in the route URL. These should be passed to the route as a compiled Argument object, but as this uses a fluent API, it can be done inline.
-
-```php
-$route = new Route('GET', '/some_route/{foo}');
-$route->argument( String_Type::on('foo')->required() );
-```
-If you have more than one argument, you can pass as many as you need.
-
-> See below for more details on Arguemnts.
-
-**public function with_method( string $method )**
-> @param string $argument  
-> @return \PinkCrab\Route\Route\Route
-
-If you would like to create a copy of an existing route, but with a different method, you can call this useful method. It will just clone the initial route but with an alternative method.
-
-```php
-$route_post = new Route('POST', '/some_route');
-// Your other setup. $route->authentication(....);
-
-// Create a PUT route using the same setup, but with a different callback.
-$route_put = $route_post->with_method('put');
-$route_put->callback('some_other_callback');
-```
-> If you are planning to create a route with multiple methods, please consider using the `Route_Group` (detailed below)
-
-### Methods (Getters)
-
-Most of the Getter methods are primarily used internally, but you have access to them if you wish to create conditional logic around existing routes.
-
-**public function get_namespace()**
-> @return string  
-
-Returns the currently defined namespace.
-
-**public function get_route()**
-> @return string  
-
-Returns the currently defined route.
-
-**public function get_method()**
-> @return string  
-
-Returns the currently defined route method.
-
-**public function get_arguments()**
-> @return Argument[]  
-
-Returns an array of all defined arguments.
-
-**public function get_authentication()**
-> @return callable[]  
-
-Returns an array of all defined authentication callbacks.
 
 ## Route_Group
 
@@ -226,132 +117,30 @@ Like single Route Models, the Route_Group allows for a similar process of creati
 
 ```php
 $group = new Route_Group('my_endpoints/v2','route/');
+$group->authentication('shared_group_auth')
+$group->get('some_callable')
+    ->authentication('additional_auth_for_get_only');
+$group->post('some_other_callable');
 ```
 > This would then create a group where all routes assigned are created with the above namespace and route.
 
-### Methods (Setters)
-
-**public function post( callable $callback )**
-> @param callable $callback  
-> @return \PinkCrab\Route\Route\Route
-
-Creates a POST endpoint on the groups route. This works the same as $factory->post(..) but without the need to pass the route parameter. Once this is called, you can easily fluently add any additional parameters.
-
-*Example*
-```php
-$group = new Route_Group('my_endpoints/v2','route/');
-$group->post('some_callback')->authentication('some_auth_callback');
-```
-
-> The above would create an endpoint on **https://www.url.com/wp-json/my_endpoints/v2/route** for **POST** requests.
-
-**public function get( callable $callback )**
-> @param callable $callback  
-> @return \PinkCrab\Route\Route\Route  
-
-*Same as post() above, but for GET requests.*
-
-**public function put( callable $callback )**
-> @param callable $callback  
-> @return \PinkCrab\Route\Route\Route  
-
-*Same as post() above, but for PUT requests.*
-
-**public function patch( callable $callback )**
-> @param callable $callback  
-> @return \PinkCrab\Route\Route\Route  
-
-*Same as post() above, but for PATCH requests.*
-
-**public function delete( callable $callback )**
-> @param callable $callback  
-> @return \PinkCrab\Route\Route\Route  
-
-*Same as post() above, but for DELETE requests.*
-
-**public function authentication( callable $callback )**
-> @param callable $callback  
-> @return \PinkCrab\Route\Route\Route_Group  
-
-Like when used for a single route, this will allow the stacking of authentication callbacks which all defined method, request will be passed through. Any other Authentication callback defined on a single method basis, will be added to those defined globally.
-
-```php
-$group = new Route_Group('my_endpoints/v2','route/');
-$group->authentication('check_api_key');
-
-// Define routes
-$group->post('some_callback')->authentication('some_extra_auth'); // Require extra check on post's
-$group->get('some_other_callback');
-```
-
-*On the above example any request coming in as GET, will be passed through `check_api_key()`, where as POST will be passed through `check_api_key()` and then `some_extra_auth()`*
-
-**public function argument( Argument $argument )**
-> @param PinkCrab\Route\Route\Argument $argument  
-> @return \PinkCrab\Route\Route\Route_Group
-
-Like with individual routes, you can apply arguments to entire group of endpoints. Applying them to the group, reduces the need to define then for each method. While also allowing you to overrule them on a per method basis.
-
-```php
-$group = new Route_Group('acme/v3', '/some_route/(?P<foo>\d+)');
-$group->argument( Argument::on('foo')
-    ->type('string')
-    ->required()
-);
-```
-*The above would add the `foo` argument to every route that is defined. Any argument added to the individual method, will overwrite what is supplied group (if the have the same key)*
-
-### Methods (Getters)
-
-Most of the Getter methods are primarily used internally, but you have access to them if you wish to create conditional logic around existing groups.
-
-**public function get_namespace()**
-> @return string  
-
-Returns the currently defined namespace.
-
-**public function get_route()**
-> @return string  
-
-Returns the currently defined route.
-
-**public function get_arguments()**
-> @return Argument[]  
-
-Returns an array of all defined arguments.
-
-**public function get_authentication()**
-> @return callable[]  
-
-Returns an array of all defined authentication callbacks.
-
-**public function get_rest_routes()**
-> @return PinkCrab\Route\Route\Route[]  
-
-Returns an array of each method defined, but has not yet been merged with group level authentication and arguments!
-
-**public function method_exists(string $route)**
-> @param string $route    
-> @return bool   
-
-Checks if a route/method has been defined.
-
-```php
-$group = new Route_Group('my_endpoints/v2','route/');
-$group->post('some_callback')->authentication('some_auth_callback');
-
-var_dump($group->method_exists('GET')); // false
-var_dump($group->method_exists('POST')); // true
-```
+[Read Group Docs](docs/group.md)
+* [$group->post()](docs/route.md#post)
+* [$group->get()](docs/route.md#get)
+* [$group->patch()](docs/route.md#patch)
+* [$group->put()](docs/route.md#put)
+* [$group->delete()](docs/route.md#delete)
+* [$group->authentication()](docs/route.md#authentication)
+* [$group->argument()](docs/route.md#argument)
 
 ## Route_Factory
 
 As most of the time you will be creating endpoints with a fixed namespace, there is a factory that can be used to populate this for every route it creates, while giving a clean, fluent API that can be used to create routes inline as part of arrays and return values.
 
 ```php
-$group = new Route_Factory('my_endpoints/v2');
-$get = $group->get('/endpoint', 'some_callable');
-$post = $group->get('/endpoint_2', 'some_other_callable');
+$factory = new Route_Factory('my_endpoints/v2');
+$get = $factory->get('/endpoint', 'some_callable');
+$post = $factory->get('/endpoint_2', 'some_other_callable');
 ```
 Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
 
