@@ -125,13 +125,14 @@ $group->post('some_other_callable');
 > This would then create a group where all routes assigned are created with the above namespace and route.
 
 [Read Group Docs](docs/group.md)
-* [$group->post()](docs/route.md#post)
-* [$group->get()](docs/route.md#get)
-* [$group->patch()](docs/route.md#patch)
-* [$group->put()](docs/route.md#put)
-* [$group->delete()](docs/route.md#delete)
-* [$group->authentication()](docs/route.md#authentication)
-* [$group->argument()](docs/route.md#argument)
+* [$group->post()](docs/group.md#post)
+* [$group->get()](docs/group.md#get)
+* [$group->patch()](docs/group.md#patch)
+* [$group->put()](docs/group.md#put)
+* [$group->delete()](docs/group.md#delete)
+* [$group->authentication()](docs/group.md#authentication)
+* [$group->argument()](docs/group.md#argument)
+* d
 
 ## Route_Factory
 

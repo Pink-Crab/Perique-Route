@@ -75,6 +75,7 @@ $group->argument( Argument::on('foo')
     ->required()
 );
 ```
+
 *The above would add the `foo` argument to every route that is defined. Any argument added to the individual method, will overwrite what is supplied group (if the have the same key)*
 
 ## Methods (Getters)
