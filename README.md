@@ -220,7 +220,14 @@ $manager->execute();
 
 > When `execute()` is called, it will create the `rest_init` hooks, so there is no need to do `add_action(...)` 
 
+## Previous Versions
+
+* For Perique 1.4.* use Route 1.0.*
+* For Perique 1.0 - 1.3.* use Route 0.1.*
+
 ## Change Log ##
+* 2.0.0 Support for Perique 2.0
+* 1.0.1 Update readme/docs
 * 1.0.0 Update dev testing dependencies for WP6.1, Remove Utils and replace all with FunctionConstructors and updated docs to use `construct_registration_middleware()` rather than being given a constructed instance of the Middleware.
 * 0.1.2 Update dev testing dependencies for WP6.0
 * 0.1.1 Bumped to version 0.2.0 of PinkCrab Collection Dependency
