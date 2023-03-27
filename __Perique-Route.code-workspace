@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"phpcs.enable": true,
+		"phpcbf.enable": true,
+		"phpcs.executablePath": "/usr/bin/phpcs",
+		"phpcs.standard": "WordPress-Extra",
+		"phpcs.showWarnings": true,
+		"phpcs.showSources": true,
+		"phpcbf.documentFormattingProvider": true,
+		"phpcbf.standard": "WordPress-Extra",
+		"phpcbf.onsave": true,
+		"phpcbf.executablePath": "/usr/bin/phpcbf",
+		"php-docblocker.useShortNames": true,
+		"php-docblocker.qualifyClassNames": true,
+		"php-docblocker.author": {
+			"name": "Glynn Quelch",
+			"email": "glynn.quelch@gmail.com"
+		},
+		"files.associations": {
+			"*.yaml": "home-assistant"
+		}
+	}
+}
