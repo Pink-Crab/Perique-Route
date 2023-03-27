@@ -1,3 +1,7 @@
+# Route Group
+
+Defines a group of routes around the same path, but with different methods.
+
 ## Methods (Setters)
 
 ## POST \[HTTP Method\]
@@ -7,7 +11,6 @@
 
 Creates a POST endpoint on the groups route. This works the same as $factory->post(..) but without the need to pass the route parameter. Once this is called, you can easily fluently add any additional parameters.
 
-*Example*
 ```php
 $group = new Route_Group('my_endpoints/v2','route/');
 $group->post('some_callback')->authentication('some_auth_callback');
@@ -20,12 +23,23 @@ $group->post('some_callback')->authentication('some_auth_callback');
 > @param callable $callback  
 > @return \PinkCrab\Route\Route\Route  
 
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+$group->get('some_callback')->authentication('some_auth_callback');
+```
+
 *Same as post() above, but for GET requests.*
 
 ### PUT \[HTTP Method\]
 **public function put( callable $callback )**
 > @param callable $callback  
 > @return \PinkCrab\Route\Route\Route  
+
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+$group->put('some_callback')->authentication('some_auth_callback');
+```
+
 
 *Same as post() above, but for PUT requests.*
 
@@ -34,12 +48,24 @@ $group->post('some_callback')->authentication('some_auth_callback');
 > @param callable $callback  
 > @return \PinkCrab\Route\Route\Route  
 
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+$group->patch('some_callback')->authentication('some_auth_callback');
+```
+
+
 *Same as post() above, but for PATCH requests.*
 
 ### DELETE \[HTTP Method\]
 **public function delete( callable $callback )**
 > @param callable $callback  
 > @return \PinkCrab\Route\Route\Route  
+
+```php
+$group = new Route_Group('my_endpoints/v2','route/');
+$group->delete('some_callback')->authentication('some_auth_callback');
+```
+
 
 *Same as post() above, but for DELETE requests.*
 
