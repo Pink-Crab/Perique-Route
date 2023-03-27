@@ -1,3 +1,5 @@
+![logo](docs/Route.jpg "PinkCrab Route Module")
+
 # Perique - Route
 
 Library for registering WP Rest Routes in a more simple way.
