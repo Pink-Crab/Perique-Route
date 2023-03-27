@@ -19,17 +19,17 @@ abstract class Abstract_Route {
 	/**
 	 * @var string
 	 */
-	protected $namespace = '';
+	protected string $namespace = '';
 
 	/**
 	 * @var Argument[]
 	 */
-	protected $arguments = array();
+	protected array $arguments = array();
 
 	/**
 	 * @var callable[]
 	 */
-	protected $authentication = array();
+	protected array $authentication = array();
 
 	/**
 	 * Get the value of namespace

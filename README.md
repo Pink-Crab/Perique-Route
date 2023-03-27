@@ -191,7 +191,6 @@ $group = $factory->group_builder('the/route/{name}', function(Route_Group $group
     $group->delete([$this, 'some_callback_for_delete']);
     $group->put([$this, 'some_callback_for_put']);
     $group->path([$this, 'some_callback_for_path']);
-    return $group;
 });
 ```
 

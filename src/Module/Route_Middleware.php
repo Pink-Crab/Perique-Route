@@ -23,8 +23,7 @@ use PinkCrab\Perique\Interfaces\Registration_Middleware;
 
 class Route_Middleware implements Registration_Middleware {
 
-	/** @var Route_Manager */
-	protected $route_manager;
+	protected Route_Manager $route_manager;
 
 	public function __construct( Route_Manager $route_manager ) {
 		$this->route_manager = $route_manager;

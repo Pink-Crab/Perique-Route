@@ -25,15 +25,10 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * @var Route[]
 	 */
-	protected $routes = array();
+	protected array $routes = array();
 
-	/** @var Route_Factory */
-	protected $route_factory;
-
-	/**
-	 * @var string
-	 */
-	protected $route;
+	protected Route_Factory $route_factory;
+	protected string $route;
 
 	public function __construct( string $namespace, string $route ) {
 		$this->route         = $route;

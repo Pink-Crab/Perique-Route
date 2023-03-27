@@ -39,7 +39,7 @@ class Fixture_Route_Shortcut_Args extends Route_Controller{
 	 * @required
 	 * @var string
 	 */
-	protected $namespace = 'pinkcrab/v3';
+	protected ?string $namespace = 'pinkcrab/v3';
    
     /**
 	 * Method defined to register all routes.
