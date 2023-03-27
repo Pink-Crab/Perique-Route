@@ -57,13 +57,13 @@ class Some_Route extends Route_Controller {
     protected function define_routes( Route_Factory $factory): array {
         return [
             // Factory allows for get,post,delete,patch,put requests.
-            $factory->get('/users', [$this->some_service, 'some_callback_index' ]),
-            $factory->delete('/users', [$this->some_service, 'some_callback_delete' ]),
+            $factory->get('/users', [$this->some_service, 'list_users' ]),
+            $factory->post('/users', [$this->some_service, 'new_user' ]),
             
             // Create your groups using the group builder.
             $factory->group_builder('/users/{id}', function( Route_Group $group) : Route_Group {
                 // Define the GET method.
-                $group->get([$this->some_service, 'some_other_get_method'])
+                $group->get([$this->some_service, 'show_user'])
                     ->argument( // Define the argument proprties as per WP API
                         Integer_Type::on('id')
                             ->validate('is_numeric')
@@ -72,10 +72,10 @@ class Some_Route extends Route_Controller {
                     );
 
                 // Define the DELETE method.
-                $group->delete([$this->some_service, 'some_other_get_method'])
+                $group->delete([$this->some_service, 'delete_user'])
                     ->authentication('some_extra_check_for_delete');
 
-                // Define route wide authentication (applied to both routes).
+                // Define group wide authentication (applied to both routes).
                 $group->authentication([$this->some_service, 'check_api_key_in_header']);
 
                 return $group;
@@ -102,11 +102,29 @@ Each route must be defined as part of a `Route Model`, these can either be creat
 
 ## Route Model
 
-A route model has 3 properties which must be defined, `$route`, `$callback` & `$namespace`. Route and Method are passed via the constructor, but namespace must be set manually. 
+A route model has 4 properties which must be defined, `$method`, `$route`, `$callback` & `$namespace`. Route and Method are passed via the constructor, but namespace must be set manually. 
 
 As per WP Api standards, all arguments in the route must be defined, this is all handled via the `Arguments` object and is explained in more detail below.
 
 > All properties are defined as `protected` and should be handled via the supplied methods
+
+```php 
+$route = new Route('POST', 'route/path');
+$route->namespace('the-thing/v1');
+$route->callback(function( WP_REST_Request $request ) {
+    // Do the things
+});
+```
+
+It is also possible to define an `authentication` callback too
+
+```php
+$route->authentication(function(WP_REST_Request $request): bool{
+    return something_check($request);
+});
+```
+
+### 
 
 [Route Docs](docs/route.md)
 
