@@ -2,23 +2,23 @@ name: WordPress 6.1 Test Suite [PHP7.2-8.1]
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master, develop ]
+    branches: [master, develop]
 
 jobs:
   build:
     strategy:
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1']
+        php-versions: ["7.4", "8.0", "8.1"]
     runs-on: ${{ matrix.operating-system }}
     services:
       # Setup MYSQL
       mysql-service:
-        image: 'mysql:5.7'
+        image: "mysql:5.7"
         env:
-          MYSQL_ROOT_PASSWORD: 'crab'
+          MYSQL_ROOT_PASSWORD: "crab"
           MYSQL_DATABASE: pc_core_tests
         ports:
           - 3306:3306
@@ -27,7 +27,7 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-  
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
       - name: Clear existing composer
         run: >
           sudo rm -rf vendor 
-          && rm -rf composer.lock 
+          && rm -rf composer.lock
       - name: Validate composer.json and composer.lock
         run: composer validate
 
@@ -58,11 +58,10 @@ jobs:
           && composer require wp-phpunit/wp-phpunit:6.1.1 --dev --no-update
           && composer update --no-cache
 
-      - name: Run Tests on Latest Version - WP6.0
+      - name: Run Tests on Latest Version - WP6.1
         env:
           environment_github: true
         run: composer all
 
       - name: Codecov
         run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_REST }}
- 

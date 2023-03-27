@@ -36,7 +36,7 @@ You will need to include the Registration_Middleware to the App at boot. We have
 ```php
 // @file: plugin.php
 
-$app_factory->construct_registration_middleware( Route_Middleware::class );
+$app_factory->module( \PinkCrab\Route\Module\Route::class );
 ```
 One you have the Route Middleware added to the registration process, all classes which extend `Route_Controller` will now be processed and all routes defined will be registered.
 

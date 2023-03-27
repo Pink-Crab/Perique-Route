@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Tests\Fixtures;
 
-use PinkCrab\Route\Registration_Middleware\Route_Controller;
+use PinkCrab\Route\Route_Controller;
 use PinkCrab\Route\Route\Route_Group;
 
 use PinkCrab\Route\Route_Factory;
