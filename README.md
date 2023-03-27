@@ -174,16 +174,16 @@ Both of the above endpoints will be created with the `my_endpoints/v2` namespace
 There are a collection of helper methods on the `Route_Factory` which make it really easy to add methods to the existing namespace.
 
 ```php
-$factory->get('the/route/{name}', [$this, 'some_callback_for_get']);
-$factory->post('the/route/{name}', [$this, 'some_callback_for_post']);
-$factory->put('the/route/{name}', [$this, 'some_callback_for_put']);
-$factory->patch('the/route/{name}', [$this, 'some_callback_for_patch']);
-$factory->delete('the/route/{name}', [$this, 'some_callback_for_delete']);
+$route = $factory->get('the/route/{name}', [$this, 'some_callback_for_get']);
+$route = $factory->post('the/route/{name}', [$this, 'some_callback_for_post']);
+$route = $factory->put('the/route/{name}', [$this, 'some_callback_for_put']);
+$route = $factory->patch('the/route/{name}', [$this, 'some_callback_for_patch']);
+$route = $factory->delete('the/route/{name}', [$this, 'some_callback_for_delete']);
 ```
 It is even possible to create a group around the same route.
 
 ```php
-$factory->group_builder('the/route/{name}', function(Route_Group $group){
+$group = $factory->group_builder('the/route/{name}', function(Route_Group $group){
     $group->get([$this, 'some_callback_for_get']);
     $group->post([$this, 'some_callback_for_post']);
     $group->delete([$this, 'some_callback_for_delete']);
@@ -216,6 +216,8 @@ $manager->from_group(new Route_Group(...));
 // Dispatch
 $manager->execute();
 ```
+
+> When `execute()` is called, it will create the `rest_init` hooks, so there is no need to do `add_action(...)` 
 
 ## Change Log ##
 * 1.0.0 Update dev testing dependencies for WP6.1, Remove Utils and replace all with FunctionConstructors and updated docs to use `construct_registration_middleware()` rather than being given a constructed instance of the Middleware.
