@@ -127,11 +127,16 @@ $route->authentication(function(WP_REST_Request $request): bool{
 ### 
 
 [Route Docs](docs/route.md)
+* [Route::namespace()](docs/route.md#namespace)
+* [Route::authentication()](docs/route.md#authentication)
+* [Route::callback()](docs/route.md#callback)
+* [Route::argument()](docs/route.md#argument)
+* [Route::with_method()](docs/route.md#with_method)
 
 
 ## Route_Group
 
-Like single Route Models, the Route_Group allows for a similar process of creating releated routes that share a common endpoint route and also some functionality. Also like Routes, its better to use the supplied Route_Factory, but the details here will express how to create a `Route_Group` manually (the core methods are used the same regardless).
+Like single Route Models, the Route_Group allows for a similar process of creating related routes that share a common endpoint route and also some functionality. Also like Routes, its better to use the supplied Route_Factory, but the details here will express how to create a `Route_Group` manually (the core methods are used the same regardless).
 
 ```php
 $group = new Route_Group('my_endpoints/v2','route/');
@@ -163,6 +168,54 @@ $get = $factory->get('/endpoint', 'some_callable');
 $post = $factory->get('/endpoint_2', 'some_other_callable');
 ```
 Both of the above endpoints will be created with the `my_endpoints/v2` namespace.
+
+### Method Helpers
+
+There are a collection of helper methods on the `Route_Factory` which make it really easy to add methods to the existing namespace.
+
+```php
+$factory->get('the/route/{name}', [$this, 'some_callback_for_get']);
+$factory->post('the/route/{name}', [$this, 'some_callback_for_post']);
+$factory->put('the/route/{name}', [$this, 'some_callback_for_put']);
+$factory->patch('the/route/{name}', [$this, 'some_callback_for_patch']);
+$factory->delete('the/route/{name}', [$this, 'some_callback_for_delete']);
+```
+It is even possible to create a group around the same route.
+
+```php
+$factory->group_builder('the/route/{name}', function(Route_Group $group){
+    $group->get([$this, 'some_callback_for_get']);
+    $group->post([$this, 'some_callback_for_post']);
+    $group->delete([$this, 'some_callback_for_delete']);
+    $group->put([$this, 'some_callback_for_put']);
+    $group->path([$this, 'some_callback_for_path']);
+    return $group;
+});
+```
+
+## Route Controller 
+
+The easiest way to define routes, is to extend the `Route_Controller` abstract class. This can be created with a predefined `protected ?string $namespace;` property and a method for defining the routes/group `abstract protected function define_routes( Route_Factory $factory): array`
+
+> See the example above
+
+## Manual Route Creation
+
+If you do not wish to use the Route Controller above, you will need create an instance of the `Route_Manager` class and add your route or groups to the manager and the execute the manager before `rest_init` hook is called.
+
+```php
+$manager = new Route_Manager(
+    new WP_Rest_Registrar(),
+    new Hook_Loader()
+);
+
+// Add routes and groups
+$manager->from_route(new Route(...));
+$manager->from_group(new Route_Group(...));
+
+// Dispatch
+$manager->execute();
+```
 
 ## Change Log ##
 * 1.0.0 Update dev testing dependencies for WP6.1, Remove Utils and replace all with FunctionConstructors and updated docs to use `construct_registration_middleware()` rather than being given a constructed instance of the Middleware.

@@ -4,6 +4,7 @@ Defines a single route and its properties.
 
 ## Methods (Setters)
 
+### namespace
 **public function namespace( string $namespace )**
 > @param string $namespace  
 > @return \PinkCrab\Route\Route\Route
