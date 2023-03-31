@@ -48,7 +48,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a get request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function get( callable $callable ): Route {
@@ -61,7 +61,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a post request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function post( callable $callable ): Route {
@@ -74,7 +74,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a put request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function put( callable $callable ): Route {
@@ -87,7 +87,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a patch  request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function patch( callable $callable ): Route {
@@ -100,7 +100,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a delete  request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function delete( callable $callable ): Route {

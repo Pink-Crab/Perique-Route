@@ -18,11 +18,6 @@ use PinkCrab\Route\Route\Route_Group;
 
 class Route_Factory {
 
-	/**
-	 * The namespace of all routes from factory
-	 *
-	 * @var string
-	 */
 	protected string $namespace;
 
 	public function __construct( string $namespace ) {
