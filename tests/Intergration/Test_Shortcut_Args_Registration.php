@@ -27,11 +27,12 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Tests\Unit\Registration;
 
 use PinkCrab\Route\Utils;
+use PinkCrab\Route\Module\Route;
 use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Perique\Application\App;
+use PinkCrab\Route\Module\Route_Middleware;
 use PinkCrab\Perique\Application\App_Factory;
 use PinkCrab\Route\Tests\Fixtures\HTTP_TestCase;
-use PinkCrab\Route\Registration_Middleware\Route_Middleware;
 use PinkCrab\Route\Tests\Fixtures\Fixture_Route_Shortcut_Args;
 
 
@@ -41,10 +42,10 @@ class Test_Shortcut_Args_Registration extends HTTP_TestCase {
 
 	public function setUp(): void {
 		parent::setUp();
-		$app = new App();
+		$app = new App(__DIR__);
 		Objects::set_property( $app, 'app_config', null );
 		Objects::set_property( $app, 'container', null );
-		Objects::set_property( $app, 'registration', null );
+		Objects::set_property( $app, 'module_manager', null );
 		Objects::set_property( $app, 'loader', null );
 		Objects::set_property( $app, 'booted', false );
 		$app = null;
@@ -55,7 +56,7 @@ class Test_Shortcut_Args_Registration extends HTTP_TestCase {
 
 		$app = ( new App_Factory() )->with_wp_dice( true )
 			->app_config( array() )
-			->construct_registration_middleware( Route_Middleware::class )
+			->module( Route::class )
 			->registration_classes(
 				array(
 					Fixture_Route_Shortcut_Args::class,

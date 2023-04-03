@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @since 0.0.1
  */
 
-namespace PinkCrab\Route\Registration_Middleware;
+namespace PinkCrab\Route;
 
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Factory;
@@ -26,7 +26,7 @@ abstract class Route_Controller {
 	 * @required
 	 * @var string|null
 	 */
-	protected $namespace;
+	protected ?string $namespace = null;
 
 	/**
 	 * Returns the controllers namespace

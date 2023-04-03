@@ -23,15 +23,15 @@ class Route extends Abstract_Route {
 	/**
 	 * @var string
 	 */
-	protected $route;
+	protected string $route;
 
 	/**
 	 * @var string
 	 */
-	protected $method;
+	protected string $method;
 
 	/**
-	 * @var callable|null
+	 * @var ?callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error)
 	 */
 	protected $callback = null;
 

@@ -19,26 +19,26 @@ class WP_Rest_Route {
 	 *
 	 * @var string
 	 */
-	public $namespace;
+	public string $namespace;
 
 	/**
 	 * The rest route
 	 *
 	 * @var string
 	 */
-	public $route;
+	public string $route;
 
 	/**
 	 * The route args
 	 *
 	 * @var array<mixed>
 	 */
-	public $args = array();
+	public array $args = array();
 
 	/**
 	 * Should this override an existing namespace if set
 	 *
 	 * @var boolean
 	 */
-	public $override = false;
+	public bool $override = false;
 }

@@ -18,12 +18,7 @@ use PinkCrab\Route\Route\Route_Group;
 
 class Route_Factory {
 
-	/**
-	 * The namespace of all routes from factory
-	 *
-	 * @var string
-	 */
-	protected $namespace;
+	protected string $namespace;
 
 	public function __construct( string $namespace ) {
 		$this->namespace = $namespace;
@@ -44,7 +39,7 @@ class Route_Factory {
 	 *
 	 * @param string $method
 	 * @param string $route
-	 * @param callable $callback
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callback
 	 * @return Route
 	 */
 	protected function request( string $method, string $route, callable $callback ): Route {
@@ -58,7 +53,7 @@ class Route_Factory {
 	 * Creates a get request route with the defined namespace.
 	 *
 	 * @param string $route
-	 * @param callable $callback
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callback
 	 * @return Route
 	 */
 	public function get( string $route, callable $callback ): Route {
@@ -69,7 +64,7 @@ class Route_Factory {
 	 * Creates a post request route with the defined namespace.
 	 *
 	 * @param string $route
-	 * @param callable $callback
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callback
 	 * @return Route
 	 */
 	public function post( string $route, callable $callback ): Route {
@@ -80,7 +75,7 @@ class Route_Factory {
 	 * Creates a put request route with the defined namespace.
 	 *
 	 * @param string $route
-	 * @param callable $callback
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callback
 	 * @return Route
 	 */
 	public function put( string $route, callable $callback ): Route {
@@ -91,7 +86,7 @@ class Route_Factory {
 	 * Creates a patch request route with the defined namespace.
 	 *
 	 * @param string $route
-	 * @param callable $callback
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callback
 	 * @return Route
 	 */
 	public function patch( string $route, callable $callback ): Route {
@@ -102,7 +97,7 @@ class Route_Factory {
 	 * Creates a delete request route with the defined namespace.
 	 *
 	 * @param string $route
-	 * @param callable $callback
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callback
 	 * @return Route
 	 */
 	public function delete( string $route, callable $callback ): Route {
@@ -113,7 +108,7 @@ class Route_Factory {
 	 * Allows the building of a group.
 	 *
 	 * @param string $route
-	 * @param callable|null $config
+	 * @param ?callable(Route_Group): void $config
 	 * @return Route_Group
 	 */
 	public function group_builder( string $route, ?callable $config ): Route_Group {

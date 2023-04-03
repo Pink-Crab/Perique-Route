@@ -23,12 +23,12 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0 || ^8.0",
+        "phpunit/phpunit": "^8.0",
         "phpstan/phpstan": "^1.0",
         "szepeviktor/phpstan-wordpress": "^1.0",
-        "php-stubs/wordpress-stubs": "^6.0 || ^5.9",
-        "roots/wordpress": "^6.1",
-        "wp-phpunit/wp-phpunit": "^6.1",
+        "php-stubs/wordpress-stubs": "6.2.*",
+        "roots/wordpress": "6.2.*",
+        "wp-phpunit/wp-phpunit": "6.2.*",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
         "wp-coding-standards/wpcs": "*",
         "yoast/phpunit-polyfills": "^0.2.0 || ^1.0.0",
@@ -37,8 +37,8 @@
         "vlucas/phpdotenv": "^5.4"
     },
     "require": {
-        "php": ">=7.2.0",
-        "pinkcrab/perique-framework-core": "^1.0",
+        "php": ">=7.4.0",
+        "pinkcrab/perique-framework-core": "2.0.*",
         "pinkcrab/collection": "^0.1.0",
         "pinkcrab/wp-rest-schema": "0.0.1-beta3",
         "pinkcrab/function-constructors": "^0.2.0"
@@ -50,11 +50,12 @@
         "sniff": "./vendor/bin/phpcs src/ -v",
         "all": "composer test && composer analyse && composer sniff"
     },
-    "prefer-stable": false,
     "config": {
         "allow-plugins": {
             "roots/wordpress-core-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

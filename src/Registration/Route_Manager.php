@@ -14,17 +14,14 @@ namespace PinkCrab\Route\Registration;
 
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Loader\Hook_Loader;
+use PinkCrab\Route\Route_Exception;
 use PinkCrab\Route\Route\Route_Group;
 use PinkCrab\Route\Registration\WP_Rest_Registrar;
-use PinkCrab\Route\Route_Exception;
 
 class Route_Manager {
 
-	/** @var Hook_Loader */
-	protected $loader;
-
-	/** @var WP_Rest_Registrar */
-	protected $registrar;
+	protected Hook_Loader $loader;
+	protected WP_Rest_Registrar $registrar;
 
 	public function __construct( WP_Rest_Registrar $registrar, Hook_Loader $hook_loader ) {
 		$this->loader    = $hook_loader;

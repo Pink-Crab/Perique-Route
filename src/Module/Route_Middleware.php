@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Route Dispatcher Middleware
+ * Route Registration Middleware
  *
  * @since 0.1.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
@@ -11,21 +11,19 @@ declare(strict_types=1);
  * @package PinkCrab\Route
  */
 
-namespace PinkCrab\Route\Registration_Middleware;
+namespace PinkCrab\Route\Module;
 
 use PinkCrab\Route\Route\Route;
 use PinkCrab\Route\Route_Collection;
+use PinkCrab\Route\Route_Controller;
 use PinkCrab\Route\Route\Route_Group;
 use PinkCrab\Route\Route\Abstract_Route;
-use PinkCrab\Route\Schema\Abstract_Type;
 use PinkCrab\Route\Registration\Route_Manager;
 use PinkCrab\Perique\Interfaces\Registration_Middleware;
-use PinkCrab\Route\Registration_Middleware\Route_Controller;
 
 class Route_Middleware implements Registration_Middleware {
 
-	/** @var Route_Manager */
-	protected $route_manager;
+	protected Route_Manager $route_manager;
 
 	public function __construct( Route_Manager $route_manager ) {
 		$this->route_manager = $route_manager;
@@ -34,10 +32,10 @@ class Route_Middleware implements Registration_Middleware {
 	/**
 	 * Add all valid route calls to the dispatcher.
 	 *
-	 * @param object|Route_Controller $class
+	 * @param object $class
 	 * @return object
 	 */
-	public function process( $class ) {
+	public function process( object $class ): object {
 
 		if ( is_a( $class, Route_Controller::class ) ) {
 			$routes = $class->get_routes( new Route_Collection() );
