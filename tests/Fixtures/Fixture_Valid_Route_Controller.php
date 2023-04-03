@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Tests\Fixtures;
 
-use PinkCrab\Route\Registration_Middleware\Route_Controller;
+use PinkCrab\Route\Route_Controller;
 use PinkCrab\Route\Route\Route_Group;
 
 use PinkCrab\Route\Route_Factory;
@@ -39,7 +39,7 @@ class Fixture_Valid_Route_Controller extends Route_Controller{
 	 * @required
 	 * @var string
 	 */
-	protected $namespace = 'pinkcrab/v3';
+	protected ?string $namespace = 'pinkcrab/v3';
    
     /**
 	 * Method defined to register all routes.

@@ -25,15 +25,10 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * @var Route[]
 	 */
-	protected $routes = array();
+	protected array $routes = array();
 
-	/** @var Route_Factory */
-	protected $route_factory;
-
-	/**
-	 * @var string
-	 */
-	protected $route;
+	protected Route_Factory $route_factory;
+	protected string $route;
 
 	public function __construct( string $namespace, string $route ) {
 		$this->route         = $route;
@@ -53,7 +48,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a get request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function get( callable $callable ): Route {
@@ -66,7 +61,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a post request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function post( callable $callable ): Route {
@@ -79,7 +74,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a put request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function put( callable $callable ): Route {
@@ -92,7 +87,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a patch  request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function patch( callable $callable ): Route {
@@ -105,7 +100,7 @@ class Route_Group extends Abstract_Route {
 	/**
 	 * Creates a delete  request.
 	 *
-	 * @param callable $callable
+	 * @param callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error) $callable
 	 * @return Route
 	 */
 	public function delete( callable $callable ): Route {

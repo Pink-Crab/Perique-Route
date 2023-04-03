@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Route\Route;
 
+use WP_REST_Request;
 use PinkCrab\WP_Rest_Schema\Argument\Argument;
 
 abstract class Abstract_Route {
@@ -19,17 +20,17 @@ abstract class Abstract_Route {
 	/**
 	 * @var string
 	 */
-	protected $namespace = '';
+	protected string $namespace = '';
 
 	/**
 	 * @var Argument[]
 	 */
-	protected $arguments = array();
+	protected array $arguments = array();
 
 	/**
-	 * @var callable[]
+	 * @var array<int, callable(WP_REST_Request $request):bool>
 	 */
-	protected $authentication = array();
+	protected array $authentication = array();
 
 	/**
 	 * Get the value of namespace
@@ -73,7 +74,7 @@ abstract class Abstract_Route {
 	/**
 	 * Add a single callback authentication stack
 	 *
-	 * @param callable(\WP_REST_Request): bool $auth_callback
+	 * @param callable(WP_REST_Request $request):bool $auth_callback
 	 * @return static
 	 */
 	public function authentication( callable $auth_callback ) {

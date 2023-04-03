@@ -27,14 +27,15 @@ declare(strict_types=1);
 namespace PinkCrab\Route\Tests\Unit\Registration;
 
 use PinkCrab\Route\Utils;
+use PinkCrab\Route\Module\Route;
 use Gin0115\WPUnit_Helpers\Objects;
 use PinkCrab\Route\Route_Exception;
 use PinkCrab\Route\Route_Collection;
+use PinkCrab\Route\Route_Controller;
 use phpDocumentor\Reflection\Types\Void_;
+use PinkCrab\Route\Module\Route_Middleware;
 use PinkCrab\Perique\Application\App_Factory;
 use PinkCrab\Route\Tests\Fixtures\HTTP_TestCase;
-use PinkCrab\Route\Registration_Middleware\Route_Controller;
-use PinkCrab\Route\Registration_Middleware\Route_Middleware;
 use PinkCrab\Route\Tests\Fixtures\Fixture_Valid_Route_Controller;
 
 class Test_Register_Valid_Route_Controller extends HTTP_TestCase {
@@ -82,7 +83,7 @@ class Test_Register_Valid_Route_Controller extends HTTP_TestCase {
 
 		$app = ( new App_Factory() )->with_wp_dice( true )
 		->app_config( array() )
-		->construct_registration_middleware( Route_Middleware::class )
+		->module( Route::class )
 		->registration_classes(
 			array(
 				Fixture_Valid_Route_Controller::class,
@@ -94,7 +95,8 @@ class Test_Register_Valid_Route_Controller extends HTTP_TestCase {
 		do_action( 'init' );
 
 		// Extract the registration service and the middleware from app.
-		$registration_service = Objects::get_property( $app, 'registration' );
+		$module_manager       = Objects::get_property( $app, 'module_manager' );
+		$registration_service = Objects::get_property( $module_manager, 'registration_service' );
 		$middleware           = Objects::get_property( $registration_service, 'middleware' );
 		$middleware           = $middleware[ Route_Middleware::class ];
 

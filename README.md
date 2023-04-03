@@ -8,9 +8,11 @@ Library for registering WP Rest Routes in a more simple way.
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/Perique-Route?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/Perique-Route)
 
-[![WordPress 6.1 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_1.yaml)
-[![WordPress 6.0 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_0.yaml)
-[![WordPress 5.9 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_5_9.yaml)
+[![WordPress 5.9 Test Suite [PHP7.4-8.1]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_5_9.yaml)
+[![WordPress 6.0 Test Suite [PHP7.4-8.1]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_0.yaml)
+[![WordPress 6.1 Test Suite [PHP7.4-8.2]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_1.yaml)
+[![WordPress 6.2 Test Suite [PHP7.4-8.2]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_2.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_2.yaml)
+
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique-Route/branch/master/graph/badge.svg?token=4yEceIaSFP)](https://codecov.io/gh/Pink-Crab/Perique-Route)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/28597827c2a7905e11c7/maintainability)](https://codeclimate.com/github/Pink-Crab/Perique-Route/maintainability)
@@ -36,7 +38,7 @@ You will need to include the Registration_Middleware to the App at boot. We have
 ```php
 // @file: plugin.php
 
-$app_factory->construct_registration_middleware( Route_Middleware::class );
+$app_factory->module( \PinkCrab\Route\Module\Route::class );
 ```
 One you have the Route Middleware added to the registration process, all classes which extend `Route_Controller` will now be processed and all routes defined will be registered.
 
@@ -191,7 +193,6 @@ $group = $factory->group_builder('the/route/{name}', function(Route_Group $group
     $group->delete([$this, 'some_callback_for_delete']);
     $group->put([$this, 'some_callback_for_put']);
     $group->path([$this, 'some_callback_for_path']);
-    return $group;
 });
 ```
 
@@ -221,7 +222,14 @@ $manager->execute();
 
 > When `execute()` is called, it will create the `rest_init` hooks, so there is no need to do `add_action(...)` 
 
+## Previous Versions
+
+* For Perique 1.4.* use Route 1.0.*
+* For Perique 1.0 - 1.3.* use Route 0.1.*
+
 ## Change Log ##
+* 2.0.0 Support for Perique 2.0
+* 1.0.1 Update readme/docs
 * 1.0.0 Update dev testing dependencies for WP6.1, Remove Utils and replace all with FunctionConstructors and updated docs to use `construct_registration_middleware()` rather than being given a constructed instance of the Middleware.
 * 0.1.2 Update dev testing dependencies for WP6.0
 * 0.1.1 Bumped to version 0.2.0 of PinkCrab Collection Dependency
