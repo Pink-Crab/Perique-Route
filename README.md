@@ -12,6 +12,8 @@ Library for registering WP Rest Routes in a more simple way.
 [![WordPress 6.0 Test Suite [PHP7.4-8.1]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_0.yaml)
 [![WordPress 6.1 Test Suite [PHP7.4-8.2]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_1.yaml)
 [![WordPress 6.2 Test Suite [PHP7.4-8.2]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_2.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_2.yaml)
+[![WordPress 6.3 Test Suite [PHP7.4-8.2]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_3.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_3.yaml)
+[![WordPress 6.4 Test Suite [PHP7.4-8.2]](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_4.yaml/badge.svg)](https://github.com/Pink-Crab/Perique-Route/actions/workflows/WP_6_4.yaml)
 
 [![codecov](https://codecov.io/gh/Pink-Crab/Perique-Route/branch/master/graph/badge.svg?token=4yEceIaSFP)](https://codecov.io/gh/Pink-Crab/Perique-Route)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/Perique-Route/?branch=master)
@@ -228,6 +230,7 @@ $manager->execute();
 * For Perique 1.0 - 1.3.* use Route 0.1.*
 
 ## Change Log ##
+* 2.0.1 Update dependencies and extended tests to cover WP6.3 & WP6.4
 * 2.0.0 Support for Perique 2.0
 * 1.0.1 Update readme/docs
 * 1.0.0 Update dev testing dependencies for WP6.1, Remove Utils and replace all with FunctionConstructors and updated docs to use `construct_registration_middleware()` rather than being given a constructed instance of the Middleware.

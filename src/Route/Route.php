@@ -31,7 +31,7 @@ class Route extends Abstract_Route {
 	protected string $method;
 
 	/**
-	 * @var ?callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error)
+	 * @var callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error)|null
 	 */
 	protected $callback = null;
 
