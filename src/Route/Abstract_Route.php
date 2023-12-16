@@ -74,7 +74,7 @@ abstract class Abstract_Route {
 	/**
 	 * Add a single callback authentication stack
 	 *
-	 * @param callable(WP_REST_Request $request):bool $auth_callback
+	 * @param callable(\WP_REST_Request): bool $auth_callback
 	 * @return static
 	 */
 	public function authentication( callable $auth_callback ) {

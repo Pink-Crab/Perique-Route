@@ -58,10 +58,7 @@ jobs:
           && composer require wp-phpunit/wp-phpunit:6.2.* --dev --no-update
           && composer update --no-cache
 
-      - name: Run Tests on Latest Version - WP6.1
+      - name: Run Tests on Latest Version - WP6.2
         env:
           environment_github: true
         run: composer all
-
-      - name: Codecov
-        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_REST }}
