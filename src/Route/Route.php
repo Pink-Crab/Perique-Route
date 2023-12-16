@@ -33,7 +33,7 @@ class Route extends Abstract_Route {
 	/**
 	 * @var callable(\WP_REST_Request): (\WP_HTTP_Response|\WP_Error)|null
 	 */
-	protected $callback = null; // @phpstan-ignore-line
+	protected $callback = null;
 
 
 	public function __construct( string $method, string $route ) {

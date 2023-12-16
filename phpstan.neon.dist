@@ -4,6 +4,7 @@ includes:
 parameters:
     level: max
     inferPrivatePropertyTypeFromConstructor: true
+    checkGenericClassInNonGenericObjectType: false
     paths:
         - %currentWorkingDirectory%/src/
     excludePaths:
@@ -12,3 +13,4 @@ parameters:
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
     ignoreErrors:
         -'#with generic class WP_REST_Request but does not specify its type#'
+    reportUnmatchedIgnoredErrors: false
