@@ -127,7 +127,7 @@ class Route extends Abstract_Route {
 	 * @param string $namespace
 	 * @return static
 	 */
-	public function namespace( string $namespace ) {
+	public function namespace( string $namespace ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.namespaceFound
 		$this->namespace = $namespace;
 		return $this;
 	}
@@ -164,4 +164,3 @@ class Route extends Abstract_Route {
 		return $clone;
 	}
 }
-

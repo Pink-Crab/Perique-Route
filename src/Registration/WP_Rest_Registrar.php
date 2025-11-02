@@ -26,8 +26,8 @@ class WP_Rest_Registrar {
 	 * @param \PinkCrab\Route\Route\Route $route
 	 * @return callable
 	 */
-	public function create_callback( Route $route ): callable {
-		return function() use ( $route ): void {
+	public function create_callback( Route $route ): callable { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
+		return function () use ( $route ): void {
 			$model = $this->map_to_wp_rest( $route );
 			register_rest_route( $model->namespace, $model->route, $model->args );
 		};
@@ -39,7 +39,7 @@ class WP_Rest_Registrar {
 	 * @param \PinkCrab\Route\Route\Route $route
 	 * @return WP_Rest_Route
 	 */
-	public function map_to_wp_rest( Route $route ): WP_Rest_Route {
+	public function map_to_wp_rest( Route $route ): WP_Rest_Route { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
 		$wp_rest            = new WP_Rest_Route();
 		$wp_rest->namespace = $route->get_namespace();
 		$wp_rest->route     = $route->get_route();
@@ -58,12 +58,12 @@ class WP_Rest_Registrar {
 
 		// If we have no callback defined for route, throw.
 		if ( is_null( $route->get_callback() ) ) {
-			throw Route_Exception::callback_not_defined( $route );
+			throw Route_Exception::callback_not_defined( $route ); // phpcs:ignore 
 		}
 
 		// If we have an invlaid method, throw
 		if ( ! $this->is_valid_method( $route->get_method() ) ) {
-			throw Route_Exception::invalid_http_method( $route );
+			throw Route_Exception::invalid_http_method( $route ); // phpcs:ignore 
 		}
 
 		$options                        = array();
@@ -81,10 +81,10 @@ class WP_Rest_Registrar {
 	 * @param Route $route
 	 * @return array<mixed>
 	 */
-	protected function parse_args( Route $route ): array {
+	protected function parse_args( Route $route ): array { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found
 		return array_reduce(
 			$route->get_arguments(),
-			function( array $args, Argument $argument ) {
+			function ( array $args, Argument $argument ) {
 				$args[ $argument->get_key() ] = Argument_Parser::as_single( $argument );
 				return $args;
 			},
@@ -130,6 +130,4 @@ class WP_Rest_Registrar {
 
 		return all( ...$callbacks );
 	}
-
-
 }

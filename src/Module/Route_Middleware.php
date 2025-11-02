@@ -35,12 +35,12 @@ class Route_Middleware implements Registration_Middleware {
 	 * @param object $class
 	 * @return object
 	 */
-	public function process( object $class ): object {
+	public function process( object $class ): object { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.classFound
 
 		if ( is_a( $class, Route_Controller::class ) ) {
 			$routes = $class->get_routes( new Route_Collection() );
 			$routes->each(
-				function( Abstract_Route $route ) {
+				function ( Abstract_Route $route ) {
 					if ( is_a( $route, Route::class ) ) {
 						$this->route_manager->from_route( $route );
 						return;
