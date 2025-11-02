@@ -83,7 +83,7 @@ class Route_Manager {
 
 			// If we have no callback defined for route, throw.
 			if ( is_null( $route->get_callback() ) ) {
-				throw Route_Exception::callback_not_defined( $route );
+				throw Route_Exception::callback_not_defined( $route ); // phpcs:ignore
 			}
 
 			$populated_route->callback( $route->get_callback() );
@@ -98,7 +98,7 @@ class Route_Manager {
 	 * Populates the groups namespace, authentication and arguemnts
 	 * as inital values on the route.
 	 *
-	 * @param string $method
+	 * @param string      $method
 	 * @param Route_Group $group
 	 * @return Route
 	 */
@@ -125,5 +125,4 @@ class Route_Manager {
 	public function execute(): void {
 		$this->loader->register_hooks();
 	}
-
 }

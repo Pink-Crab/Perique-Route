@@ -36,7 +36,7 @@ abstract class Route_Controller {
 	 */
 	private function get_namespace(): string {
 		if ( ! is_string( $this->namespace ) || mb_strlen( $this->namespace ) === 0 ) {
-			throw Route_Exception::namespace_not_defined( get_class( $this ) );
+			throw Route_Exception::namespace_not_defined( \esc_html( get_class( $this ) ) );
 		}
 
 		return $this->namespace;
@@ -73,6 +73,5 @@ abstract class Route_Controller {
 	 * @param Route_Factory $factory
 	 * @return array<Route|Route_Group>
 	 */
-	abstract protected function define_routes( Route_Factory $factory): array;
-
+	abstract protected function define_routes( Route_Factory $factory ): array;
 }
