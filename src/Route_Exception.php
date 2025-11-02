@@ -15,7 +15,7 @@ namespace PinkCrab\Route;
 use Exception;
 use PinkCrab\Route\Route\Route;
 
-class Route_Exception  extends Exception {
+class Route_Exception extends Exception {
 
 	/**
 	 * Returns Route_Exception for namespace not defined.

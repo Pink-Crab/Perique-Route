@@ -29,9 +29,9 @@ class Route_Collection extends Collection {
 	protected function map_construct( array $data ): array {
 		return array_filter(
 			$data,
-			function( $datum ): bool {
+			function ( $datum ): bool {
 				return in_array(
-					get_class( $datum ),
+					esc_attr( get_class( $datum ) ?: '' ), // phpcs:ignore Universal.Operators.DisallowShortTernary.Found
 					self::ALLOWED_ROUTE_TYPES,
 					true
 				);

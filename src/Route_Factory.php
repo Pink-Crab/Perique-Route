@@ -20,7 +20,7 @@ class Route_Factory {
 
 	protected string $namespace;
 
-	public function __construct( string $namespace ) {
+	public function __construct( string $namespace ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.namespaceFound
 		$this->namespace = $namespace;
 	}
 
@@ -30,7 +30,7 @@ class Route_Factory {
 	 * @param string $namespace
 	 * @return Route_Factory
 	 */
-	public static function for( string $namespace ): Route_Factory {
+	public static function for( string $namespace ): Route_Factory { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.namespaceFound
 		return new self( $namespace );
 	}
 
